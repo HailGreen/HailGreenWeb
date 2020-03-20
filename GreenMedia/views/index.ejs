@@ -56,7 +56,7 @@
                         <div class="float-right">
 
                             <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"
-                                                                          aria-hidden="true"></span> comment</a>
+                                                                                aria-hidden="true"></span> comment</a>
                             &nbsp
                             <a onclick="make()" class="word-button"><span class="glyphicon glyphicon-thumbs-up"
                                                                           aria-hidden="true"></span> like</a>
@@ -68,7 +68,8 @@
                                 <div class="media">
                                     <div class="media-left">
                                         <a href="#">
-                                            <img class="media-object " src="/images/icons/user.svg" alt="user" width="48" height="48">
+                                            <img class="media-object " src="/images/icons/user.svg" alt="user"
+                                                 width="48" height="48">
                                         </a>
                                     </div>
                                     <div class="media-body">
@@ -102,7 +103,15 @@
         alert(123);
     }
 
-    function addComment(){
-        $("#ul1").prepend('<li class="list-group-item comment-li"><textarea class="comment-textarea"></textarea><button style="comment-button float-right">111</button></li>');
+    function addComment() {
+        $("#ul1").prepend('<li class="list-group-item" id="comment-li">\n' +
+            '                                <textarea class="comment-textarea"></textarea>\n' +
+            '                                <div class="float-right" onclick="removeComment()"><span class="glyphicon glyphicon-remove no-icon-word-button" aria-hidden="true"  ></span></div>\n' +
+            '                                <button class="btn btn-primary btn-sm float-right"  id="submit-button" onclick="make()">submit</button>\n' +
+            '                            </li>');
+    }
+
+    function removeComment() {
+        $("#comment-li").remove();
     }
 </script>

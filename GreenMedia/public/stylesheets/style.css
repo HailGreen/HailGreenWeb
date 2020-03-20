@@ -51,17 +51,23 @@ body {
     font-size:12px;
 }
 
-.comment-li{
-    height:120px
-}
+
 
 .comment-textarea{
-    width:95%;
+    width:calc(100% - 65px);
     height:100px;
     resize:none;
     display:inline;
 }
 
 .comment-button{
+    margin-bottom:5px;
+}
 
+#submit-button{
+    margin-top:-35px;
+}
+
+.inline-display{
+    display:inline;
 }

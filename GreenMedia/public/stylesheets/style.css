@@ -1,8 +1,67 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    /*padding: 50px;*/
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.no-icon-word-button {
+    color: black;
+    cursor: pointer
+}
+
+
+.word-button {
+    color: grey;
+    cursor: pointer
+}
+
+.float-right {
+    float: right;
+}
+
+.user-name {
+    font-size: 16px;
+    display: inline;
+    font-weight: bold;
+}
+
+
+.time {
+    font-size: 8px;
+    display: inline;
+    color: grey;
+}
+
+.height-30 {
+    height: 30px;
+}
+
+.sub-user-name {
+    font-size: 14px;
+    display: inline;
+    font-weight: bold;
+}
+
+.sub-time {
+    font-size: 4px;
+    display: inline;
+    color: grey;
+}
+
+.sub-font{
+    font-size:12px;
+}
+
+.comment-li{
+    height:120px
+}
+
+.comment-textarea{
+    width:95%;
+    height:100px;
+    resize:none;
+    display:inline;
+}
+
+.comment-button{
+
 }

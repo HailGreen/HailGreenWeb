@@ -9,6 +9,7 @@ var debug = require('debug')('greenmedia:server');
 //var http = require('http');
 var https = require('https');
 var fs = require('fs-extra');
+var database= require('../databases/release')
 
 /**
  * Get port from environment and store in Express.

@@ -107,36 +107,41 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="releaseModalLabel">Release Emotion</h4>
+                    <h4 class="modal-title" id="releaseModalLabel">Release Moments</h4>
                 </div>
                 <div class="modal-body">
-                    <textarea style="width:100%;height:150px"></textarea>
+                    <form id="uploadData" onsubmit="return false;" enctype="multipart/form-data">
+                        <textarea class="submit-textarea" name="mention" id="mention"></textarea>
 
 
-                    <div class="row">
-                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
+                        <div class="row" id="add-pics">
+                            <!--<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
 
-                            <img src="/images/icons/user.svg" alt="pics" height="100px" width="100%">
+                                <img src="/images/icons/user.svg" alt="pics" height="100px" width="100%">
+
+                            </div>-->
+
+                            <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
+                                <button class="add-pic-default-button">
+                                    <div class="center-position"><span
+                                                class="glyphicon glyphicon-plus" aria-hidden="true"></span>upload
+                                        pics，</br>
+                                        insist jpg/png<input type="file" name="file" accept="image/*" id="upload"
+                                                             class="hidden-upload" multiple onchange="changePic(this)">
+                                    </div>
+                                </button>
+
+                            </div>
+
 
                         </div>
 
-                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
-                            <button class="add-pic-default-button">
-                                <div class="center-position"><span
-                                            class="glyphicon glyphicon-plus" aria-hidden="true"></span>upload pics，</br>
-                                    insist jpg/png<input type="file" name="file" accept="image/*" id="upload"
-                                                         class="hidden-upload">
-                                </div>
-                            </button>
-
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <!--<button type="button" class="btn btn-primary" onclick="submitData">Release</button>-->
+                            <input type="submit" class="btn btn-primary"  value="Submit" onclick="submitData()">
                         </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Release</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -153,10 +158,6 @@
     })
 
 
-    $("#upload").change(function () {
-        console.log($("#upload")[0].files);
-    });
-
     function make() {
         alert(123);
     }
@@ -172,4 +173,83 @@
     function removeComment() {
         $("#comment-li").remove();
     }
+
+
+    // modal function
+    var uploadFiles = [];
+
+    function changePic(obj) {
+        if (uploadFiles.length < 3 && uploadFiles.length + obj.files.length <= 3) {
+            Array.from(obj.files).forEach((value, index) => {
+                uploadFiles.push({value: value, name: value.name});
+            var newsrc = getObjectURL(obj.files[index]);
+            $("#add-pics").prepend(' <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+                '\n' +
+                '                            <img src="' + newsrc + '" alt="pics" height="100px" width="100%">\n' +
+                '\n' +
+                '                        </div>')
+        })
+            ;
+        } else {
+            alert("You can only add 3 pics");
+        }
+
+    }
+
+
+    function getObjectURL(file) {
+        var url = null;
+
+        if (window.createObjectURL != undefined) { // basic
+            url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+
+        return url;
+    }
+
+
+    function submitData() {
+        var form = document.getElementById('uploadData');
+        sendAjaxQuery('/', onSubmit());
+    };
+
+    function onSubmit() {
+        var formArray = $("form").serializeArray();
+        var formData = new FormData();
+        console.log(formData)
+        formArray.forEach(val => {
+            formData.append(val.name,val.value);
+    });
+        uploadFiles.forEach(val=>{
+            formData.append('files', val.value, val.name);
+        })
+
+        return formData;
+
+    }
+
+    function sendAjaxQuery(url, submitData) {
+        $.ajax({
+            url: url,
+            data: submitData,
+            dataType: 'JSON',
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function (dataR) {
+                var ret = dataR;
+                $('#releaseModal').modal('hide')
+                //alert("add success");
+            },
+            error: function (xhr, status, error) {
+                alert('Error: ' + error.message);
+            }
+        });
+    }
+
+
 </script>

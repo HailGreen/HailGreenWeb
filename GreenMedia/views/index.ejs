@@ -186,7 +186,7 @@
             Array.from(obj.files).forEach((value, index) => {
                 uploadFiles.push({value: value, name: value.name});
             var newsrc = getObjectURL(obj.files[index]);
-            $("#add-pics").prepend(' <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" id="'+value.name.split(".")[0]+'-div">\n' +
+            $("#add-pics").prepend(' <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 pic" id="'+value.name.split(".")[0]+'-div">\n' +
                 '\n' +
                 '                                <img src="' + newsrc + '" alt="pics" height="100px" width="100%">\n' +
                 '                                <span class="glyphicon glyphicon-remove remove-button-pics" aria-hidden="true" id="'+ value.name.split(".")[0]+'" onclick="removePics(this.id)" style="position:absolute"></span>\n' +
@@ -230,7 +230,6 @@
     function onSubmit() {
         var formArray = $("form").serializeArray();
         var formData = new FormData();
-        console.log(formData)
         formArray.forEach(val => {
             formData.append(val.name,val.value);
     });
@@ -252,8 +251,10 @@
             type: 'POST',
             success: function (dataR) {
                 var ret = dataR;
-                $('#releaseModal').modal('hide')
-
+                $('#releaseModal').modal('hide');
+                $("#mention").val("");
+                uploadFiles=[];
+                $('.pic').remove();
             },
             error: function (xhr, status, error) {
                 alert('Error: ' + error.message);

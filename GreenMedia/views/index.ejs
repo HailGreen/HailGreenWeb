@@ -11,256 +11,26 @@
 </head>
 <body>
 <div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="float-right">
-                <img src="/images/icons/user.svg" alt="user" height="32" width="32" data-toggle="tooltip"
-                     data-placement="bottom" title="userName: xxxx">
-                <a onclick="make()" class="no-icon-word-button">logout</a>
-            </div>
-        </div>
-    </div>
+
+    <div id="head"></div>
 
 
-    <div style="height:30px;margin-bottom: 10px">
-        <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
-                data-target="#releaseModal">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> release
-        </button>
-    </div>
+    <div id="release"></div>
+
+    <div id="show-story"></div>
 
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" src="/images/icons/user.svg" alt="user">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <p class="media-heading">
-                    <p class="user-name">小矮人</p>
-                    <p class="time"> 20/03/2020 11：11</p></p>
-
-                    <!--这里样式还需要修改，改用textarea -->
-
-                    <p>Jimmy好帅，脆皮姐好美</p>
-
-                    <div class="row">
-                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
-                            <a href="#" class="thumbnail">
-                                <img src="/images/icons/user.svg" alt="pics">
-                            </a>
-                        </div>
-
-                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
-                            <a href="#" class="thumbnail">
-                                <img src="/images/icons/user.svg" alt="pics">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="height-30">
-                        <div class="float-right">
-
-                            <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"
-                                                                                aria-hidden="true"></span> comment</a>
-                            &nbsp
-                            <a onclick="make()" class="word-button"><span class="glyphicon glyphicon-thumbs-up"
-                                                                          aria-hidden="true"></span> like</a>
-                        </div>
-                    </div>
-                    <div>
-                        <ul class="list-group" id="ul1">
-                            <li class="list-group-item">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#">
-                                            <img class="media-object " src="/images/icons/user.svg" alt="user"
-                                                 width="48" height="48">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading">
-                                        <p class="sub-user-name">老母鸡</p>
-                                        <p class="sub-time"> 20/03/2020 11：11</p></p>
-                                        <!--这里样式还需要修改，改用textarea -->
-
-                                        <p class="sub-font">同意</p>
-                                    </div>
-                                </div>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!--modal-->
-    <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="releaseModalLabel">Release Moments</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="uploadData" onsubmit="return false;" enctype="multipart/form-data">
-                        <textarea class="submit-textarea" name="mention" id="mention"></textarea>
-
-
-                        <div class="row" id="add-pics">
-
-
-                            <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" id="upload-pics">
-                                <button class="add-pic-default-button">
-                                    <div class="center-position"><span
-                                                class="glyphicon glyphicon-plus" aria-hidden="true"></span>upload
-                                        pics，</br>
-                                        insist jpg/png<input type="file" name="file" accept="image/*" id="upload"
-                                                             class="hidden-upload" multiple onchange="changePic(this)">
-                                    </div>
-                                </button>
-
-                            </div>
-
-
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary"  value="Submit" onclick="submitData()">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
+</div>
 </body>
 </html>
 
 
 <script type="text/javascript">
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+    $("#head").load("/head");
 
+    $("#release").load("/release");
 
-    function make() {
-        alert(123);
-    }
-
-    function addComment() {
-        $("#ul1").prepend('<li class="list-group-item" id="comment-li">\n' +
-            '                                <textarea class="comment-textarea"></textarea>\n' +
-            '                                <div class="float-right" onclick="removeComment()"><span class="glyphicon glyphicon-remove no-icon-word-button" aria-hidden="true"  ></span></div>\n' +
-            '                                <button class="btn btn-primary btn-sm float-right"  id="submit-button" onclick="make()">submit</button>\n' +
-            '                            </li>');
-    }
-
-    function removeComment() {
-        $("#comment-li").remove();
-    }
-
-
-    // modal function
-    var uploadFiles = [];
-
-    $("#add-pics").on("change",function(){
-
-       if(uploadFiles.length==3){
-           $("#upload-pics").hide();
-       }
-    });
-
-
-    function changePic(obj) {
-        if (uploadFiles.length < 3 && uploadFiles.length + obj.files.length <= 3) {
-            Array.from(obj.files).forEach((value, index) => {
-                uploadFiles.push({value: value, name: value.name});
-            var newsrc = getObjectURL(obj.files[index]);
-            $("#add-pics").prepend(' <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 pic" id="'+value.name.split(".")[0]+'-div">\n' +
-                '\n' +
-                '                                <img src="' + newsrc + '" alt="pics" height="100px" width="100%">\n' +
-                '                                <span class="glyphicon glyphicon-remove remove-button-pics" aria-hidden="true" id="'+ value.name.split(".")[0]+'" onclick="removePics(this.id)" style="position:absolute"></span>\n' +
-                '                            </div>')
-
-        });
-        } else {
-            alert("You can only add 3 pics");
-        }
-
-    }
-
-
-    function removePics(id){
-        var name=id+"-div";
-        $("#"+name+"").remove();
-        uploadFiles=uploadFiles.filter(obj=>obj.name.indexOf(id)==-1);
-        $("#upload-pics").show();
-    }
-
-
-    function getObjectURL(file) {
-        var url = null;
-        if (window.createObjectURL != undefined) { // basic
-            url = window.createObjectURL(file);
-        } else if (window.URL != undefined) { // mozilla(firefox)
-            url = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) { // webkit or chrome
-            url = window.webkitURL.createObjectURL(file);
-        }
-
-        return url;
-    }
-
-
-    function submitData() {
-        var form = document.getElementById('uploadData');
-        sendAjaxQuery('/', onSubmit());
-    };
-
-    function onSubmit() {
-        var formArray = $("form").serializeArray();
-        var formData = new FormData();
-        formArray.forEach(val => {
-            formData.append(val.name,val.value);
-    });
-        uploadFiles.forEach(val=>{
-            formData.append('files', val.value, val.name);
-        })
-
-        return formData;
-
-    }
-
-    function sendAjaxQuery(url, submitData) {
-        $.ajax({
-            url: url,
-            data: submitData,
-            dataType: 'JSON',
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function (dataR) {
-                var ret = dataR;
-                $('#releaseModal').modal('hide');
-                $("#mention").val("");
-                uploadFiles=[];
-                $('.pic').remove();
-            },
-            error: function (xhr, status, error) {
-                alert('Error: ' + error.message);
-            }
-        });
-    }
+    $("#show-story").load("/show-story");
 
 
 </script>

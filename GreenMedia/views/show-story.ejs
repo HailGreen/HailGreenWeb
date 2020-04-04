@@ -1,0 +1,93 @@
+<html>
+<head></head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="media">
+            <div class="media-left">
+                <a href="#">
+                    <img class="media-object" src="/images/icons/user.svg" alt="user">
+                </a>
+            </div>
+            <div class="media-body">
+                <p class="media-heading">
+                <p class="user-name">小矮人</p>
+                <p class="time"> 20/03/2020 11：11</p></p>
+
+                <!--这里样式还需要修改，改用textarea -->
+
+                <p>Jimmy好帅，脆皮姐好美</p>
+
+                <div class="row">
+                    <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
+                        <a href="#" class="thumbnail">
+                            <img src="/images/icons/user.svg" alt="pics">
+                        </a>
+                    </div>
+
+                    <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
+                        <a href="#" class="thumbnail">
+                            <img src="/images/icons/user.svg" alt="pics">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="height-30">
+                    <div class="float-right">
+
+                        <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"
+                                                                            aria-hidden="true"></span> comment</a>
+                        &nbsp
+                        <a onclick="like()" class="word-button"><span class="glyphicon glyphicon-thumbs-up"
+                                                                      aria-hidden="true"></span> like</a>
+                    </div>
+                </div>
+                <div>
+                    <ul class="list-group" id="ul1">
+                        <li class="list-group-item">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object " src="/images/icons/user.svg" alt="user"
+                                             width="48" height="48">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <p class="media-heading">
+                                    <p class="sub-user-name">老母鸡</p>
+                                    <p class="sub-time"> 20/03/2020 11：11</p></p>
+                                    <!--这里样式还需要修改，改用textarea -->
+
+                                    <p class="sub-font">同意</p>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+
+    function addComment() {
+        $("#ul1").prepend('<li class="list-group-item" id="comment-li">\n' +
+            '                                <textarea class="comment-textarea"></textarea>\n' +
+            '                                <div class="float-right" onclick="removeComment()"><span class="glyphicon glyphicon-remove no-icon-word-button" aria-hidden="true"  ></span></div>\n' +
+            '                                <button class="btn btn-primary btn-sm float-right"  id="submit-button" onclick="make()">submit</button>\n' +
+            '                            </li>');
+    }
+
+    function removeComment() {
+        $("#comment-li").remove();
+    }
+
+
+    function like() {
+        alert("like")
+    }
+
+</script>

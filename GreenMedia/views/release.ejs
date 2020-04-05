@@ -1,8 +1,10 @@
 <html>
 <head>
 
+
 </head>
 <body>
+
 <div style="height:30px;margin-bottom: 10px">
     <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
             data-target="#releaseModal">
@@ -62,6 +64,8 @@
 
 
 <script type="text/javascript">
+
+
     // modal function
     var uploadFiles = [];
 
@@ -75,7 +79,7 @@
 
     function changePic(obj) {
         if (uploadFiles.length < 3 && uploadFiles.length + obj.files.length <= 3) {
-            Array.from(obj.files).forEach((value, index) = > {
+            Array.from(obj.files).forEach((value, index) => {
                 uploadFiles.push({value: value, name: value.name});
             var newsrc = getObjectURL(obj.files[index]);
             $("#add-pics").prepend(' <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 pic" id="' + value.name.split(".")[0] + '-div">\n' +
@@ -84,7 +88,8 @@
                 '<span class="glyphicon glyphicon-remove remove-button-pics" aria-hidden="true" id="' + value.name.split(".")[0] + '" onclick="removePics(this.id)" style="position:absolute"></span>\n' +
                 '</div>')
 
-        });
+        })
+            ;
         } else {
             alert("You can only add 3 pics");
         }
@@ -95,8 +100,7 @@
     function removePics(id) {
         var name = id + "-div";
         $("#" + name + "").remove();
-        uploadFiles = uploadFiles.filter(obj = > obj.name.indexOf(id) === -1
-    )
+        uploadFiles = uploadFiles.filter(obj => obj.name.indexOf(id) === -1);
         $("#upload-pics").show();
     }
 
@@ -118,16 +122,17 @@
     function submitData() {
         var form = document.getElementById('uploadData');
         sendAjaxQuery('/release', onSubmit());
+
+
     };
 
     function onSubmit() {
         var formArray = $("form").serializeArray();
         var formData = new FormData();
-        formArray.forEach(val = > {
+        formArray.forEach(val => {
             formData.append(val.name, val.value);
-    })
-        ;
-        uploadFiles.forEach(val = > {
+    });
+        uploadFiles.forEach(val => {
             formData.append('files', val.value, val.name);
     })
 

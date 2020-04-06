@@ -12,7 +12,6 @@ var Release = new Schema(
 );
 
 
-
 var releaseModel = mongoose.model('Release', Release,'release' );
 
 module.exports = releaseModel;

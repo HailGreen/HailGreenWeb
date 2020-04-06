@@ -42,7 +42,6 @@
 
                         </div>
 
-
                     </div>
 
                     <div class="modal-footer">
@@ -70,7 +69,6 @@
     var uploadFiles = [];
 
     $("#add-pics").on("change", function () {
-
         if (uploadFiles.length === 3) {
             $("#upload-pics").hide();
         }
@@ -87,9 +85,7 @@
                 '<img src="' + newsrc + '" alt="pics" height="100px" width="100%">\n' +
                 '<span class="glyphicon glyphicon-remove remove-button-pics" aria-hidden="true" id="' + value.name.split(".")[0] + '" onclick="removePics(this.id)" style="position:absolute"></span>\n' +
                 '</div>')
-
-        })
-            ;
+        });
         } else {
             alert("You can only add 3 pics");
         }
@@ -122,8 +118,6 @@
     function submitData() {
         var form = document.getElementById('uploadData');
         sendAjaxQuery('/release', onSubmit());
-
-
     };
 
     function onSubmit() {

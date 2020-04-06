@@ -1,13 +1,13 @@
-var Release = require('../models/release');
+let Release = require('../models/release');
 
 
 
 exports.insert = function (req, res) {
-    var mention = req.body.mention;
-    var pics=req.files;
+    let mention = req.body.mention;
+    let pics=req.files;
 
     try {
-        var release = new Release({
+        let release = new Release({
             user_id: 1,
             mention:mention,
             pics: pics
@@ -23,9 +23,34 @@ exports.insert = function (req, res) {
             res.send({"code":0,"msg":"success"});
 
 
-
         });
     } catch (e) {
         res.status(500).send('error ' + e);
+    }
+}
+
+
+exports.getStories = function (req, res) {
+    var userData = req.body;
+    if (userData == null) {
+        res.status(403).send('No data sent!')
+    }
+    try {
+        Character.find({first_name: userData.firstname, family_name: userData.lastname},
+            'first_name family_name dob age',
+            function (err, characters) {
+                if (err)
+                    res.status(500).send('Invalid data!');
+                var character =null;
+                if (characters.length>0) {
+                    var firstElem = characters[0];
+                    character = {name: firstElem.first_name, surname: firstElem.family_name,
+                        dob: firstElem.dob, age: firstElem.age};
+                }
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(character));
+            });
+    } catch (e) {
+        res.status(500).send('error '+ e);
     }
 }

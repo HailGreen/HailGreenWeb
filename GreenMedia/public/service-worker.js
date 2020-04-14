@@ -11,8 +11,14 @@ var filesToCache = [
     '/scripts/bootstrap.min.js',
     '/scripts/jquery.min.js',
     '../controllers/release.js',
-    '../databases/release.js',
-    '../models/release.js'
+    '../databases/green-media.js',
+    '../models/release.js',
+    '../scripts/index.js',
+    '../controllers/index.js',
+    '../models/index.js',
+    '../scripts/head.js',
+    '../scripts/release.js',
+    '../scripts/show-story.js',
 ];
 
 /**

@@ -10,6 +10,7 @@ var filesToCache = [
     '/styles/bootstrap.min.css',
     '/scripts/bootstrap.min.js',
     '/scripts/jquery.min.js',
+    '/scripts/init-service-worker.js',
     '../controllers/release.js',
     '../databases/green-media.js',
     '../models/release.js',

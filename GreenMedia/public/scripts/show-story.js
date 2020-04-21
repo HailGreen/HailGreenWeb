@@ -44,11 +44,21 @@ function sendAjaxQuery(url, user) {
         data: user,
         dataType: 'json',
         type: 'POST',
-        success: function () {
+        success: function (dataR) {
             console.log("get successfully")
+
+            // catch response data to indexedDB
+            const result = Object.values({...dataR})
+            result.forEach((item) => {
+                storeCachedData("_id", item, STORE_STORIES)
+            })
+
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
+            // get indexedDB cache
+
+            getStoriesInIndexedDB()
         }
     });
 }
@@ -61,6 +71,29 @@ function likeRate(obj) {
             $(`span[value=${index}]`).attr('class', 'glyphicon glyphicon-star')
         } else {
             $(`span[value=${index}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
+        }
+    }
+}
+
+
+function getStoriesInIndexedDB() {
+    var req = window.indexedDB.open(DB_NAME, 1);
+    req.onsuccess = function (ev) {
+        console.log("post success");
+        var db = ev.target.result;
+        var tx = db.transaction([STORE_STORIES], "readonly");
+        var store = tx.objectStore(STORE_STORIES);
+        var r = store.openCursor();
+        var res = [];
+        r.onsuccess = function (ev1) {
+            var cursor = ev1.target.result;
+            if (cursor) {
+                res.push(cursor.value);
+                cursor.continue()
+                console.log(res)
+            } else {
+                console.log("res of posts", res);
+            }
         }
     }
 }

@@ -13,7 +13,6 @@ $(function(){
         success: function (dataR) {
             localStorage.setItem('user_id', dataR.user_id);
             localStorage.setItem('user_name', dataR.user_name);
-            console.log(dataR)
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

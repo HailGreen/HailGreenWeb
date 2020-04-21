@@ -50,7 +50,7 @@ function getObjectURL(file) {
 
 function submitData() {
     var form = document.getElementById('uploadData');
-    sendAjaxQuery('/release', onSubmit());
+    sendAjaxInsert('/release-moments', onSubmit());
 };
 
 function onSubmit() {
@@ -67,7 +67,7 @@ function onSubmit() {
 
 }
 
-function sendAjaxQuery(url, submitData) {
+function sendAjaxInsert(url, submitData) {
     $.ajax({
         url: url,
         data: submitData,

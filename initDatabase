@@ -1,4 +1,4 @@
 use GreenMedia
 db.createCollection("user")
-db.user.insert({"_id":1,"username":"supermanager","password":"000000"})
+db.user.insert({"_id":1,"username":"sysadmin","password":"000000"})
 db.createCollection("release")

@@ -44,8 +44,21 @@
                         <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"
                                                                             aria-hidden="true"></span> comment</a>
                         &nbsp
-                        <a onclick="like()" class="word-button"><span class="glyphicon glyphicon-thumbs-up"
-                                                                      aria-hidden="true"></span> like</a>
+                        <!--                        <a onclick="like()" class="word-button"><span class="glyphicon glyphicon-thumbs-up"-->
+                        <!--                                                                      aria-hidden="true"></span> like</a>-->
+                        <a class="word-button">
+                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
+                                  value="1"></span>
+                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
+                                  value="2"></span>
+                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
+                                  value="3"></span>
+                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
+                                  value="4"></span>
+                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
+                                  value="5"></span>
+                        </a>
+
                     </div>
                 </div>
                 <div>
@@ -144,6 +157,4 @@
 </body>
 </html>
 <script type="text/javascript">
-
-
 </script>

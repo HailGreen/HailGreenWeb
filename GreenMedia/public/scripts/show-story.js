@@ -29,3 +29,26 @@ function initStories() {
             })
     }
 }
+
+function getStories() {
+    var url = '/show-story';
+    var user = {};
+    user['user_id'] = '1';
+    sendAjaxQuery(url, user);
+    event.preventDefault();
+}
+
+function sendAjaxQuery(url, user) {
+    $.ajax({
+        url: url,
+        data: user,
+        dataType: 'json',
+        type: 'POST',
+        success: function () {
+            console.log("get successfully")
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+}

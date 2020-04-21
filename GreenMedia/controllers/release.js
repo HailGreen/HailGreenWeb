@@ -30,28 +30,24 @@ exports.insert = function (req, res) {
 
 
 exports.getStories = function (req, res) {
-    var userData = req.body;
-    if (userData == null) {
-        res.status(403).send('No data sent!')
-    }
+    let userData = req.body;
+    console.log(req.body)
     try {
-        Character.find({first_name: userData.firstname, family_name: userData.lastname},
-            'first_name family_name dob age',
-            function (err, characters) {
+        Release.find({user_id: userData.user_id},
+            function (err, releases) {
                 if (err)
                     res.status(500).send('Invalid data!');
-                var character = null;
-                if (characters.length > 0) {
-                    var firstElem = characters[0];
-                    character = {
-                        name: firstElem.first_name, surname: firstElem.family_name,
-                        dob: firstElem.dob, age: firstElem.age
-                    };
+                // var release =null;
+                if (releases.length>0) {
+                    var firstElem = releases[0];
+                    console.log(firstElem);
+                    var user_id = firstElem.user_id;
+                    console.log(releases.length);
                 }
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(character));
+                res.send(JSON.stringify(user_id));
             });
     } catch (e) {
-        res.status(500).send('error ' + e);
+        res.status(500).send('error '+ e);
     }
 }

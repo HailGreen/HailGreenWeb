@@ -40,5 +40,7 @@ router.post('/get_user',index.getUser);
 /*send words & pics*/
 router.post('/release', upload.array('files', 3), release.insert);
 
+/*get stories*/
+router.post('/show-story', release.getStories);
 
 module.exports = router;

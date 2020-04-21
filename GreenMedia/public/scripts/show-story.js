@@ -52,3 +52,16 @@ function sendAjaxQuery(url, user) {
         }
     });
 }
+
+
+function likeRate(obj) {
+    starValue = obj.getAttribute('value')
+    for (var index = 1; index <= 5; index++) {
+        if (index <= starValue) {
+            $(`span[value=${index}]`).attr('class', 'glyphicon glyphicon-star')
+        } else {
+            $(`span[value=${index}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
+        }
+    }
+}
+

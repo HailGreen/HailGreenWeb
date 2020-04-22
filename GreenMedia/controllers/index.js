@@ -4,7 +4,6 @@ let Index = require('../models/index');
 
 exports.getUser = function (req, res) {
     let userData=req.body;
-
     try {
 
         Index.find({username: userData.userName},

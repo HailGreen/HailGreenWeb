@@ -2,16 +2,15 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var Review = new Schema(
+var Comment = new Schema(
     {
         user_id: {type: String, required: true, max: 100},
         story_id: {type: String, required: true, max: 100},
-        comment: {type: String,max: 100},
-        like: {type: Number}
+        text: {type: String,max: 100},
     }
 );
 
 
-var reviewModel = mongoose.model('Review', Review,'review' );
+var commentModel = mongoose.model('Comment', Comment,'comment' );
 
-module.exports = reviewModel;
+module.exports = commentModel;

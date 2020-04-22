@@ -4,7 +4,8 @@ var upload = multer({dest: 'public/images/uploads/'})
 var router = express.Router();
 var release = require('../controllers/release');
 var index = require('../controllers/index');
-var review = require('../controllers/review');
+var comment = require('../controllers/comment');
+var star = require('../controllers/star');
 var bodyParser = require("body-parser");
 
 /* GET home page. */
@@ -25,7 +26,7 @@ router.get('/show-story', function (req, res, next) {
     res.render('show-story', {});
 });
 
-router.get('/get-review', review.getReviews);
+router.post('/get-comments', comment.getComments);
 
 /*post function*/
 
@@ -39,6 +40,8 @@ router.post('/release-moments', upload.array('files', 3), release.insert);
 router.post('/show-story', release.getStories);
 
 /*get stories*/
-router.post('/add-comment', review.insert);
+router.post('/add-comment', comment.insert);
+
+router.put('/update-star', star.updateStar);
 
 module.exports = router;

@@ -1,10 +1,10 @@
-function addComment() {
+function addComment(story_id) {
     // initStories()
     $("#ul1").prepend('     <form id="uploadComment" onsubmit="return false;" enctype="multipart/form-data">' +
         '                            <li class="list-group-item" id="comment-li">\n' +
-        '                                <textarea class="comment-textarea" name="comment" id="comment"></textarea>\n' +
+        '                                <textarea class="comment-textarea" name="text1" id="text1"></textarea>\n' +
         '                                <div class="float-right" onclick="removeComment()"><span class="glyphicon glyphicon-remove no-icon-word-button" aria-hidden="true"  ></span></div>\n' +
-        '                                <button class="btn btn-primary btn-sm float-right"  id="submit-button" onclick="insertComment()">submit</button>\n' +
+        `                                <button class="btn btn-primary btn-sm float-right"  id="submit-button" onclick="insertComment('${story_id}')">submit</button>\n` +
         '                            </li>' +
         '                          </form>');
 }
@@ -13,20 +13,18 @@ function removeComment() {
     $("#comment-li").remove();
 }
 
-function insertComment() {
-    var review = {};
-    review["user_id"] = 1;
-    review["story_id"] = 1;
-    review["like"] = 5;
-    review["comment"] = $("#comment").val();
-    console.log(review);
-    sendAjaxInsertComment('/add-comment', review);
+function insertComment(story_id) {
+    var comment = {};
+    comment["user_id"] = localStorage.getItem("user_id");
+    comment["story_id"] = story_id;
+    comment["text"] = $("#text1").val();
+    sendAjaxInsertComment('/add-comment', comment);
 }
 
-function sendAjaxInsertComment(url, review) {
+function sendAjaxInsertComment(url, comment) {
     $.ajax({
         url: url,
-        data: review,
+        data: comment,
         dataType: 'json',
         type: 'POST',
         success: function () {
@@ -54,15 +52,16 @@ function getStories() {
     var user = {};
     user['user_id'] = '1';
     sendAjaxQuery(url, user);
-    var reviewUrl = '/get-review';
-    getReviews(reviewUrl);
 }
 
-function getReviews(url) {
+function getReviews(story_id) {
+    var story = {};
+    story['story_id'] = story_id;
     $.ajax({
-        url: url,
+        url: '/get-review',
+        data: story,
         dataType: 'JSON',
-        type: 'GET',
+        type: 'POST',
         success: function (dataR) {
             console.log(dataR)
         },
@@ -117,8 +116,8 @@ function sendAjaxQuery(url, user) {
                     '                       </div>\n' +
                     '                   <div class="height-30">\n' +
                     '                     <div class="float-right">\n' +
-                    '                       <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"\n' +
-                    '                                                                            aria-hidden="true"></span> comment</a> &nbsp \n' +
+                    `                       <a onclick="addComment('${item._id}')" class="word-button"><span class="glyphicon glyphicon-comment"\n` +
+                    `                                                                            aria-hidden="true"></span> comment</a> &nbsp \n` +
                     '                       <a class="word-button"> \n' +
                     '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
                     `                                  value="1" story-id="${item._id}"></span>\n` +
@@ -161,8 +160,8 @@ function formatTime(time) {
 
 
 function likeRate(obj) {
-    starValue = obj.getAttribute('value')
-    storyId = obj.getAttribute('story-id')
+    starValue = obj.getAttribute('value');
+    storyId = obj.getAttribute('story-id');
     for (var index = 1; index <= 5; index++) {
         if (index <= starValue) {
             $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star')
@@ -170,6 +169,23 @@ function likeRate(obj) {
             $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
         }
     }
+
+    var star = {};
+    star['story_id'] = storyId;
+    star['user_id'] = localStorage.getItem("user_id");
+    star['rate'] = starValue;
+    $.ajax({
+        url: '/update-star',
+        data: star,
+        dataType: 'JSON',
+        type: 'PUT',
+        success: function (dataR) {
+            console.log(dataR)
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
 }
 
 

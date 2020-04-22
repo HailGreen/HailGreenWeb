@@ -1,19 +1,17 @@
-let Review = require('../models/review');
+let Comment = require('../models/comment');
 
 
 exports.insert = function (req, res) {
     let user_id = req.body.user_id;
     let story_id = req.body.story_id;
-    let comment = req.body.comment;
-    let like = req.body.like;
+    let text = req.body.text;
     try {
-        let review = new Review({
+        let comment = new Comment({
             user_id: user_id,
             story_id: story_id,
-            comment: comment,
-            like: like
+            text: text
         });
-        review.save(function (err, results) {
+        comment.save(function (err, results) {
 
             if (err)
                 res.status(500).send('Invalid data!');
@@ -27,11 +25,10 @@ exports.insert = function (req, res) {
     }
 }
 
-exports.getReviews = function (req, res) {
-    // let userData = req.body;
-    // console.log(req.body)
+exports.getComments = function (req, res) {
+    let story_id = req.body.story_id;
     try {
-        Review.find(
+        Comment.find({story_id: story_id},
             function (err, reviews) {
                 if (err)
                     res.status(500).send('Invalid data!');

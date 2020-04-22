@@ -25,11 +25,6 @@ router.get('/show-story', function (req, res, next) {
     res.render('show-story', {});
 })
 
-
-
-
-
-
 /*post function*/
 
 

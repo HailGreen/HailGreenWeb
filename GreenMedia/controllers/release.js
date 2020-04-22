@@ -21,7 +21,6 @@ exports.insert = function (req, res) {
             res.setHeader('Content-Type', 'application/json');
             res.send({"code": 0, "msg": "success"});
 
-
         });
     } catch (e) {
         res.status(500).send('error ' + e);
@@ -33,19 +32,17 @@ exports.getStories = function (req, res) {
     let userData = req.body;
     console.log(req.body)
     try {
-        Release.find({user_id: userData.user_id},
+        Release.find(
             function (err, releases) {
                 if (err)
                     res.status(500).send('Invalid data!');
                 // var release =null;
                 if (releases.length>0) {
-                    var firstElem = releases[0];
-                    console.log(firstElem);
-                    var user_id = firstElem.user_id;
-                    console.log(releases.length);
+                    // var firstElem = releases[0];
+                    var stories = releases;
                 }
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(user_id));
+                res.send(JSON.stringify(stories));
             });
     } catch (e) {
         res.status(500).send('error '+ e);

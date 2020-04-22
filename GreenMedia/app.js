@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+var multer = require('multer');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -7,8 +8,22 @@ var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+// var uploads = require('/uploads');
 
 var app = express();
+
+// const storage = multer.diskStorage({
+//   // destination:'public/uploads/'+new Date().getFullYear() + (new Date().getMonth()+1) + new Date().getDate(),
+//   destination(req,res,cb){
+//     cb(null,'public/uploads/');
+//   },
+//   filename(req,file,cb){
+//     const filenameArr = file.originalname.split('.');
+//     cb(null, filenameArr[filenameArr.length-1]);
+//   }
+// });
+//
+// const upload = multer({storage});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// app.use('/uploads', uploads);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

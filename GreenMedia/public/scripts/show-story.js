@@ -1,7 +1,3 @@
-window.onload=function () {
-    alert("yes")
-}
-
 function addComment() {
     initStories()
     $("#ul1").prepend('<li class="list-group-item" id="comment-li">\n' +
@@ -45,13 +41,48 @@ function sendAjaxQuery(url, user) {
         dataType: 'json',
         type: 'POST',
         success: function (dataR) {
-            console.log("get successfully")
-
-            // catch response data to indexedDB
             const result = Object.values({...dataR})
+            // catch response data to indexedDB
             result.forEach((item) => {
+                $("#results").append('<div class="media">\n' +
+                '                       <div class="media-left">\n' +
+                '                         <a href="#">\n' +
+                '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
+                    '                     </a>\n' +
+                    '                   </div>\n' +
+                '                       <div class="media-body">\n' +
+                '                         <p class="media-heading">\n' +
+                '                         <p class="user-name">小矮人</p>\n' +
+                '                         <p class="time"> 20/03/2020 11：11</p></p>\n' +
+                `                         <p id="text">${item.mention}</p>\n` +
+                    '                     <div class="row">\n' +
+                    '                       <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+                    '                         <a href="#" class="thumbnail">\n' +
+                    `                           <img src="/images/${item.pics[0].path}" alt="pics">\n` +
+                    '                         </a>\n' +
+                    '                       </div>\n' +
+                '                       </div>\n' +
+                    '                   <div class="height-30">\n' +
+                    '                     <div class="float-right">\n' +
+                    '                       <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"\n' +
+                    '                                                                            aria-hidden="true"></span> comment</a> &nbsp \n' +
+                    '                       <a class="word-button"> \n' +
+                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+                    `                                  value="1" id="${item._id}"></span>\n` +
+                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+                    `                                  value="2" id="${item._id}"></span>\n` +
+                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+                    `                                  value="3" id="${item._id}"></span>\n` +
+                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+                    `                                  value="4" id="${item._id}"></span>\n` +
+                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+                    `                                  value="5" id="${item._id}"></span>\n` +
+                    '                       </a>\n' +
+                    '                     </div>\n' +
+                    '                   </div>\n' +
+                '                     </div>')
                 storeCachedData("_id", item, STORE_STORIES)
-            })
+            });
 
         },
         error: function (xhr, status, error) {
@@ -66,11 +97,12 @@ function sendAjaxQuery(url, user) {
 
 function likeRate(obj) {
     starValue = obj.getAttribute('value')
+    id = obj.getAttribute('id')
     for (var index = 1; index <= 5; index++) {
         if (index <= starValue) {
-            $(`span[value=${index}]`).attr('class', 'glyphicon glyphicon-star')
+            $(`span[value=${index}]`&&`span[id=${id}]`).attr('class', 'glyphicon glyphicon-star')
         } else {
-            $(`span[value=${index}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
+            $$(`span[value=${index}]`&&`span[id=${id}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
         }
     }
 }

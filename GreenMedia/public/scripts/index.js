@@ -11,6 +11,7 @@ $(function(){
         dataType: 'JSON',
         type: 'Post',
         success: function (dataR) {
+            console.log(dataR.user_name)
             localStorage.setItem('user_id', dataR.user_id);
             localStorage.setItem('user_name', dataR.user_name);
         },

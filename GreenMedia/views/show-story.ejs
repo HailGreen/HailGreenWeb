@@ -3,153 +3,89 @@
 <body onload="like()">
 <div style="height:30px;margin-bottom: 10px">
     <button onclick="getStories()" type="button" class="btn btn-primary btn-sm float-right">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> initStories
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> initStorie
     </button>
 </div>
-<div id="results"></div>
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="media">
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object" src="/images/icons/user.svg" alt="user">
-                </a>
-            </div>
-            <div class="media-body">
-                <p class="media-heading">
-                <p class="user-name">小矮人</p>
-                <p class="time"> 20/03/2020 11：11</p></p>
-
-                <!--这里样式还需要修改，改用textarea -->
-
-                <p>Jimmy好帅，脆皮姐好美</p>
-
-                <div class="row">
-                    <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
-                        <a href="#" class="thumbnail">
-                            <img src="/images/icons/user.svg" alt="pics">
-                        </a>
-                    </div>
-
-                    <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
-                        <a href="#" class="thumbnail">
-                            <img src="/images/icons/user.svg" alt="pics">
-                        </a>
-                    </div>
-                </div>
-
-                <div class="height-30">
-                    <div class="float-right">
-
-                        <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"
-                                                                            aria-hidden="true"></span> comment</a>
-                        &nbsp
-                        <!--                        <a onclick="like()" class="word-button"><span class="glyphicon glyphicon-thumbs-up"-->
-                        <!--                                                                      aria-hidden="true"></span> like</a>-->
-                        <a class="word-button">
-                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
-                                  value="1"></span>
-                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
-                                  value="2"></span>
-                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
-                                  value="3"></span>
-                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
-                                  value="4"></span>
-                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"
-                                  value="5"></span>
-                        </a>
-
-                    </div>
-                </div>
-                <div>
-                    <ul class="list-group" id="ul1">
-                        <li class="list-group-item">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object " src="/images/icons/user.svg" alt="user"
-                                             width="48" height="48">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <p class="media-heading">
-                                    <p class="sub-user-name">老母鸡</p>
-                                    <p class="sub-time"> 20/03/2020 11：11</p></p>
-                                    <!--这里样式还需要修改，改用textarea -->
-
-                                    <p class="sub-font">同意</p>
-                                </div>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
+        <div id="results">
         </div>
-        <div class="media">
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object" src="/images/icons/user.svg" alt="user">
-                </a>
-            </div>
-            <div class="media-body">
-                <p class="media-heading">
-                <p class="user-name">小矮人</p>
-                <p class="time"> 20/03/2020 11：11</p></p>
+<!--        <div class="media">-->
+<!--            <div class="media-left">-->
+<!--                <a href="#">-->
+<!--                    <img class="media-object" src="/images/icons/user.svg" alt="user">-->
+<!--                </a>-->
+<!--            </div>-->
+<!--            <div class="media-body">-->
+<!--                <p class="media-heading">-->
+<!--                <p class="user-name">小矮人</p>-->
+<!--                <p class="time"> 20/03/2020 11：11</p></p>-->
 
-                <!--这里样式还需要修改，改用textarea -->
+<!--                &lt;!&ndash;这里样式还需要修改，改用textarea &ndash;&gt;-->
 
-                <p>Jimmy好帅，脆皮姐好美</p>
+<!--                <p id="text">Jimmy好帅，脆皮姐好美</p>-->
 
-                <div class="row">
-                    <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
-                        <a href="#" class="thumbnail">
-                            <img src="/images/icons/user.svg" alt="pics">
-                        </a>
-                    </div>
+<!--                <div class="row">-->
+<!--                    <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">-->
+<!--                        <a href="#" class="thumbnail">-->
+<!--                            <img src="/images/icons/user.svg" alt="pics">-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
-                        <a href="#" class="thumbnail">
-                            <img src="/images/icons/user.svg" alt="pics">
-                        </a>
-                    </div>
-                </div>
+<!--                    <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">-->
+<!--                        <a href="#" class="thumbnail">-->
+<!--                            <img src="/images/icons/user.svg" alt="pics">-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <div class="height-30">
-                    <div class="float-right">
+<!--                <div class="height-30">-->
+<!--                    <div class="float-right">-->
 
-                        <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"
-                                                                            aria-hidden="true"></span> comment</a>
-                        &nbsp
-                        <a onclick="like()" class="word-button"><span class="glyphicon glyphicon-thumbs-up"
-                                                                      aria-hidden="true"></span> like</a>
-                    </div>
-                </div>
-                <div>
-                    <ul class="list-group" id="ul1">
-                        <li class="list-group-item">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object " src="/images/icons/user.svg" alt="user"
-                                             width="48" height="48">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <p class="media-heading">
-                                    <p class="sub-user-name">老母鸡</p>
-                                    <p class="sub-time"> 20/03/2020 11：11</p></p>
-                                    <!--这里样式还需要修改，改用textarea -->
+<!--                        <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"-->
+<!--                                                                            aria-hidden="true"></span> comment</a>-->
+<!--                        &nbsp-->
+<!--                        <a class="word-button">-->
+<!--                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"-->
+<!--                                  value="1"></span>-->
+<!--                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"-->
+<!--                                  value="2"></span>-->
+<!--                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"-->
+<!--                                  value="3"></span>-->
+<!--                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"-->
+<!--                                  value="4"></span>-->
+<!--                            <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"-->
+<!--                                  value="5"></span>-->
+<!--                        </a>-->
 
-                                    <p class="sub-font">同意</p>
-                                </div>
-                            </div>
-                        </li>
+<!--                    </div>-->
+<!--                </div>-->
 
-                    </ul>
-                </div>
-            </div>
-        </div>
+<!--                <div>-->
+<!--                    <ul class="list-group" id="ul1">-->
+<!--                        <li class="list-group-item">-->
+<!--                            <div class="media">-->
+<!--                                <div class="media-left">-->
+<!--                                    <a href="#">-->
+<!--                                        <img class="media-object " src="/images/icons/user.svg" alt="user"-->
+<!--                                             width="48" height="48">-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                                <div class="media-body">-->
+<!--                                    <p class="media-heading">-->
+<!--                                    <p class="sub-user-name">老母鸡</p>-->
+<!--                                    <p class="sub-time"> 20/03/2020 11：11</p></p>-->
+<!--                                    &lt;!&ndash;这里样式还需要修改，改用textarea &ndash;&gt;-->
+
+<!--                                    <p class="sub-font">同意</p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </li>-->
+
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </div>
 <script src="/scripts/show-story.js" ></script>

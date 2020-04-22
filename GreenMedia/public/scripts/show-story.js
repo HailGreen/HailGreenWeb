@@ -54,11 +54,11 @@ function getStories() {
     sendAjaxQuery(url, user);
 }
 
-function getReviews(story_id) {
+function getComments(story_id) {
     var story = {};
     story['story_id'] = story_id;
     $.ajax({
-        url: '/get-review',
+        url: '/get-comments',
         data: story,
         dataType: 'JSON',
         type: 'POST',
@@ -154,8 +154,6 @@ function sendAjaxQuery(url, user) {
 function formatTime(time) {
     console.log(time);
     return time.replace("T", " ").slice(0,-8);
-
-
 }
 
 

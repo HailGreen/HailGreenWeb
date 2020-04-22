@@ -44,13 +44,12 @@ function getObjectURL(file) {
     } else if (window.webkitURL !== undefined) { // webkit or chrome
         url = window.webkitURL.createObjectURL(file);
     }
-
     return url;
 }
 
 
 function submitData() {
-    var form = document.getElementById('uploadData');
+    // var form = document.getElementById('uploadData');
     sendAjaxInsert('/release-moments', onSubmit());
 };
 
@@ -65,7 +64,6 @@ function onSubmit() {
     })
     formData.append("id",localStorage.getItem("user_id"));
     return formData;
-
 }
 
 function sendAjaxInsert(url, submitData) {

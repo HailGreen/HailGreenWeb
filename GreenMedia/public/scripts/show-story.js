@@ -1,18 +1,41 @@
 function addComment() {
     // initStories()
-    $("#ul1").prepend('<li class="list-group-item" id="comment-li">\n' +
-        '                                <textarea class="comment-textarea"></textarea>\n' +
+    $("#ul1").prepend('     <form id="uploadComment" onsubmit="return false;" enctype="multipart/form-data">' +
+        '                            <li class="list-group-item" id="comment-li">\n' +
+        '                                <textarea class="comment-textarea" name="comment" id="comment"></textarea>\n' +
         '                                <div class="float-right" onclick="removeComment()"><span class="glyphicon glyphicon-remove no-icon-word-button" aria-hidden="true"  ></span></div>\n' +
-        '                                <button class="btn btn-primary btn-sm float-right"  id="submit-button" onclick="make()">submit</button>\n' +
-        '                            </li>');
+        '                                <button class="btn btn-primary btn-sm float-right"  id="submit-button" onclick="insertComment()">submit</button>\n' +
+        '                            </li>' +
+        '                          </form>');
 }
 
 function removeComment() {
     $("#comment-li").remove();
 }
 
-function like() {
-    alert("like")
+function insertComment() {
+    var review = {};
+    review["user_id"] = 1;
+    review["story_id"] = 1;
+    review["like"] = 5;
+    review["comment"] = $("#comment").val();
+    console.log(review);
+    sendAjaxInsertComment('/add-comment', review);
+}
+
+function sendAjaxInsertComment(url, review) {
+    $.ajax({
+        url: url,
+        data: review,
+        dataType: 'json',
+        type: 'POST',
+        success: function () {
+            console.log("insert successfully");
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
 }
 
 function initStories() {
@@ -31,7 +54,22 @@ function getStories() {
     var user = {};
     user['user_id'] = '1';
     sendAjaxQuery(url, user);
-    event.preventDefault();
+    var reviewUrl = '/get-review';
+    getReviews(reviewUrl);
+}
+
+function getReviews(url) {
+    $.ajax({
+        url: url,
+        dataType: 'JSON',
+        type: 'GET',
+        success: function (dataR) {
+            console.log(dataR)
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
 }
 
 function sendAjaxQuery(url, user) {
@@ -88,7 +126,6 @@ function sendAjaxQuery(url, user) {
                 '                     </div>')
                 storeCachedData("_id", item, STORE_STORIES)
             });
-
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

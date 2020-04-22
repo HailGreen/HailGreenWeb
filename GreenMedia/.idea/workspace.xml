@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2f1c9e4b-1170-41a3-a2cb-e2c0e22ff38e" name="Default Changelist" comment="add the comment">
+    <list default="true" id="2f1c9e4b-1170-41a3-a2cb-e2c0e22ff38e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/scripts/release.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/scripts/release.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/scripts/show-story.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/scripts/show-story.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/release.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/release.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +45,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="javascript.nodejs.core.library.configured.version" value="13.8.0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/controllers" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -54,11 +58,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/controllers" />
+      <recent name="$PROJECT_DIR$/models" />
       <recent name="$PROJECT_DIR$/public/images" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/service-worker" />
-      <recent name="$PROJECT_DIR$/views" />
-      <recent name="$PROJECT_DIR$/public/fonts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public/images/uploads" />
@@ -109,6 +113,7 @@
       <workItem from="1586821301665" duration="3000" />
       <workItem from="1587137079822" duration="597000" />
       <workItem from="1587496618797" duration="1285000" />
+      <workItem from="1587570194044" duration="3628000" />
     </task>
     <task id="LOCAL-00001" summary="add bootstrap &amp; jQuery">
       <created>1584590998330</created>
@@ -208,11 +213,28 @@
       <option name="project" value="LOCAL" />
       <updated>1587555211106</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="add the comment">
+      <created>1587555639752</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1587555639752</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add bootstrap &amp; jQuery" />
@@ -236,38 +258,38 @@
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="634" y="361" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1920.1057@0.23.1920.1057" timestamp="1584666608207" />
-    <state x="305" y="72" width="1340" height="795" key="CommitChangelistDialog2" timestamp="1587555301150">
+    <state x="305" y="72" width="1340" height="795" key="CommitChangelistDialog2" timestamp="1587572513426">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="305" y="72" key="CommitChangelistDialog2/0.23.1440.877@0.23.1440.877" timestamp="1587555301150" />
+    <state x="305" y="72" key="CommitChangelistDialog2/0.23.1440.877@0.23.1440.877" timestamp="1587572513426" />
     <state x="461" y="154" width="1340" height="795" key="CommitChangelistDialog2/0.23.1920.1057@0.23.1920.1057" timestamp="1584591732634" />
-    <state x="247" y="108" key="DiffContextDialog" timestamp="1587555293649">
+    <state x="164" y="199" width="1152" height="701" key="DiffContextDialog" timestamp="1587577112612">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="247" y="108" key="DiffContextDialog/0.23.1440.877@0.23.1440.877" timestamp="1587555293649" />
-    <state width="1398" height="213" key="GridCell.Tab.0.bottom" timestamp="1587555568721">
+    <state x="164" y="199" width="1152" height="701" key="DiffContextDialog/0.23.1440.877@0.23.1440.877" timestamp="1587577112612" />
+    <state width="1398" height="201" key="GridCell.Tab.0.bottom" timestamp="1587576997297">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state width="1206" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877/1440.23.1920.1057@0.23.1440.877" timestamp="1586206529955" />
-    <state width="1398" height="213" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1587555568721" />
+    <state width="1398" height="201" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1587576997297" />
     <state width="1878" height="290" key="GridCell.Tab.0.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1584667973463" />
-    <state width="1398" height="213" key="GridCell.Tab.0.center" timestamp="1587555568720">
+    <state width="1398" height="201" key="GridCell.Tab.0.center" timestamp="1587576997297">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state width="1206" height="230" key="GridCell.Tab.0.center/0.23.1440.877/1440.23.1920.1057@0.23.1440.877" timestamp="1586206529955" />
-    <state width="1398" height="213" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1587555568720" />
+    <state width="1398" height="201" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1587576997297" />
     <state width="1878" height="290" key="GridCell.Tab.0.center/0.23.1920.1057@0.23.1920.1057" timestamp="1584667973462" />
-    <state width="1398" height="213" key="GridCell.Tab.0.left" timestamp="1587555568719">
+    <state width="1398" height="201" key="GridCell.Tab.0.left" timestamp="1587576997296">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state width="1206" height="230" key="GridCell.Tab.0.left/0.23.1440.877/1440.23.1920.1057@0.23.1440.877" timestamp="1586206529954" />
-    <state width="1398" height="213" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1587555568719" />
+    <state width="1398" height="201" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1587576997296" />
     <state width="1878" height="290" key="GridCell.Tab.0.left/0.23.1920.1057@0.23.1920.1057" timestamp="1584667973462" />
-    <state width="1398" height="213" key="GridCell.Tab.0.right" timestamp="1587555568720">
+    <state width="1398" height="201" key="GridCell.Tab.0.right" timestamp="1587576997297">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state width="1206" height="230" key="GridCell.Tab.0.right/0.23.1440.877/1440.23.1920.1057@0.23.1440.877" timestamp="1586206529955" />
-    <state width="1398" height="213" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1587555568720" />
+    <state width="1398" height="201" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1587576997297" />
     <state width="1878" height="290" key="GridCell.Tab.0.right/0.23.1920.1057@0.23.1920.1057" timestamp="1584667973463" />
     <state x="145" y="100" key="MergeDialog" timestamp="1587555389273">
       <screen x="0" y="23" width="1440" height="877" />
@@ -289,10 +311,10 @@
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state x="389" y="184" key="VCS.ChangeListViewerDialog/0.23.1440.877@0.23.1440.877" timestamp="1587555237962" />
-    <state x="420" y="245" key="Vcs.Push.Dialog.v2" timestamp="1587555213371">
+    <state x="420" y="245" key="Vcs.Push.Dialog.v2" timestamp="1587555655154">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="420" y="245" key="Vcs.Push.Dialog.v2/0.23.1440.877@0.23.1440.877" timestamp="1587555213371" />
+    <state x="420" y="245" key="Vcs.Push.Dialog.v2/0.23.1440.877@0.23.1440.877" timestamp="1587555655154" />
     <state x="560" y="291" key="Vcs.Push.Dialog.v2/0.23.1920.1057@0.23.1920.1057" timestamp="1584591736810" />
     <state x="101" y="123" width="1240" height="677" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1587555571699">
       <screen x="0" y="23" width="1440" height="877" />
@@ -306,9 +328,10 @@
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="765" y="475" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1920.1057@0.23.1920.1057" timestamp="1584656642734" />
-    <state x="640" y="308" width="639" height="486" key="find.popup" timestamp="1584660319337">
-      <screen x="0" y="23" width="1920" height="1057" />
+    <state x="480" y="259" width="683" height="486" key="find.popup" timestamp="1587566232527">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
+    <state x="480" y="259" width="683" height="486" key="find.popup/0.23.1440.877@0.23.1440.877" timestamp="1587566232527" />
     <state x="640" y="308" width="639" height="486" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1584660319337" />
   </component>
 </project>

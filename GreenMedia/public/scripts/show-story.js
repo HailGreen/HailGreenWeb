@@ -107,7 +107,7 @@ function likeRate(obj) {
         if (index <= starValue) {
             $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star')
         } else {
-            $(`span[value=${index}]`&&`span[id=${storyId}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
+            $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
         }
     }
 }

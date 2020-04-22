@@ -68,15 +68,15 @@ function sendAjaxQuery(url, user) {
                     '                                                                            aria-hidden="true"></span> comment</a> &nbsp \n' +
                     '                       <a class="word-button"> \n' +
                     '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="1" id="${item._id}"></span>\n` +
+                    `                                  value="1" story-id="${item._id}"></span>\n` +
                     '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="2" id="${item._id}"></span>\n` +
+                    `                                  value="2" story-id="${item._id}"></span>\n` +
                     '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="3" id="${item._id}"></span>\n` +
+                    `                                  value="3" story-id="${item._id}"></span>\n` +
                     '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="4" id="${item._id}"></span>\n` +
+                    `                                  value="4" story-id="${item._id}"></span>\n` +
                     '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="5" id="${item._id}"></span>\n` +
+                    `                                  value="5" story-id="${item._id}"></span>\n` +
                     '                       </a>\n' +
                     '                     </div>\n' +
                     '                   </div>\n' +
@@ -97,12 +97,12 @@ function sendAjaxQuery(url, user) {
 
 function likeRate(obj) {
     starValue = obj.getAttribute('value')
-    id = obj.getAttribute('id')
+    storyId = obj.getAttribute('story-id')
     for (var index = 1; index <= 5; index++) {
         if (index <= starValue) {
-            $(`span[value=${index}]`&&`span[id=${id}]`).attr('class', 'glyphicon glyphicon-star')
+            $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star')
         } else {
-            $$(`span[value=${index}]`&&`span[id=${id}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
+            $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
         }
     }
 }

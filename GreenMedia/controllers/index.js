@@ -8,7 +8,7 @@ exports.getUser = function (req, res) {
     try {
 
         Index.find({username: userData.userName},
-            '_id username',
+            'user_id username',
             function (err, users) {
                 if (err)
                     res.status(500).send('Invalid data!');
@@ -16,7 +16,7 @@ exports.getUser = function (req, res) {
                 if (users.length > 0) {
                     var firstElem = users[0];
                     user = {
-                        user_id:firstElem._id, user_name:firstElem.username
+                        user_id:firstElem.user_id, user_name:firstElem.username
                     };
                 }
                 res.setHeader('Content-Type', 'application/json');

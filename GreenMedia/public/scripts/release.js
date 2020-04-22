@@ -63,6 +63,7 @@ function onSubmit() {
         formData.append('files', val.value, val.name);
     })
     formData.append("id",localStorage.getItem("user_id"));
+    formData.append("username",localStorage.getItem("user_name"));
     return formData;
 }
 

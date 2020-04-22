@@ -82,7 +82,7 @@ function sendAjaxQuery(url, user) {
             const result = Object.values({...dataR})
             // catch response data to indexedDB
             result.forEach((item) => {
-                $("#results").html('')
+               //$("#results").html('')
 
                 var imgsTempStr=``
                 item.pics.forEach((i) => {
@@ -102,7 +102,7 @@ function sendAjaxQuery(url, user) {
                     '                   </div>\n' +
                 '                       <div class="media-body">\n' +
                 '                         <p class="media-heading">\n' +
-                '                         <p class="user-name">小矮人</p>\n' +
+                `                         <p class="user-name">${item.username}</p>\n` +
                 '                         <p class="time"> 20/03/2020 11：11</p></p>\n' +
                 `                         <p id="text">${item.mention}</p>\n` +
                     '                     <div class="row">\n' +

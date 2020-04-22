@@ -5,9 +5,11 @@ exports.insert = function (req, res) {
     let mention = req.body.mention;
     let pics = req.files;
     let id = req.body.id;
+    let username=req.body.username;
     try {
         let release = new Release({
             user_id: id,
+            username:username,
             mention: mention,
             pics: pics
         });

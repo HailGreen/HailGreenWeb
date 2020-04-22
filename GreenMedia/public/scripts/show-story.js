@@ -1,5 +1,5 @@
 function addComment() {
-    initStories()
+    // initStories()
     $("#ul1").prepend('<li class="list-group-item" id="comment-li">\n' +
         '                                <textarea class="comment-textarea"></textarea>\n' +
         '                                <div class="float-right" onclick="removeComment()"><span class="glyphicon glyphicon-remove no-icon-word-button" aria-hidden="true"  ></span></div>\n' +
@@ -79,6 +79,11 @@ function sendAjaxQuery(url, user) {
                     `                                  value="5" story-id="${item._id}"></span>\n` +
                     '                       </a>\n' +
                     '                     </div>\n' +
+                    '                     </div>\n' +
+                    '                     <div>\n' +
+                    '                       <ul class="list-group" id="ul1">\n' +
+                    '                       </ul>\n' +
+                    '                     </div>\n' +
                     '                   </div>\n' +
                 '                     </div>')
                 storeCachedData("_id", item, STORE_STORIES)
@@ -102,7 +107,7 @@ function likeRate(obj) {
         if (index <= starValue) {
             $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star')
         } else {
-            $$(`span[value=${index}]`&&`span[id=${id}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
+            $(`span[value=${index}]`&&`span[id=${storyId}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
         }
     }
 }

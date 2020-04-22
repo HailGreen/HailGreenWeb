@@ -100,3 +100,31 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/**
+ * socketio
+ * @type {Server|undefined}
+ */
+var io = require('socket.io').listen(server)
+io.sockets.on('connection', function (socket) {
+  socket.emit('socket_built', {will: 'be received by everyone'})
+  socket.newStoryCount = 0
+
+  socket.on('disconnected', function () {
+    io.emit('user disconnected')
+  })
+
+  socket.on('connected', function () {
+    socket.emit('user connected')
+    console.log('connected')
+  })
+
+  //listen new story event, update badge
+  socket.on('new-story', function () {
+    socket.newStoryCount = socket.newStoryCount + 1
+    console.log('new story',socket.newStoryCount)
+    socket.emit('story-updated',socket.newStoryCount)
+  })
+})
+
+

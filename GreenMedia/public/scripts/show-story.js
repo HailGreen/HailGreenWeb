@@ -135,3 +135,14 @@ function getStoriesInIndexedDB() {
     }
 }
 
+
+/**
+ * listen socket to get unread stories count
+ * @type {undefined|AudioNode|void}
+ */
+var socket = io.connect('https://localhost:3000');
+socket.on('story-updated', function (count) {
+    console.log("story-updated")
+    $("#unread-stories").html(count)
+})
+

@@ -1,5 +1,6 @@
 // modal function
 var uploadFiles = [];
+var socket = io.connect('https://localhost:3000');
 
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
@@ -81,6 +82,9 @@ function sendAjaxInsert(url, submitData) {
             $("#mention").val("");
             uploadFiles = [];
             $('.pic').remove();
+
+            // socket io emit event
+            socket.emit('new-story');
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

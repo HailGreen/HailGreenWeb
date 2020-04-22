@@ -38,3 +38,10 @@ $("#release").load("/release");
  * import story part of the HTML
  */
 $("#show-story").load("/show-story");
+
+
+/**
+ * socket io
+ */
+var socket = io.connect('https://localhost:3000');
+socket.emit('connected');

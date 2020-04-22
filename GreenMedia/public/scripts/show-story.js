@@ -41,7 +41,7 @@ function sendAjaxQuery(url, user) {
         dataType: 'json',
         type: 'POST',
         success: function (dataR) {
-            const result = Object.values({...dataR})
+            const result = Object.values({...dataR});
             // catch response data to indexedDB
             result.forEach((item) => {
                 $("#results").append('<div class="media">\n' +
@@ -79,11 +79,6 @@ function sendAjaxQuery(url, user) {
                     `                                  value="5" story-id="${item._id}"></span>\n` +
                     '                       </a>\n' +
                     '                     </div>\n' +
-                    '                     </div>\n' +
-                    '                     <div>\n' +
-                    '                       <ul class="list-group" id="ul1">\n' +
-                    '                       </ul>\n' +
-                    '                     </div>\n' +
                     '                   </div>\n' +
                 '                     </div>')
                 storeCachedData("_id", item, STORE_STORIES)
@@ -107,7 +102,7 @@ function likeRate(obj) {
         if (index <= starValue) {
             $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star')
         } else {
-            $(`span[value=${index}]`&&`span[id=${storyId}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
+            $$(`span[value=${index}]`&&`span[id=${id}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
         }
     }
 }

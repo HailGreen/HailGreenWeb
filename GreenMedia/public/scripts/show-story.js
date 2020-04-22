@@ -82,7 +82,19 @@ function sendAjaxQuery(url, user) {
             const result = Object.values({...dataR})
             // catch response data to indexedDB
             result.forEach((item) => {
-                $("#results").append('<div class="media">\n' +
+                $("#results").html('')
+
+                var imgsTempStr=``
+                item.pics.forEach((i) => {
+                    var tempStr ='<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+                        `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>`+
+                        '</div>'
+                    imgsTempStr += tempStr
+                })
+
+                console.log(imgsTempStr)
+
+                $("#results").append(`<div class="media" story-id="${item._id}">\n` +
                 '                       <div class="media-left">\n' +
                 '                         <a href="#">\n' +
                 '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
@@ -94,11 +106,12 @@ function sendAjaxQuery(url, user) {
                 '                         <p class="time"> 20/03/2020 11：11</p></p>\n' +
                 `                         <p id="text">${item.mention}</p>\n` +
                     '                     <div class="row">\n' +
-                    '                       <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
-                    '                         <a href="#" class="thumbnail">\n' +
-                    `                           <img src="/images/uploads/${item.pics[0].filename}" alt="pics">\n` +
-                    '                         </a>\n' +
-                    '                       </div>\n' +
+                    // '                       <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+                    // '                         <a href="#" class="thumbnail">\n' +
+                    // `                           <img src="/images/uploads/${item.pics[0].filename}" alt="pics">\n` +
+                    // '                         </a>\n' +
+                    imgsTempStr+
+                    // '                       </div>\n' +
                 '                       </div>\n' +
                     '                   <div class="height-30">\n' +
                     '                     <div class="float-right">\n' +

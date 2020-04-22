@@ -58,7 +58,7 @@ function sendAjaxQuery(url, user) {
                     '                     <div class="row">\n' +
                     '                       <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
                     '                         <a href="#" class="thumbnail">\n' +
-                    `                           <img src="/images/${item.pics[0].path}" alt="pics">\n` +
+                    `                           <img src="/images/uploads/${item.pics[0].filename}" alt="pics">\n` +
                     '                         </a>\n' +
                     '                       </div>\n' +
                 '                       </div>\n' +

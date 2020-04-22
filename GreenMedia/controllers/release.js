@@ -6,12 +6,14 @@ exports.insert = function (req, res) {
     let pics = req.files;
     let id = req.body.id;
     let username=req.body.username;
+
     try {
         let release = new Release({
             user_id: id,
             username:username,
             mention: mention,
-            pics: pics
+            pics: pics,
+            time:new Date(),
         });
         console.log('received: ' + release);
 

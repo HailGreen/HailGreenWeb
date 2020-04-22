@@ -80,39 +80,41 @@ function sendAjaxQuery(url, user) {
         type: 'POST',
         success: function (dataR) {
             const result = Object.values({...dataR})
+
             // catch response data to indexedDB
             result.forEach((item) => {
-               //$("#results").html('')
+                //$("#results").html('')
 
-                var imgsTempStr=``
+                var imgsTempStr = ``
                 item.pics.forEach((i) => {
-                    var tempStr ='<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
-                        `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>`+
+                    var tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+                        `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>` +
                         '</div>'
                     imgsTempStr += tempStr
                 })
 
-                console.log(imgsTempStr)
+                console.log(imgsTempStr);
+                let time = formatTime(item.time);
 
                 $("#results").append(`<div class="media" story-id="${item._id}">\n` +
-                '                       <div class="media-left">\n' +
-                '                         <a href="#">\n' +
-                '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
+                    '                       <div class="media-left">\n' +
+                    '                         <a href="#">\n' +
+                    '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
                     '                     </a>\n' +
                     '                   </div>\n' +
-                '                       <div class="media-body">\n' +
-                '                         <p class="media-heading">\n' +
-                `                         <p class="user-name">${item.username}</p>\n` +
-                '                         <p class="time"> 20/03/2020 11：11</p></p>\n' +
-                `                         <p id="text">${item.mention}</p>\n` +
+                    '                       <div class="media-body">\n' +
+                    '                         <p class="media-heading">\n' +
+                    `                         <p class="user-name">${item.username}</p>\n` +
+                    `                         <p class="time">${time}</p></p>\n` +
+                    `                         <p id="text">${item.mention}</p>\n` +
                     '                     <div class="row">\n' +
                     // '                       <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
                     // '                         <a href="#" class="thumbnail">\n' +
                     // `                           <img src="/images/uploads/${item.pics[0].filename}" alt="pics">\n` +
                     // '                         </a>\n' +
-                    imgsTempStr+
+                    imgsTempStr +
                     // '                       </div>\n' +
-                '                       </div>\n' +
+                    '                       </div>\n' +
                     '                   <div class="height-30">\n' +
                     '                     <div class="float-right">\n' +
                     '                       <a onclick="addComment()" class="word-button"><span class="glyphicon glyphicon-comment"\n' +
@@ -136,7 +138,7 @@ function sendAjaxQuery(url, user) {
                     '                       </ul>\n' +
                     '                     </div>\n' +
                     '                   </div>\n' +
-                '                     </div>')
+                    '                     </div>')
                 storeCachedData("_id", item, STORE_STORIES)
             });
         },
@@ -147,6 +149,14 @@ function sendAjaxQuery(url, user) {
             getStoriesInIndexedDB()
         }
     });
+}
+
+
+function formatTime(time) {
+    console.log(time);
+    return time.replace("T", " ").slice(0,-8);
+
+
 }
 
 

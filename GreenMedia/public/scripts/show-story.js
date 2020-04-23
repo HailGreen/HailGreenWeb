@@ -30,6 +30,8 @@ function sendAjaxInsertComment(url, comment) {
         type: 'POST',
         success: function () {
             console.log("insert successfully");
+            removeComment()
+            getComments(comment.story_id)
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -65,7 +67,9 @@ function getStar(story_id) {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            console.log(dataR)
+            dataR.forEach((item)=>{
+                changeStarShow(item.rate, item.story_id)
+            })
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -82,7 +86,11 @@ function getComments(story_id) {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            console.log(dataR)
+            $(`.list-group[story-id=${story_id}]`).html('')
+            dataR.forEach((item)=>{
+                console.log('111',item)
+                $(`.list-group[story-id=${story_id}]`).append(`<li style="list-style-type:none">${item.user_name} : ${item.text}</li>`)
+            })
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -100,8 +108,9 @@ function sendAjaxQuery(url, user) {
             const result = Object.values({...dataR})
 
             // catch response data to indexedDB
+            $("#results").html('')
+
             result.forEach((item) => {
-                //$("#results").html('')
 
                 var imgsTempStr = ``
                 item.pics.forEach((i) => {
@@ -111,7 +120,6 @@ function sendAjaxQuery(url, user) {
                     imgsTempStr += tempStr
                 })
 
-                console.log(imgsTempStr);
                 let time = formatTime(item.time);
 
                 $("#results").append(`<div class="media" story-id="${item._id}">\n` +
@@ -120,18 +128,13 @@ function sendAjaxQuery(url, user) {
                     '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
                     '                     </a>\n' +
                     '                   </div>\n' +
-                    '                       <div class="media-body">\n' +
+                    `                       <div class="media-body" story-id="${item._id}">\n` +
                     '                         <p class="media-heading">\n' +
                     `                         <p class="user-name">${item.username}</p>\n` +
                     `                         <p class="time">${time}</p></p>\n` +
                     `                         <p id="text">${item.mention}</p>\n` +
                     '                     <div class="row">\n' +
-                    // '                       <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
-                    // '                         <a href="#" class="thumbnail">\n' +
-                    // `                           <img src="/images/uploads/${item.pics[0].filename}" alt="pics">\n` +
-                    // '                         </a>\n' +
                     imgsTempStr +
-                    // '                       </div>\n' +
                     '                       </div>\n' +
                     '                   <div class="height-30">\n' +
                     '                     <div class="float-right">\n' +
@@ -152,11 +155,14 @@ function sendAjaxQuery(url, user) {
                     '                     </div>\n' +
                     '                     </div>\n' +
                     '                     <div>\n' +
-                    '                       <ul class="list-group" id="ul1">\n' +
+                    `                       <ul class="list-group" id="ul1" story-id="${item._id}">\n` +
                     '                       </ul>\n' +
                     '                     </div>\n' +
                     '                   </div>\n' +
                     '                     </div>')
+
+                getComments(item._id)
+                getStar(item._id)
                 storeCachedData("_id", item, STORE_STORIES)
             });
         },
@@ -175,10 +181,12 @@ function formatTime(time) {
     return time.replace("T", " ").slice(0,-8);
 }
 
-
-function likeRate(obj) {
-    starValue = obj.getAttribute('value');
-    storyId = obj.getAttribute('story-id');
+/**
+ * change how many star empty, show rate
+ * @param starValue
+ * @param storyId
+ */
+function changeStarShow(starValue, storyId) {
     for (var index = 1; index <= 5; index++) {
         if (index <= starValue) {
             $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star')
@@ -186,6 +194,12 @@ function likeRate(obj) {
             $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
         }
     }
+}
+
+function likeRate(obj) {
+    starValue = obj.getAttribute('value');
+    storyId = obj.getAttribute('story-id');
+    changeStarShow(starValue, storyId)
 
     var star = {};
     star['story_id'] = storyId;

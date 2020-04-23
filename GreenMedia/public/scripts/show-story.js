@@ -17,6 +17,7 @@ function insertComment(story_id) {
     var comment = {};
     comment["user_id"] = localStorage.getItem("user_id");
     comment["story_id"] = story_id;
+    comment["user_name"] = localStorage.getItem("user_name");
     comment["text"] = $("#text1").val();
     sendAjaxInsertComment('/add-comment', comment);
 }
@@ -52,6 +53,24 @@ function getStories() {
     var user = {};
     user['user_id'] = '1';
     sendAjaxQuery(url, user);
+}
+
+function getStar(story_id) {
+    var star = {};
+    star['story_id'] = story_id;
+    star["user_id"] = localStorage.getItem("user_id");
+    $.ajax({
+        url: '/get-star',
+        data: star,
+        dataType: 'JSON',
+        type: 'POST',
+        success: function (dataR) {
+            console.log(dataR)
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
 }
 
 function getComments(story_id) {

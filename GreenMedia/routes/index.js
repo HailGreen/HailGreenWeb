@@ -42,6 +42,8 @@ router.post('/show-story', release.getStories);
 /*get stories*/
 router.post('/add-comment', comment.insert);
 
+router.post('/get-star', star.getStar);
+
 router.put('/update-star', star.updateStar);
 
 module.exports = router;

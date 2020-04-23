@@ -124,6 +124,7 @@ io.sockets.on('connection', function (socket) {
     socket.newStoryCount = socket.newStoryCount + 1
     console.log('new story',socket.newStoryCount)
     socket.emit('story-updated',socket.newStoryCount)
+    socket.broadcast.emit('story-updated',socket.newStoryCount)
   })
 })
 

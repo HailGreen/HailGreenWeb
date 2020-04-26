@@ -2,24 +2,31 @@ var dataCacheName = 'releaseData-v1';
 var cacheName = 'releasePWA';
 var filesToCache = [
     '/',
+    '/favicon.ico',
     '/fonts/glyphicons-halflings-regular.woff2',
     '/fonts/glyphicons-halflings-regular.woff',
     '/fonts/glyphicons-halflings-regular.ttf',
+    '/fonts/glyphicons-halflings-regular.eot',
+    '/fonts/glyphicons-halflings-regular.svg',
     '/images/icons/user.svg',
     '/stylesheets/style.css',
     '/stylesheets/bootstrap.min.css',
     '/scripts/bootstrap.min.js',
-    '/scripts/jquery.min.js',
+    '/scripts/head.js',
+    '/scripts/idb.js',
+    '/scripts/idb-function.js',
+    '/scripts/index.js',
     '/scripts/init-service-worker.js',
+    '/scripts/jquery.min.js',
     // '../controllers/release.js',
     // '../databases/green-media.js',
     // '../models/release.js',
-    '/scripts/index.js',
     // '../controllers/index.js',
     // '../models/index.js',
-    '/scripts/head.js',
     '/scripts/release.js',
     '/scripts/show-story.js',
+    'https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js',
+    '/manifest.json',
 ];
 
 /**
@@ -55,7 +62,7 @@ self.addEventListener('activate', function (e) {
 
 self.addEventListener('fetch', function (e) {
     console.log('[Service Worker] Fetch', e.request.url);
-    var dataUrl = '/';
+    var dataUrl = '/head';
     //if the request is '/', post to the server - do nit try to cache it
     if (e.request.url.indexOf(dataUrl) > -1) {
 
@@ -84,4 +91,5 @@ self.addEventListener('fetch', function (e) {
             })
         );
     }
+
 });

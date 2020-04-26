@@ -1,4 +1,8 @@
 use GreenMedia
 db.createCollection("user")
-db.user.insert({“user_id:1”,"username":"sysadmin","password":"000000"})
+db.user.insert({"user_id":"1","username":"sysadmin","password":"000000"})
+db.user.insert({"user_id":"2","username":"admin","password":"000000"})
+db.user.insert({"user_id":"3","username":"test1","password":"000000"})
+db.user.insert({"user_id":"4","username":"test2","password":"000000"})
+db.user.insert({"user_id":"5","username":"test3","password":"000000"})
 db.createCollection("release")

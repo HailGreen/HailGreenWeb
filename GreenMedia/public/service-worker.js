@@ -6,20 +6,20 @@ var filesToCache = [
     '/fonts/glyphicons-halflings-regular.woff',
     '/fonts/glyphicons-halflings-regular.ttf',
     '/images/icons/user.svg',
-    '/styles/style.css',
-    '/styles/bootstrap.min.css',
+    '/stylesheets/style.css',
+    '/stylesheets/bootstrap.min.css',
     '/scripts/bootstrap.min.js',
     '/scripts/jquery.min.js',
     '/scripts/init-service-worker.js',
-    '../controllers/release.js',
-    '../databases/green-media.js',
-    '../models/release.js',
-    '../scripts/index.js',
-    '../controllers/index.js',
-    '../models/index.js',
-    '../scripts/head.js',
-    '../scripts/release.js',
-    '../scripts/show-story.js',
+    // '../controllers/release.js',
+    // '../databases/green-media.js',
+    // '../models/release.js',
+    '/scripts/index.js',
+    // '../controllers/index.js',
+    // '../models/index.js',
+    '/scripts/head.js',
+    '/scripts/release.js',
+    '/scripts/show-story.js',
 ];
 
 /**
@@ -58,9 +58,11 @@ self.addEventListener('fetch', function (e) {
     var dataUrl = '/';
     //if the request is '/', post to the server - do nit try to cache it
     if (e.request.url.indexOf(dataUrl) > -1) {
+
         return fetch(e.request).then(function (response) {
             // note: it the network is down, response will contain the error
             // that will be passed to Ajax
+
             return response;
         })
     } else {
@@ -69,11 +71,14 @@ self.addEventListener('fetch', function (e) {
                 return response
                     || fetch(e.request)
                         .then(function (response) {
+                            // note if network error happens, fetch does not return
+                            // an error. it just returns response not ok
+                            // https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
                             if (!response.ok) {
                                 console.log("error: " + response.error());
                             }
                         })
-                        .catch(function (e) {
+                        .catch(function (err) {
                             console.log("error: " + err);
                         })
             })

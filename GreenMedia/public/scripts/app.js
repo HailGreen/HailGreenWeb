@@ -1,3 +1,132 @@
+
+/**
+ * send ajax to the databse and save the information of user
+ */
+$(function(){
+    let url='/get_user';
+    let data={userName:'sysadmin'};
+    $.ajax({
+        url: url,
+        data: data,
+        dataType: 'JSON',
+        type: 'Post',
+        success: function (dataR) {
+            console.log(dataR.user_name)
+            localStorage.setItem('user_id', dataR.user_id);
+            localStorage.setItem('user_name', dataR.user_name);
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+});
+
+
+var uploadFiles = [];
+var socket = io.connect('https://localhost:3000');
+
+$("#add-pics").on("change", function () {
+    if (uploadFiles.length === 3) {
+        $("#upload-pics").hide();
+    }
+});
+
+
+
+/**
+ * show head data
+ */
+$("#show-username").text(localStorage.getItem("user_name"));
+
+
+/**
+ * import release button and model part of the HTML
+ */
+function changePic(obj) {
+    if (uploadFiles.length < 3 && uploadFiles.length + obj.files.length <= 3) {
+        Array.from(obj.files).forEach((value, index) => {
+            uploadFiles.push({value: value, name: value.name});
+            var newsrc = getObjectURL(obj.files[index]);
+            $("#add-pics").prepend(' <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 pic" id="' + value.name.split(".")[0] + '-div">\n' +
+                '\n' +
+                '<img src="' + newsrc + '" alt="pics" height="100px" width="100%">\n' +
+                '<span class="glyphicon glyphicon-remove remove-button-pics" aria-hidden="true" id="' + value.name.split(".")[0] + '" onclick="removePics(this.id)" style="position:absolute"></span>\n' +
+                '</div>')
+        });
+    } else {
+        alert("You can only add 3 pics");
+    }
+
+}
+
+
+function removePics(id) {
+    var name = id + "-div";
+    $("#" + name + "").remove();
+    uploadFiles = uploadFiles.filter(obj => obj.name.indexOf(id) === -1);
+    $("#upload-pics").show();
+}
+
+
+function getObjectURL(file) {
+    var url = null;
+    if (window.createObjectURL !== undefined) { // basic
+        url = window.createObjectURL(file);
+    } else if (window.URL !== undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file);
+    } else if (window.webkitURL !== undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file);
+    }
+    return url;
+}
+
+
+function submitData() {
+    // var form = document.getElementById('uploadData');
+    sendAjaxInsert('/release-moments', onSubmit());
+};
+
+function onSubmit() {
+    var formArray = $("form").serializeArray();
+    var formData = new FormData();
+    formArray.forEach(val => {
+        formData.append(val.name, val.value);
+    });
+    uploadFiles.forEach(val => {
+        formData.append('files', val.value, val.name);
+    })
+    formData.append("id",localStorage.getItem("user_id"));
+    formData.append("username",localStorage.getItem("user_name"));
+    return formData;
+};
+function sendAjaxInsert(url, submitData) {
+    $.ajax({
+        url: url,
+        data: submitData,
+        dataType: 'JSON',
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: function (dataR) {
+            var ret = dataR;
+            $('#releaseModal').modal('hide');
+            $("#mention").val("");
+            uploadFiles = [];
+            $('.pic').remove();
+
+            // socket io emit event
+            socket.emit('new-story');
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+};
+
+
+/**
+ * import story part of the HTML
+ */
 function addComment(story_id) {
     // initStories()
     $(`.list-group[story-id=${story_id}]`).append('     <form id="uploadComment" onsubmit="return false;" enctype="multipart/form-data">' +
@@ -194,7 +323,6 @@ function formatTime(time) {
     console.log(time);
     return time.replace("T", " ").slice(0,-8);
 }
-
 /**
  * change how many star empty, show rate
  * @param starValue
@@ -258,12 +386,11 @@ function getStoriesInIndexedDB() {
 
 
 /**
- * listen socket to get unread stories count
- * @type {undefined|AudioNode|void}
+ * socket io
  */
 var socket = io.connect('https://localhost:3000');
 socket.on('story-updated', function (count) {
     console.log("story-updated")
     $("#unread-stories").html(count)
 })
-
+socket.emit('connected');

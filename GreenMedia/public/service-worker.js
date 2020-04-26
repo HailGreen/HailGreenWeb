@@ -13,12 +13,9 @@ var filesToCache = [
     '/stylesheets/bootstrap.min.css',
     '/scripts/bootstrap.min.js',
     '/scripts/jquery.min.js',
-    '/scripts/index.js',
-    '/scripts/head.js',
-    '/scripts/release.js',
-    '/scripts/show-story.js',
+    '/scripts/app.js',
     '/scripts/idb.js',
-    '/scripts/init-service-worker.js'
+    '/scripts/idb-function.js'
 ];
 
 /**
@@ -55,7 +52,7 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
     console.log('[Service Worker] Fetch', e.request.url);
     let isDataUrl=false;
-    var dataUrl = ['/head','/release','/show-story','/get-comments','/get_user','/release-moments','/show-story','/add-comment','/get-star','/update-star'];
+    var dataUrl = ['/get-comments','/get_user','/release-moments','/show-story','/add-comment','/get-star','/update-star'];
     //if the request is '/', post to the server - do nit try to cache it
     dataUrl.forEach(item=>{
         let url="https://localhost:3000"+item;
@@ -63,6 +60,9 @@ self.addEventListener('fetch', function (e) {
             isDataUrl=true;
         }
     });
+    if(e.request.url.includes("socket")){
+        isDataUrl=true;
+    }
     if (isDataUrl) {
 
         return fetch(e.request).then(function (response) {

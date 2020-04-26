@@ -13,18 +13,6 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
-router.get('/head', function (req, res, next) {
-    res.render('head', {});
-})
-
-
-router.get('/release', function (req, res, next) {
-    res.render('release', {});
-});
-
-router.get('/show-story', function (req, res, next) {
-    res.render('show-story', {});
-});
 
 router.post('/get-comments', comment.getComments);
 

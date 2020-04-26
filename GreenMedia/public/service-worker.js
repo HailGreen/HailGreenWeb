@@ -12,21 +12,13 @@ var filesToCache = [
     '/stylesheets/style.css',
     '/stylesheets/bootstrap.min.css',
     '/scripts/bootstrap.min.js',
-    '/scripts/head.js',
-    '/scripts/idb.js',
-    '/scripts/idb-function.js',
-    '/scripts/index.js',
-    '/scripts/init-service-worker.js',
     '/scripts/jquery.min.js',
-    // '../controllers/release.js',
-    // '../databases/green-media.js',
-    // '../models/release.js',
-    // '../controllers/index.js',
-    // '../models/index.js',
+    '/scripts/index.js',
+    '/scripts/head.js',
     '/scripts/release.js',
     '/scripts/show-story.js',
-    'https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js',
-    '/manifest.json',
+    '/scripts/idb.js',
+    '/scripts/init-service-worker.js'
 ];
 
 /**
@@ -62,9 +54,16 @@ self.addEventListener('activate', function (e) {
 
 self.addEventListener('fetch', function (e) {
     console.log('[Service Worker] Fetch', e.request.url);
-    var dataUrl = '/head';
+    let isDataUrl=false;
+    var dataUrl = ['/head','/release','/show-story','/get-comments','/get_user','/release-moments','/show-story','/add-comment','/get-star','/update-star'];
     //if the request is '/', post to the server - do nit try to cache it
-    if (e.request.url.indexOf(dataUrl) > -1) {
+    dataUrl.forEach(item=>{
+        let url="https://localhost:3000"+item;
+        if(url===e.request.url){
+            isDataUrl=true;
+        }
+    });
+    if (isDataUrl) {
 
         return fetch(e.request).then(function (response) {
             // note: it the network is down, response will contain the error
@@ -91,5 +90,4 @@ self.addEventListener('fetch', function (e) {
             })
         );
     }
-
 });

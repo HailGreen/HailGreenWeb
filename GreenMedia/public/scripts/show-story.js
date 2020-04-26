@@ -1,6 +1,6 @@
 function addComment(story_id) {
     // initStories()
-    $("#ul1").prepend('     <form id="uploadComment" onsubmit="return false;" enctype="multipart/form-data">' +
+    $(`.list-group[story-id=${story_id}]`).append('     <form id="uploadComment" onsubmit="return false;" enctype="multipart/form-data">' +
         '                            <li class="list-group-item" id="comment-li">\n' +
         '                                <textarea class="comment-textarea" name="text1" id="text1"></textarea>\n' +
         '                                <div class="float-right" onclick="removeComment()"><span class="glyphicon glyphicon-remove no-icon-word-button" aria-hidden="true"  ></span></div>\n' +

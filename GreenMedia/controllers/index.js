@@ -25,3 +25,23 @@ exports.getUser = function (req, res) {
         res.status(500).send('error ' + e);
     }
 }
+
+
+exports.getUserList=function (req,res) {
+    try{
+        Index.find({},
+            'user_id username',
+            function (err, users) {
+                if (err)
+                    res.status(500).send('Invalid data!');
+                var user = [];
+                users.forEach(item=>{
+                    user.push({user_id:item.user_id,user_name:item.username})
+                })
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(user));
+            });
+    }catch(e){
+        res.status(500).send('error ' + e);
+    }
+}

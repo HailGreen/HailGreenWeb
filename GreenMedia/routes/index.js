@@ -21,6 +21,8 @@ router.post('/get-comments', comment.getComments);
 /*get the user*/
 router.post('/get_user',index.getUser);
 
+router.get('/get_user_list',index.getUserList);
+
 /*send words & pics*/
 router.post('/release-moments', upload.array('files', 3), release.insert);
 

@@ -1,25 +1,83 @@
-
 /**
  * send ajax to the databse and save the information of user
  */
-$(function(){
-    let url='/get_user';
-    let data={userName:'sysadmin'};
+$(function () {
+    let url = '/get_user';
+    let data = {userName: 'sysadmin'};
+    getUserList();
+    addNameList();
+    // $.ajax({
+    //     url: url,
+    //     data: data,
+    //     dataType: 'JSON',
+    //     type: 'Post',
+    //     success: function (dataR) {
+    //         console.log(dataR.user_name)
+    //         localStorage.setItem('user_id', dataR.user_id);
+    //         localStorage.setItem('user_name', dataR.user_name);
+    //     },
+    //     error: function (xhr, status, error) {
+    //         alert('Error: ' + error.message);
+    //     }
+    // });
+});
+
+
+// async function initUser() {
+//     await getUserList();
+//
+// }
+
+function getUserList() {
     $.ajax({
-        url: url,
-        data: data,
+        url: '/get_user_list',
+        data: null,
         dataType: 'JSON',
-        type: 'Post',
+        type: 'get',
         success: function (dataR) {
-            console.log(dataR.user_name)
-            localStorage.setItem('user_id', dataR.user_id);
-            localStorage.setItem('user_name', dataR.user_name);
+            localStorage.setItem('users', JSON.stringify(dataR));
+            localStorage.setItem('user_id', dataR[0].user_id);
+            localStorage.setItem('user_name', dataR[0].user_name);
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
         }
     });
-});
+}
+
+
+// function getUser() {
+//
+// }
+
+
+function addNameList() {
+    $("#name-list").empty();
+    $("#dropdownMenu1").text(localStorage.getItem("user_name"));
+    let nameList = JSON.parse(localStorage.getItem("users"));
+    console.log(nameList);
+    nameList.forEach(item => {
+        if (item.user_name !== localStorage.getItem("user_name")) {
+            $("#name-list").append(`<li><a onclick=changeUser(this.name) name=${item.user_name}>${item.user_name}</a></li>`)
+        }
+
+    })
+}
+
+
+function changeUser(username) {
+    $("#dropdownMenu1").text(username);
+    let userList = JSON.parse(localStorage.getItem("users"));
+    userList.forEach(item => {
+        if (username !== item.user_name) {
+            localStorage.setItem('user_id',item.user_id);
+            localStorage.setItem('user_name',item.user_name);
+        }
+
+    })
+    addNameList();
+    getStories();
+}
 
 
 var uploadFiles = [];
@@ -33,10 +91,6 @@ $("#add-pics").on("change", function () {
 
 
 
-/**
- * show head data
- */
-$("#show-username").text(localStorage.getItem("user_name"));
 
 
 /**
@@ -95,10 +149,11 @@ function onSubmit() {
     uploadFiles.forEach(val => {
         formData.append('files', val.value, val.name);
     })
-    formData.append("id",localStorage.getItem("user_id"));
-    formData.append("username",localStorage.getItem("user_name"));
+    formData.append("id", localStorage.getItem("user_id"));
+    formData.append("username", localStorage.getItem("user_name"));
     return formData;
 };
+
 function sendAjaxInsert(url, submitData) {
     $.ajax({
         url: url,
@@ -196,7 +251,7 @@ function getStar(story_id) {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            dataR.forEach((item)=>{
+            dataR.forEach((item) => {
                 changeStarShow(item.rate, item.story_id)
             })
         },
@@ -230,7 +285,7 @@ function getComments(story_id) {
         type: 'POST',
         success: function (dataR) {
             $(`.list-group[story-id=${story_id}]`).html('')
-            dataR.forEach((item)=>{
+            dataR.forEach((item) => {
                 $(`.list-group[story-id=${story_id}]`).append(`<li style="list-style-type:none">${item.user_name} : ${item.text}</li>`)
             })
         },
@@ -332,8 +387,9 @@ function showStoriesList(result) {
 
 function formatTime(time) {
     console.log(time);
-    return time.replace("T", " ").slice(0,-8);
+    return time.replace("T", " ").slice(0, -8);
 }
+
 /**
  * change how many star empty, show rate
  * @param starValue

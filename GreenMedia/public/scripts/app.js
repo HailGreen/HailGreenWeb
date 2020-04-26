@@ -182,7 +182,7 @@ function initStories() {
 function getStories() {
     var url = '/show-story';
     var user = {};
-    user['user_id'] = '1';
+    user['user_id'] = localStorage.getItem('user_id');
     sendAjaxQuery(url, user);
 }
 
@@ -231,7 +231,6 @@ function getComments(story_id) {
         success: function (dataR) {
             $(`.list-group[story-id=${story_id}]`).html('')
             dataR.forEach((item)=>{
-                console.log('111',item)
                 $(`.list-group[story-id=${story_id}]`).append(`<li style="list-style-type:none">${item.user_name} : ${item.text}</li>`)
             })
         },
@@ -241,6 +240,11 @@ function getComments(story_id) {
     });
 }
 
+/**
+ * get stories list from remote
+ * @param url
+ * @param user
+ */
 function sendAjaxQuery(url, user) {
     $.ajax({
         url: url,
@@ -250,74 +254,81 @@ function sendAjaxQuery(url, user) {
         success: function (dataR) {
             const result = Object.values({...dataR})
 
-            // catch response data to indexedDB
+            // catch response data to indexedDB & show response to the main page
             $("#results").html('')
-
-            result.forEach((item) => {
-
-                var imgsTempStr = ``
-                item.pics.forEach((i) => {
-                    var tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
-                        `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>` +
-                        '</div>'
-                    imgsTempStr += tempStr
-                })
-
-                let time = formatTime(item.time);
-
-                $("#results").append(`<div class="media" story-id="${item._id}">\n` +
-                    '                       <div class="media-left">\n' +
-                    '                         <a href="#">\n' +
-                    '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
-                    '                     </a>\n' +
-                    '                   </div>\n' +
-                    `                       <div class="media-body" story-id="${item._id}">\n` +
-                    '                         <p class="media-heading">\n' +
-                    `                         <p class="user-name">${item.username}</p>\n` +
-                    `                         <p class="time">${time}</p></p>\n` +
-                    `                         <p id="text">${item.mention}</p>\n` +
-                    '                     <div class="row">\n' +
-                    imgsTempStr +
-                    '                       </div>\n' +
-                    '                   <div class="height-30">\n' +
-                    '                     <div class="float-right">\n' +
-                    `                       <a onclick="addComment('${item._id}')" class="word-button"><span class="glyphicon glyphicon-comment"\n` +
-                    `                                                                            aria-hidden="true"></span> comment</a> &nbsp \n` +
-                    '                       <a class="word-button"> \n' +
-                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="1" story-id="${item._id}"></span>\n` +
-                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="2" story-id="${item._id}"></span>\n` +
-                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="3" story-id="${item._id}"></span>\n` +
-                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="4" story-id="${item._id}"></span>\n` +
-                    '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
-                    `                                  value="5" story-id="${item._id}"></span>\n` +
-                    '                       </a>\n' +
-                    '                     </div>\n' +
-                    '                     </div>\n' +
-                    '                     <div>\n' +
-                    `                       <ul class="list-group" id="ul1" story-id="${item._id}">\n` +
-                    '                       </ul>\n' +
-                    '                     </div>\n' +
-                    '                   </div>\n' +
-                    '                     </div>')
-
-                getComments(item._id)
-                getStar(item._id)
-                storeCachedData("_id", item, STORE_STORIES)
-            });
+            showStoriesList(result)
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
             // get indexedDB cache
-
             getStoriesInIndexedDB()
         }
     });
 }
 
+
+/**
+ * show / append stories on the main page
+ * @param result
+ */
+function showStoriesList(result) {
+    result.forEach((item) => {
+
+        var imgsTempStr = ``
+        item.pics.forEach((i) => {
+            var tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+                `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>` +
+                '</div>'
+            imgsTempStr += tempStr
+        })
+
+        let time = formatTime(item.time);
+
+        $("#results").append(`<div class="media" story-id="${item._id}">\n` +
+            '                       <div class="media-left">\n' +
+            '                         <a href="#">\n' +
+            '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
+            '                     </a>\n' +
+            '                   </div>\n' +
+            `                       <div class="media-body" story-id="${item._id}">\n` +
+            '                         <p class="media-heading">\n' +
+            `                         <p class="user-name">${item.username}</p>\n` +
+            `                         <p class="time">${time}</p></p>\n` +
+            `                         <p id="text">${item.mention}</p>\n` +
+            '                     <div class="row">\n' +
+            imgsTempStr +
+            '                       </div>\n' +
+            '                   <div class="height-30">\n' +
+            '                     <div class="float-right">\n' +
+            `                       <a onclick="addComment('${item._id}')" class="word-button"><span class="glyphicon glyphicon-comment"\n` +
+            `                                                                            aria-hidden="true"></span> comment</a> &nbsp \n` +
+            '                       <a class="word-button"> \n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            `                                  value="1" story-id="${item._id}"></span>\n` +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            `                                  value="2" story-id="${item._id}"></span>\n` +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            `                                  value="3" story-id="${item._id}"></span>\n` +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            `                                  value="4" story-id="${item._id}"></span>\n` +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            `                                  value="5" story-id="${item._id}"></span>\n` +
+            '                       </a>\n' +
+            '                     </div>\n' +
+            '                     </div>\n' +
+            '                     <div>\n' +
+            `                       <ul class="list-group" id="ul1" story-id="${item._id}">\n` +
+            '                       </ul>\n' +
+            '                     </div>\n' +
+            '                   </div>\n' +
+            '                     </div>')
+
+        getComments(item._id)
+        getStar(item._id)
+        storeCachedData("_id", item, STORE_STORIES)
+        $("#unread-stories").html(0)
+    });
+}
 
 function formatTime(time) {
     console.log(time);
@@ -361,11 +372,13 @@ function likeRate(obj) {
     });
 }
 
-
+/**
+ * get stories from indexedDB
+ */
 function getStoriesInIndexedDB() {
     var req = window.indexedDB.open(DB_NAME, 1);
     req.onsuccess = function (ev) {
-        console.log("post success");
+        console.log("indexed db post success");
         var db = ev.target.result;
         var tx = db.transaction([STORE_STORIES], "readonly");
         var store = tx.objectStore(STORE_STORIES);
@@ -376,9 +389,9 @@ function getStoriesInIndexedDB() {
             if (cursor) {
                 res.push(cursor.value);
                 cursor.continue()
-                console.log(res)
             } else {
                 console.log("res of posts", res);
+                showStoriesList(res)
             }
         }
     }

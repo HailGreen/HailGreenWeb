@@ -15,7 +15,7 @@ var filesToCache = [
     '/scripts/jquery.min.js',
     '/scripts/app.js',
     '/scripts/idb.js',
-    '/scripts/idb-function.js'
+    '/scripts/idb-function.js',
 ];
 
 /**
@@ -70,24 +70,22 @@ self.addEventListener('fetch', function (e) {
             // that will be passed to Ajax
 
             return response;
+        }).catch(function (e) {
+            console.log("service worker error 1: " + e.message);
         })
     } else {
-        e.respondWith(
-            caches.match(e.request).then(function (response) {
-                return response
-                    || fetch(e.request)
-                        .then(function (response) {
-                            // note if network error happens, fetch does not return
-                            // an error. it just returns response not ok
-                            // https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
-                            if (!response.ok) {
-                                console.log("error: " + response.error());
-                            }
-                        })
-                        .catch(function (err) {
-                            console.log("error: " + err);
-                        })
-            })
-        );
+        e.respondWith(async function () {
+            const cache = await caches.open('mysite-dynamic');
+            const cachedResponse = await cache.match(e.request);
+            const networkResponsePromise = fetch(e.request);
+
+            e.waitUntil(async function () {
+                const networkResponse = await networkResponsePromise;
+                await cache.put(e.request, networkResponse.clone());
+            }());
+
+            // Returned the cached response if we have one, otherwise return the network response.
+            return cachedResponse || networkResponsePromise;
+        }());
     }
 });

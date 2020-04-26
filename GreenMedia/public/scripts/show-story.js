@@ -77,6 +77,20 @@ function getStar(story_id) {
     });
 }
 
+function getStars() {
+    $.ajax({
+        url: '/get-stars',
+        dataType: 'JSON',
+        type: 'POST',
+        success: function (dataR) {
+            console.log(dataR)
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+}
+
 function getComments(story_id) {
     var story = {};
     story['story_id'] = story_id;

@@ -44,6 +44,8 @@ router.post('/add-comment', comment.insert);
 
 router.post('/get-star', star.getStar);
 
+router.post('/get-stars', star.getStars);
+
 router.put('/update-star', star.updateStar);
 
 module.exports = router;

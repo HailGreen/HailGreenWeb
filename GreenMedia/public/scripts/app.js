@@ -1,11 +1,11 @@
 /**
  * send ajax to the databse and save the information of user
  */
-$(function () {
+$( async function () {
     let url = '/get_user';
     let data = {userName: 'sysadmin'};
-    getUserList();
-    addNameList();
+    await getUserList();
+    await addNameList();
 });
 
 function getUserList() {
@@ -29,7 +29,6 @@ function addNameList() {
     $("#name-list").empty();
     $("#dropdownMenu1").text(localStorage.getItem("user_name"));
     let nameList = JSON.parse(localStorage.getItem("users"));
-    console.log(nameList);
     nameList.forEach(item => {
         if (item.user_name !== localStorage.getItem("user_name")) {
             $("#name-list").append(`<li><a onclick=changeUser(this.name) name=${item.user_name}>${item.user_name}</a></li>`)

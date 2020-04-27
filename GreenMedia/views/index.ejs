@@ -97,6 +97,17 @@
     </div>
 
     <div style="height:30px;margin-bottom: 10px">
+        <div class="dropdown" style="display: inline; margin-left: 10px">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+
+                Sort By : <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2" id="name-list">
+                <li><a onclick="sortBy(this.name)" name="timeline">timeline</a></li>
+                <li><a onclick="sortBy(this.name)" name="recommend">recommend</a></li>
+            </ul>
+        </div>
+
         <button type="button" class="btn float-right" onclick="getStories()">
             New Stories <span class="badge badge-light" id="unread-stories">0</span>
         </button>

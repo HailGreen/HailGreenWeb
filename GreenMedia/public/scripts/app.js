@@ -238,7 +238,7 @@ function getStories() {
     var user = {};
     user['user_id'] = localStorage.getItem('user_id');
     sendAjaxQuery(url, user);
-    getStars();
+    // getStars();
 }
 
 
@@ -268,7 +268,7 @@ function getStar(story_id) {
     });
 }
 
-function getStars() {
+function getStars(stories) {
     $.ajax({
         url: '/get-stars',
         dataType: 'JSON',
@@ -285,7 +285,7 @@ function getStars() {
                 object[story]=rate;
                 users[item.user_id].push(object);
             })
-            getRecommendations(users);
+            getRecommendations(users,stories);
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -293,7 +293,7 @@ function getStars() {
     });
 }
 
-function getRecommendations(users) {
+function getRecommendations(users, stories) {
     // users = {users: users};
     users = JSON.stringify(users);
     let user_id = localStorage.getItem("user_id");
@@ -304,12 +304,23 @@ function getRecommendations(users) {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            console.log(dataR);
+            console.log('dataR',dataR);
+            console.log('stories',stories)
+            // todo compare
+
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
         }
     });
+}
+
+/**
+ * display stories by selected method
+ * @param sortMethod
+ */
+function sortBy(sortMethod) {
+    $("#dropdownMenu2").text('Sort by: '+ sortMethod);
 }
 
 /**
@@ -353,6 +364,7 @@ function sendAjaxQuery(url, user) {
             const result = Object.values({...dataR})
             // catch response data to indexedDB & show response to the main page
             $("#results").html('')
+            getStars(result)
             showStoriesList(result)
             showCommentAndLikeAccordingToStoryId(result)
         },

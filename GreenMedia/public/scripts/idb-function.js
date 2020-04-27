@@ -94,7 +94,7 @@ function storeCachedData(index, obj, STORE_NAME) {
                 console.log("put error")
             })
         }).then(function (value) {
-            console.log("add to indexedDB", JSON.stringify(obj))
+            // console.log("add to indexedDB", JSON.stringify(obj))
         }).catch(function () {
             localStorage.setItem(index, JSON.stringify(obj))
         });

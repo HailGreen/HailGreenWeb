@@ -38,14 +38,13 @@ function addNameList() {
     })
 }
 
-
 function changeUser(username) {
     $("#dropdownMenu1").text(username);
     let userList = JSON.parse(localStorage.getItem("users"));
     userList.forEach(item => {
         if (username === item.user_name) {
-            localStorage.setItem('user_id',item.user_id);
-            localStorage.setItem('user_name',item.user_name);
+            localStorage.setItem('user_id', item.user_id);
+            localStorage.setItem('user_name', item.user_name);
         }
 
     });
@@ -53,17 +52,13 @@ function changeUser(username) {
     getStories();
 }
 
-
 var uploadFiles = [];
-var socket = io.connect('https://localhost:3000');
 
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
         $("#upload-pics").hide();
     }
 });
-
-
 
 /**
  * import release button and model part of the HTML
@@ -85,14 +80,12 @@ function changePic(obj) {
 
 }
 
-
 function removePics(id) {
     var name = id + "-div";
     $("#" + name + "").remove();
     uploadFiles = uploadFiles.filter(obj => obj.name.indexOf(id) === -1);
     $("#upload-pics").show();
 }
-
 
 function getObjectURL(file) {
     var url = null;
@@ -105,7 +98,6 @@ function getObjectURL(file) {
     }
     return url;
 }
-
 
 function submitData() {
     // var form = document.getElementById('uploadData');
@@ -149,7 +141,6 @@ function sendAjaxInsert(url, submitData) {
         }
     });
 };
-
 
 /**
  * import story part of the HTML
@@ -222,25 +213,20 @@ function starAjax(obj) {
     });
 }
 
-function initStories() {
-    console.log("initStories")
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-            .register("/scripts/service-worker.js")
-            .then(function () {
-                console.log('Service Worker Registered')
-            })
-    }
-}
-
+/**
+ * init method: get stories form remote
+ */
 function getStories() {
     var url = '/show-story';
     var user = {};
     user['user_id'] = localStorage.getItem('user_id');
-    sendAjaxQuery(url, user);
-    // getStars();
+    var sortMethod = $('#dropdownMenu2').text()
+    if (sortMethod.indexOf('recommend') > -1) {
+        sendAjaxQuery(url, user, 'recommend');
+    } else {
+        sendAjaxQuery(url, user, 'timeline');
+    }
 }
-
 
 /**
  * get star by story id
@@ -256,7 +242,7 @@ function getStar(story_id) {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            dataR.forEach((item)=>{
+            dataR.forEach((item) => {
                 changeStarShow(item.rate, item.story_id)
                 // store like rate stars to indexedDB
                 storeCachedData('_id', item, STORE_STARS)
@@ -268,24 +254,28 @@ function getStar(story_id) {
     });
 }
 
+/**
+ * get all stars and display by recommend
+ * @param stories
+ */
 function getStars(stories) {
     $.ajax({
         url: '/get-stars',
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            let users={};
-            dataR.forEach(item=> {
-                if(!users[item.user_id]){
-                    users[item.user_id]=[];
+            let users = {};
+            dataR.forEach(item => {
+                if (!users[item.user_id]) {
+                    users[item.user_id] = [];
                 }
-                let story=item.story_id;
-                let rate=item.rate;
-                let object={};
-                object[story]=rate;
+                let story = item.story_id;
+                let rate = item.rate;
+                let object = {};
+                object[story] = rate;
                 users[item.user_id].push(object);
             })
-            getRecommendations(users,stories);
+            getRecommendations(users, stories);
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -293,6 +283,11 @@ function getStars(stories) {
     });
 }
 
+/**
+ * get recommend from remote
+ * @param users
+ * @param stories
+ */
 function getRecommendations(users, stories) {
     // users = {users: users};
     users = JSON.stringify(users);
@@ -304,9 +299,31 @@ function getRecommendations(users, stories) {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            console.log('dataR',dataR);
-            console.log('stories',stories)
-            // todo compare
+
+            //  compare and then display
+            var recommendIdArray = new Array()
+            var result = new Array()
+            var ratedResult = new Array()
+
+            dataR.forEach((item, index) => {
+                recommendIdArray[index] = item.story
+            })
+
+            stories.forEach((item, index) => {
+                let rank_index = recommendIdArray.indexOf(item._id)
+                if (rank_index > -1) {
+                    result[rank_index] = item
+                } else {
+                    ratedResult.push(item)
+                }
+            })
+
+            result = result.concat(ratedResult)
+            console.log('sorted', result)
+
+            // display
+            showStoriesList(result.reverse())
+            showCommentAndLikeAccordingToStoryId(result.reverse())
 
         },
         error: function (xhr, status, error) {
@@ -320,7 +337,11 @@ function getRecommendations(users, stories) {
  * @param sortMethod
  */
 function sortBy(sortMethod) {
-    $("#dropdownMenu2").text('Sort by: '+ sortMethod);
+    $("#dropdownMenu2").text('Sort by: ' + sortMethod);
+    var url = '/show-story';
+    var user = {};
+    user['user_id'] = localStorage.getItem('user_id');
+    sendAjaxQuery(url, user, sortMethod)
 }
 
 /**
@@ -337,10 +358,10 @@ function getComments(story_id) {
         type: 'POST',
         success: function (dataR) {
             $(`.list-group[story-id=${story_id}]`).html('')
-            dataR.forEach((item)=>{
-                changeCommentShow(item.text,item.user_name, story_id)
+            dataR.forEach((item) => {
+                changeCommentShow(item.text, item.user_name, story_id)
                 // store comment to indexedDB
-                storeCachedData('_id',item,STORE_COMMENTS)
+                storeCachedData('_id', item, STORE_COMMENTS)
             })
         },
         error: function (xhr, status, error) {
@@ -354,7 +375,7 @@ function getComments(story_id) {
  * @param url
  * @param user
  */
-function sendAjaxQuery(url, user) {
+function sendAjaxQuery(url, user, sortBy) {
     $.ajax({
         url: url,
         data: user,
@@ -364,9 +385,13 @@ function sendAjaxQuery(url, user) {
             const result = Object.values({...dataR})
             // catch response data to indexedDB & show response to the main page
             $("#results").html('')
-            getStars(result)
-            showStoriesList(result)
-            showCommentAndLikeAccordingToStoryId(result)
+            // display method
+            if (sortBy === 'recommend') {
+                getStars(result)
+            } else {
+                showStoriesList(result)
+                showCommentAndLikeAccordingToStoryId(result)
+            }
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -388,7 +413,7 @@ function formatTime(time) {
 function showStoriesList(result) {
     result.forEach((item) => {
         // store stories to indexedDB
-        storeCachedData('_id',item,STORE_STORIES)
+        storeCachedData('_id', item, STORE_STORIES)
 
         var imgsTempStr = ``
         item.pics.forEach((i) => {
@@ -476,7 +501,7 @@ function changeStarShow(starValue, storyId) {
  * @param user_name
  * @param story_id
  */
-function changeCommentShow(text,user_name, story_id) {
+function changeCommentShow(text, user_name, story_id) {
     $(`.list-group[story-id=${story_id}]`).append(
         `<li style="list-style-type:none">${user_name} : ${text}</li>`)
 }
@@ -528,8 +553,8 @@ function getCommentInIndexedDB() {
             } else {
                 console.log("res of posts", res);
                 // showStoriesList(res)
-                res.forEach(item=>{
-                    changeCommentShow(item.text,item.user_name, item.story_id)
+                res.forEach(item => {
+                    changeCommentShow(item.text, item.user_name, item.story_id)
                 })
             }
         }
@@ -555,14 +580,13 @@ function getStarsInIndexedDB() {
                 cursor.continue()
             } else {
                 console.log("res of posts", res);
-                res.forEach((item)=>{
-                    changeStarShow(item.rate,item.story_id)
+                res.forEach((item) => {
+                    changeStarShow(item.rate, item.story_id)
                 })
             }
         }
     }
 }
-
 
 /**
  * socket io

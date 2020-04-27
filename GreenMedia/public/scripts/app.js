@@ -69,12 +69,12 @@ function changeUser(username) {
     $("#dropdownMenu1").text(username);
     let userList = JSON.parse(localStorage.getItem("users"));
     userList.forEach(item => {
-        if (username !== item.user_name) {
+        if (username === item.user_name) {
             localStorage.setItem('user_id',item.user_id);
             localStorage.setItem('user_name',item.user_name);
         }
 
-    })
+    });
     addNameList();
     getStories();
 }

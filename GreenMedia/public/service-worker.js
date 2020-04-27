@@ -56,14 +56,14 @@ self.addEventListener('fetch', function (e) {
     var dataUrl = ['/get-comments','/get_user','/release-moments','/show-story','/add-comment','/get-star','/update-star'];
     //if the request is '/', post to the server - do nit try to cache it
     dataUrl.forEach(item=>{
-        let url="https://localhost:3000"+item;
-        if(url===e.request.url){
+        if (e.request.url.includes(item)){
             isDataUrl=true;
         }
     });
     if(e.request.url.includes("socket")){
         isDataUrl=true;
     }
+    // isDataUrl=true;
     if (isDataUrl) {
 
         return fetch(e.request).then(function (response) {

@@ -295,13 +295,16 @@ function getStars() {
 
 function getRecommendations(users) {
     // users = {users: users};
+    users = JSON.stringify(users);
+    let user_id = localStorage.getItem("user_id");
+    let input = {users: users, user_id: user_id}
     $.ajax({
         url: '/get-recommendations',
-        data: users,
+        data: input,
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            console.log('dataR',dataR)
+            console.log(dataR);
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

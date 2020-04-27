@@ -7,6 +7,7 @@ var index = require('../controllers/index');
 var comment = require('../controllers/comment');
 var star = require('../controllers/star');
 var bodyParser = require("body-parser");
+var Ranking= require('../CollectiveIntelligence/Ranking');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -39,15 +40,14 @@ router.post('/get-stars', star.getStars);
 router.put('/update-star', star.updateStar);
 
 router.post('/get-recommendations', function (req, res, next) {
-    let users = req.body;
-    console.log(users);
-    // users.forEach(item=>{
-    //     console.log(item)
-    // })
-    // let ranking= new Ranking();
-    // let results= ranking.topMatches(critics, name, 3, 'sim_pearson');
-    // res.setHeader('Content-Type', 'application/json');
+    let users = req.body.users;
+    let user_id = req.body.user_id;
+    let ranking= new Ranking();
+    let results = ranking.getRecommendations(users, user_id, 'sim_pearson');
+    res.setHeader('Content-Type', 'application/json');
     // res.send(JSON.stringify(results));
+    res.send(JSON.stringify("yes"));
+    console.log(JSON.stringify(results))
 });
 
 module.exports = router;

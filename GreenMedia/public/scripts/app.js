@@ -1,11 +1,11 @@
 /**
  * send ajax to the databse and save the information of user
  */
-$( async function () {
+$(function () {
     let url = '/get_user';
     let data = {userName: 'sysadmin'};
-    await getUserList();
-    await addNameList();
+    getUserList();
+    // await addNameList();
 });
 
 function getUserList() {
@@ -18,6 +18,7 @@ function getUserList() {
             localStorage.setItem('users', JSON.stringify(dataR));
             localStorage.setItem('user_id', dataR[0].user_id);
             localStorage.setItem('user_name', dataR[0].user_name);
+            addNameList()
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -300,7 +301,7 @@ function getRecommendations(users) {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-
+            console.log('dataR',dataR)
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

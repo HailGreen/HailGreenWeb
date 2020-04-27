@@ -385,7 +385,7 @@ function showStoriesList(result) {
 
         let time = formatTime(item.time);
 
-        $("#results").append(`<div class="media" story-id="${item._id}">\n` +
+        $("#results").prepend(`<div class="media" story-id="${item._id}">\n` +
             '                       <div class="media-left">\n' +
             '                         <a href="#">\n' +
             '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +

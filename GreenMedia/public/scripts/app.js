@@ -6,27 +6,7 @@ $(function () {
     let data = {userName: 'sysadmin'};
     getUserList();
     addNameList();
-    // $.ajax({
-    //     url: url,
-    //     data: data,
-    //     dataType: 'JSON',
-    //     type: 'Post',
-    //     success: function (dataR) {
-    //         console.log(dataR.user_name)
-    //         localStorage.setItem('user_id', dataR.user_id);
-    //         localStorage.setItem('user_name', dataR.user_name);
-    //     },
-    //     error: function (xhr, status, error) {
-    //         alert('Error: ' + error.message);
-    //     }
-    // });
 });
-
-
-// async function initUser() {
-//     await getUserList();
-//
-// }
 
 function getUserList() {
     $.ajax({
@@ -44,12 +24,6 @@ function getUserList() {
         }
     });
 }
-
-
-// function getUser() {
-//
-// }
-
 
 function addNameList() {
     $("#name-list").empty();
@@ -88,8 +62,6 @@ $("#add-pics").on("change", function () {
         $("#upload-pics").hide();
     }
 });
-
-
 
 
 
@@ -266,6 +238,7 @@ function getStories() {
     var user = {};
     user['user_id'] = localStorage.getItem('user_id');
     sendAjaxQuery(url, user);
+    getStars();
 }
 
 
@@ -301,7 +274,34 @@ function getStars() {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            console.log(dataR)
+            let users={};
+            dataR.forEach(item=> {
+                if(!users[item.user_id]){
+                    users[item.user_id]=[];
+                }
+                let story=item.story_id;
+                let rate=item.rate;
+                let object={};
+                object[story]=rate;
+                users[item.user_id].push(object);
+            })
+            getRecommendations(users);
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+}
+
+function getRecommendations(users) {
+    // users = {users: users};
+    $.ajax({
+        url: '/get-recommendations',
+        data: users,
+        dataType: 'JSON',
+        type: 'POST',
+        success: function (dataR) {
+
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

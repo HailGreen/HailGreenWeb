@@ -38,4 +38,16 @@ router.post('/get-stars', star.getStars);
 
 router.put('/update-star', star.updateStar);
 
+router.post('/get-recommendations', function (req, res, next) {
+    let users = req.body;
+    console.log(users);
+    // users.forEach(item=>{
+    //     console.log(item)
+    // })
+    // let ranking= new Ranking();
+    // let results= ranking.topMatches(critics, name, 3, 'sim_pearson');
+    // res.setHeader('Content-Type', 'application/json');
+    // res.send(JSON.stringify(results));
+});
+
 module.exports = router;

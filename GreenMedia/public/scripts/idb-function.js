@@ -2,6 +2,8 @@ var dbPromise;
 
 var DB_NAME = "db-green-media";
 var STORE_STORIES = "store-stories";
+var STORE_COMMENTS = "store-comments";
+var STORE_STARS = "store-stars"
 
 
 /**
@@ -10,7 +12,9 @@ var STORE_STORIES = "store-stories";
 function initDB() {
     dbPromise = idb.openDb(DB_NAME, 1, function (upgradeDB) {
         if (!upgradeDB.objectStoreNames.contains(DB_NAME)) {
-            initStoriesDB(upgradeDB);
+            initStoriesDB(upgradeDB)
+            initCommentDB(upgradeDB)
+            initStarsDB(upgradeDB)
         }
     })
 }
@@ -25,6 +29,35 @@ function initStoriesDB(upgradeDB) {
     blogDB.createIndex("pics", "pics", {unique: false, multiEntry: true});
     blogDB.createIndex("user_id", "user_id", {unique: false, multiEntry: true});
     blogDB.createIndex("mention", "mention", {unique: false, multiEntry: true});
+}
+
+/**
+ * init comment db
+ * @param upgradeDB
+ */
+function initCommentDB(upgradeDB) {
+    var blogDB = upgradeDB.createObjectStore(STORE_COMMENTS, {keyPath: "_id"});
+    blogDB.createIndex("_id", "_id", {unique: true});
+    blogDB.createIndex("user_id", "user_id", {unique: false, multiEntry: true});
+    blogDB.createIndex("story_id", "story_id", {unique: false, multiEntry: true});
+    blogDB.createIndex("user_name", "user_name", {unique: false, multiEntry: true});
+    blogDB.createIndex("text", "text", {unique: false, multiEntry: true});
+    blogDB.createIndex("_v", "_v", {unique: false, multiEntry: true});
+
+}
+
+/**
+ * init like rate stars db
+ * @param upgradeDB
+ */
+function initStarsDB(upgradeDB) {
+    var blogDB = upgradeDB.createObjectStore(STORE_STARS, {keyPath: "_id"});
+    blogDB.createIndex("_id", "_id", {unique: true});
+    blogDB.createIndex("user_id", "user_id", {unique: false, multiEntry: true});
+    blogDB.createIndex("story_id", "story_id", {unique: false, multiEntry: true});
+    blogDB.createIndex("rate", "rate", {unique: false, multiEntry: true});
+    blogDB.createIndex("_v", "_v", {unique: false, multiEntry: true});
+
 }
 
 /**

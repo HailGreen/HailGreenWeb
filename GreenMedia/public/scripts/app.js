@@ -223,6 +223,33 @@ function sendAjaxInsertComment(url, comment) {
     });
 }
 
+/**
+ * send star ajax
+ * @param obj
+ */
+function starAjax(obj) {
+    starValue = obj.getAttribute('value');
+    storyId = obj.getAttribute('story-id');
+    changeStarShow(starValue, storyId)
+
+    var star = {};
+    star['story_id'] = storyId;
+    star['user_id'] = localStorage.getItem("user_id");
+    star['rate'] = starValue;
+    $.ajax({
+        url: '/update-star',
+        data: star,
+        dataType: 'JSON',
+        type: 'PUT',
+        success: function (dataR) {
+            console.log(dataR)
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+}
+
 function initStories() {
     console.log("initStories")
     if ('serviceWorker' in navigator) {
@@ -241,6 +268,11 @@ function getStories() {
     sendAjaxQuery(url, user);
 }
 
+
+/**
+ * get star by story id
+ * @param story_id
+ */
 function getStar(story_id) {
     var star = {};
     star['story_id'] = story_id;
@@ -251,8 +283,10 @@ function getStar(story_id) {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            dataR.forEach((item) => {
+            dataR.forEach((item)=>{
                 changeStarShow(item.rate, item.story_id)
+                // store like rate stars to indexedDB
+                storeCachedData('_id', item, STORE_STARS)
             })
         },
         error: function (xhr, status, error) {
@@ -275,6 +309,10 @@ function getStars() {
     });
 }
 
+/**
+ * get comments by story id, success: save
+ * @param story_id
+ */
 function getComments(story_id) {
     var story = {};
     story['story_id'] = story_id;
@@ -285,8 +323,10 @@ function getComments(story_id) {
         type: 'POST',
         success: function (dataR) {
             $(`.list-group[story-id=${story_id}]`).html('')
-            dataR.forEach((item) => {
-                $(`.list-group[story-id=${story_id}]`).append(`<li style="list-style-type:none">${item.user_name} : ${item.text}</li>`)
+            dataR.forEach((item)=>{
+                changeCommentShow(item.text,item.user_name, story_id)
+                // store comment to indexedDB
+                storeCachedData('_id',item,STORE_COMMENTS)
             })
         },
         error: function (xhr, status, error) {
@@ -308,10 +348,10 @@ function sendAjaxQuery(url, user) {
         type: 'POST',
         success: function (dataR) {
             const result = Object.values({...dataR})
-
             // catch response data to indexedDB & show response to the main page
             $("#results").html('')
             showStoriesList(result)
+            showCommentAndLikeAccordingToStoryId(result)
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -321,6 +361,10 @@ function sendAjaxQuery(url, user) {
     });
 }
 
+function formatTime(time) {
+    console.log(time);
+    return time.replace("T", " ").slice(0, -8);
+}
 
 /**
  * show / append stories on the main page
@@ -328,6 +372,8 @@ function sendAjaxQuery(url, user) {
  */
 function showStoriesList(result) {
     result.forEach((item) => {
+        // store stories to indexedDB
+        storeCachedData('_id',item,STORE_STORIES)
 
         var imgsTempStr = ``
         item.pics.forEach((i) => {
@@ -358,15 +404,15 @@ function showStoriesList(result) {
             `                       <a onclick="addComment('${item._id}')" class="word-button"><span class="glyphicon glyphicon-comment"\n` +
             `                                                                            aria-hidden="true"></span> comment</a> &nbsp \n` +
             '                       <a class="word-button"> \n' +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
             `                                  value="1" story-id="${item._id}"></span>\n` +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
             `                                  value="2" story-id="${item._id}"></span>\n` +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
             `                                  value="3" story-id="${item._id}"></span>\n` +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
             `                                  value="4" story-id="${item._id}"></span>\n` +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="likeRate(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
             `                                  value="5" story-id="${item._id}"></span>\n` +
             '                       </a>\n' +
             '                     </div>\n' +
@@ -378,16 +424,20 @@ function showStoriesList(result) {
             '                   </div>\n' +
             '                     </div>')
 
-        getComments(item._id)
-        getStar(item._id)
-        storeCachedData("_id", item, STORE_STORIES)
-        $("#unread-stories").html(0)
     });
+
 }
 
-function formatTime(time) {
-    console.log(time);
-    return time.replace("T", " ").slice(0, -8);
+/**
+ * send ajax to get star and comments
+ * @param result
+ */
+function showCommentAndLikeAccordingToStoryId(result) {
+    result.forEach((item) => {
+        getComments(item._id)
+        getStar(item._id)
+    })
+    $("#unread-stories").html(0)
 }
 
 /**
@@ -405,36 +455,24 @@ function changeStarShow(starValue, storyId) {
     }
 }
 
-function likeRate(obj) {
-    starValue = obj.getAttribute('value');
-    storyId = obj.getAttribute('story-id');
-    changeStarShow(starValue, storyId)
-
-    var star = {};
-    star['story_id'] = storyId;
-    star['user_id'] = localStorage.getItem("user_id");
-    star['rate'] = starValue;
-    $.ajax({
-        url: '/update-star',
-        data: star,
-        dataType: 'JSON',
-        type: 'PUT',
-        success: function (dataR) {
-            console.log(dataR)
-        },
-        error: function (xhr, status, error) {
-            alert('Error: ' + error.message);
-        }
-    });
+/**
+ * change / amount the comment to stories
+ * @param text
+ * @param user_name
+ * @param story_id
+ */
+function changeCommentShow(text,user_name, story_id) {
+    $(`.list-group[story-id=${story_id}]`).append(
+        `<li style="list-style-type:none">${user_name} : ${text}</li>`)
 }
 
 /**
- * get stories from indexedDB
+ * get stories from indexedDB -> display -> get comments & stars
  */
 function getStoriesInIndexedDB() {
     var req = window.indexedDB.open(DB_NAME, 1);
     req.onsuccess = function (ev) {
-        console.log("indexed db post success");
+        console.log("indexed db connect success");
         var db = ev.target.result;
         var tx = db.transaction([STORE_STORIES], "readonly");
         var store = tx.objectStore(STORE_STORIES);
@@ -448,6 +486,63 @@ function getStoriesInIndexedDB() {
             } else {
                 console.log("res of posts", res);
                 showStoriesList(res)
+                getCommentInIndexedDB()
+                getStarsInIndexedDB()
+            }
+        }
+    }
+}
+
+/**
+ * get comments from indexedDB -> amount to story
+ */
+function getCommentInIndexedDB() {
+    var req = window.indexedDB.open(DB_NAME, 1);
+    req.onsuccess = function (ev) {
+        console.log("indexed db connect success");
+        var db = ev.target.result;
+        var tx = db.transaction([STORE_COMMENTS], "readonly");
+        var store = tx.objectStore(STORE_COMMENTS);
+        var r = store.openCursor();
+        var res = [];
+        r.onsuccess = function (ev1) {
+            var cursor = ev1.target.result;
+            if (cursor) {
+                res.push(cursor.value);
+                cursor.continue()
+            } else {
+                console.log("res of posts", res);
+                // showStoriesList(res)
+                res.forEach(item=>{
+                    changeCommentShow(item.text,item.user_name, item.story_id)
+                })
+            }
+        }
+    }
+}
+
+/**
+ * get stars from indexedDB -> amount to story
+ */
+function getStarsInIndexedDB() {
+    var req = window.indexedDB.open(DB_NAME, 1);
+    req.onsuccess = function (ev) {
+        console.log("indexed db connect success");
+        var db = ev.target.result;
+        var tx = db.transaction([STORE_STARS], "readonly");
+        var store = tx.objectStore(STORE_STARS);
+        var r = store.openCursor();
+        var res = [];
+        r.onsuccess = function (ev1) {
+            var cursor = ev1.target.result;
+            if (cursor) {
+                res.push(cursor.value);
+                cursor.continue()
+            } else {
+                console.log("res of posts", res);
+                res.forEach((item)=>{
+                    changeStarShow(item.rate,item.story_id)
+                })
             }
         }
     }

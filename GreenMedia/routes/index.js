@@ -40,14 +40,13 @@ router.post('/get-stars', star.getStars);
 router.put('/update-star', star.updateStar);
 
 router.post('/get-recommendations', function (req, res, next) {
-    let users = req.body.users;
+    let users = JSON.parse(req.body.users);
     let user_id = req.body.user_id;
     let ranking= new Ranking();
     let results = ranking.getRecommendations(users, user_id, 'sim_pearson');
     res.setHeader('Content-Type', 'application/json');
     // res.send(JSON.stringify(results));
-    res.send(JSON.stringify("yes"));
-    console.log(JSON.stringify(results))
+    res.send(JSON.stringify(results));
 });
 
 module.exports = router;

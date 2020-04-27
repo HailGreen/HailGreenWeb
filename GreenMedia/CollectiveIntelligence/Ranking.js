@@ -14,11 +14,11 @@ module.exports = class Rank {
 
         // Don't compare me to myself
         let prefsWithoutPerson = _.omit(prefs, person);
-
         _.forIn(prefsWithoutPerson, (value, key) => {
 
             let sim;
 
+            // key: person
             if (similarity === 'sim_pearson')
                 sim = Pearson.sim(prefs, person, key);
 
@@ -31,6 +31,7 @@ module.exports = class Rank {
             _.each(prefs[key], (pref) => {
 
                 let key = _.keys(pref)[0];
+                // Ignore myself
                 let seen = _.some(prefs[person], key);
 
                 if (!seen) {
@@ -51,7 +52,7 @@ module.exports = class Rank {
 
         let scores = _.map(totals, (value, key) => {
             return {
-                movie: key,
+                story: key,
                 score: value / simSums[key]
             }
         });

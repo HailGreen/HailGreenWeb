@@ -85,7 +85,7 @@ self.addEventListener('fetch', function (e) {
         })
     } else {
         e.respondWith(async function () {
-            const cache = await caches.open('mysite-dynamic');
+            const cache = await caches.open(cacheName);
             const cachedResponse = await cache.match(e.request);
             const networkResponsePromise = fetch(e.request);
 

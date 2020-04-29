@@ -1,16 +1,34 @@
 /**
- * send ajax to the databse and save the information of user
+ * these are the global variables and function
+ */
+
+var uploadFiles = [];
+var socket = io.connect('https://localhost:3000');
+
+$("#add-pics").on("change", function () {
+    if (uploadFiles.length === 3) {
+        $("#upload-pics").hide();
+    }
+});
+
+
+/**
+ * send ajax to the database and save the information of user
  */
 $(function () {
-    let url = '/get_user';
+    let url = '/get-user';
     let data = {userName: 'sysadmin'};
     getUserList();
     // await addNameList();
 });
 
+
+/**
+ * send ajax to the database and get all user list & information
+ */
 function getUserList() {
     $.ajax({
-        url: '/get_user_list',
+        url: '/get-user-list',
         data: null,
         dataType: 'JSON',
         type: 'get',
@@ -26,6 +44,10 @@ function getUserList() {
     });
 }
 
+
+/**
+ * get the name of the user list and add to the web
+ */
 function addNameList() {
     $("#name-list").empty();
     $("#dropdownMenu1").text(localStorage.getItem("user_name"));
@@ -39,6 +61,9 @@ function addNameList() {
 }
 
 
+/**
+ * in dropdown menu add click function to change the user
+ */
 function changeUser(username) {
     $("#dropdownMenu1").text(username);
     let userList = JSON.parse(localStorage.getItem("users"));
@@ -52,17 +77,6 @@ function changeUser(username) {
     addNameList();
     getStories();
 }
-
-
-var uploadFiles = [];
-var socket = io.connect('https://localhost:3000');
-
-$("#add-pics").on("change", function () {
-    if (uploadFiles.length === 3) {
-        $("#upload-pics").hide();
-    }
-});
-
 
 
 /**
@@ -86,6 +100,9 @@ function changePic(obj) {
 }
 
 
+/**
+ * remove the pics from the modal dialog
+ */
 function removePics(id) {
     var name = id + "-div";
     $("#" + name + "").remove();
@@ -94,6 +111,9 @@ function removePics(id) {
 }
 
 
+/**
+ * use the uploaded file and find the current browser to get the url
+ */
 function getObjectURL(file) {
     var url = null;
     if (window.createObjectURL !== undefined) { // basic
@@ -107,11 +127,18 @@ function getObjectURL(file) {
 }
 
 
+/**
+ * click function to send data in release story
+ */
 function submitData() {
     // var form = document.getElementById('uploadData');
     sendAjaxInsert('/release-story', onSubmit());
 };
 
+
+/**
+ * click function to send data in release story
+ */
 function onSubmit() {
     var formArray = $("form").serializeArray();
     var formData = new FormData();
@@ -126,6 +153,10 @@ function onSubmit() {
     return formData;
 };
 
+
+/**
+ * send ajax to insert story to mongodb
+ */
 function sendAjaxInsert(url, submitData) {
     $.ajax({
         url: url,
@@ -165,10 +196,18 @@ function addComment(story_id) {
         '                          </form>');
 }
 
+
+/**
+ * remove dom children in web to empty the li label
+ */
 function removeComment() {
     $("#comment-li").remove();
 }
 
+
+/**
+ * click function to send data in release story
+ */
 function insertComment(story_id) {
     let comment = {};
     comment["user_id"] = localStorage.getItem("user_id");

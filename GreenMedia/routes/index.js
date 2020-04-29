@@ -21,7 +21,7 @@ router.post('/get-comments', comment.getComments);
 router.post('/get_user', index.getUser);
 
 /* get user list */
-router.get('/get_user_list', index.getUserList);
+router.get('/get-user-list', index.getUserList);
 
 /* send words & pics */
 router.post('/release-story', upload.array('files', 3), story.insertStory);

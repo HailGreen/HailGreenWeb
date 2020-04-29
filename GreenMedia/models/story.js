@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var Release = new Schema(
+var Story = new Schema(
     {
 
         user_id: {type: String, required: true, max: 100},
@@ -14,6 +14,6 @@ var Release = new Schema(
 );
 
 
-var releaseModel = mongoose.model('Release', Release,'release' );
+var storyModel = mongoose.model('Story', Story,'story' );
 
-module.exports = releaseModel;
+module.exports = storyModel;

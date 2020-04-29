@@ -2,11 +2,10 @@ var express = require('express');
 var multer = require('multer')
 var upload = multer({dest: 'public/images/uploads/'})
 var router = express.Router();
-var release = require('../controllers/release');
+var story = require('../controllers/story');
 var index = require('../controllers/index');
 var comment = require('../controllers/comment');
 var star = require('../controllers/star');
-var bodyParser = require("body-parser");
 var Ranking= require('../CollectiveIntelligence/Ranking');
 
 /* GET home page. */
@@ -25,10 +24,10 @@ router.post('/get_user',index.getUser);
 router.get('/get_user_list',index.getUserList);
 
 /*send words & pics*/
-router.post('/release-moments', upload.array('files', 3), release.insert);
+router.post('/release-story', upload.array('files', 3), story.insertStory);
 
 /*get stories*/
-router.post('/show-story', release.getStories);
+router.post('/show-story', story.getStories);
 
 /*get stories*/
 router.post('/add-comment', comment.insert);

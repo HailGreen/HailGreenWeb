@@ -1,24 +1,23 @@
-let Release = require('../models/release');
+let Story = require('../models/story');
 
 
-exports.insert = function (req, res) {
+exports.insertStory = function (req, res) {
     let mention = req.body.mention;
     let pics = req.files;
     let id = req.body.id;
     let username=req.body.username;
 
     try {
-        let release = new Release({
+        let release = new Story({
             user_id: id,
             username:username,
             mention: mention,
             pics: pics,
             time:new Date(),
         });
-        console.log('received: ' + release);
 
-        release.save(function (err, results) {
-            console.log(results._id);
+        release.save(function (err) {
+
             if (err)
                 res.status(500).send('Invalid data!');
 
@@ -33,18 +32,12 @@ exports.insert = function (req, res) {
 
 
 exports.getStories = function (req, res) {
-    let userData = req.body;
-    console.log(req.body)
     try {
-        Release.find(
-            function (err, releases) {
+        Story.find(
+            function (err, stories) {
                 if (err)
                     res.status(500).send('Invalid data!');
-                // var release =null;
-                if (releases.length>0) {
-                    // var firstElem = releases[0];
-                    var stories = releases;
-                }
+
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(stories));
             });

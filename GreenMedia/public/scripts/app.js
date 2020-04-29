@@ -38,6 +38,7 @@ function addNameList() {
     })
 }
 
+
 function changeUser(username) {
     $("#dropdownMenu1").text(username);
     let userList = JSON.parse(localStorage.getItem("users"));
@@ -52,13 +53,17 @@ function changeUser(username) {
     getStories();
 }
 
+
 var uploadFiles = [];
+var socket = io.connect('https://localhost:3000');
 
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
         $("#upload-pics").hide();
     }
 });
+
+
 
 /**
  * import release button and model part of the HTML
@@ -80,12 +85,14 @@ function changePic(obj) {
 
 }
 
+
 function removePics(id) {
     var name = id + "-div";
     $("#" + name + "").remove();
     uploadFiles = uploadFiles.filter(obj => obj.name.indexOf(id) === -1);
     $("#upload-pics").show();
 }
+
 
 function getObjectURL(file) {
     var url = null;
@@ -99,9 +106,10 @@ function getObjectURL(file) {
     return url;
 }
 
+
 function submitData() {
     // var form = document.getElementById('uploadData');
-    sendAjaxInsert('/release-moments', onSubmit());
+    sendAjaxInsert('/release-story', onSubmit());
 };
 
 function onSubmit() {
@@ -141,6 +149,7 @@ function sendAjaxInsert(url, submitData) {
         }
     });
 };
+
 
 /**
  * import story part of the HTML
@@ -227,6 +236,7 @@ function getStories() {
         sendAjaxQuery(url, user, 'timeline');
     }
 }
+
 
 /**
  * get star by story id
@@ -587,6 +597,7 @@ function getStarsInIndexedDB() {
         }
     }
 }
+
 
 /**
  * socket io

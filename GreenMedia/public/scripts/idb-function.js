@@ -83,7 +83,6 @@ function putData(db, obj) {
  * @param STORE_NAME the specific IDB store name
  */
 function storeCachedData(index, obj, STORE_NAME) {
-    // console.log("inserting:", JSON.stringify(obj));
     if (dbPromise) {
         dbPromise.then(function (db) {
             var tx = db.transaction(STORE_NAME, "readwrite");
@@ -94,7 +93,6 @@ function storeCachedData(index, obj, STORE_NAME) {
                 console.log("put error")
             })
         }).then(function (value) {
-            // console.log("add to indexedDB", JSON.stringify(obj))
         }).catch(function () {
             localStorage.setItem(index, JSON.stringify(obj))
         });
@@ -103,6 +101,10 @@ function storeCachedData(index, obj, STORE_NAME) {
     }
 }
 
+
+/**
+ * check if the window support indexedDB
+ */
 if ("indexedDB" in window) {
     initDB()
 } else {

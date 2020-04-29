@@ -6,46 +6,49 @@ var story = require('../controllers/story');
 var index = require('../controllers/index');
 var comment = require('../controllers/comment');
 var star = require('../controllers/star');
-var Ranking= require('../CollectiveIntelligence/Ranking');
+var Ranking = require('../CollectiveIntelligence/Ranking');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
-
+/* get comments */
 router.post('/get-comments', comment.getComments);
 
-/*post function*/
+/* post function */
+/* get the user */
+router.post('/get_user', index.getUser);
 
-/*get the user*/
-router.post('/get_user',index.getUser);
+/* get user list */
+router.get('/get_user_list', index.getUserList);
 
-router.get('/get_user_list',index.getUserList);
-
-/*send words & pics*/
+/* send words & pics */
 router.post('/release-story', upload.array('files', 3), story.insertStory);
 
-/*get stories*/
+/* get stories */
 router.post('/show-story', story.getStories);
 
-/*get stories*/
+/* add comment */
 router.post('/add-comment', comment.insert);
 
+/* get like rate */
 router.post('/get-star', star.getStar);
 
+/* get all stars dic for recommendation */
 router.post('/get-stars', star.getStars);
 
-router.put('/update-star', star.updateStar);
-
+/* get stories by recommended order */
 router.post('/get-recommendations', function (req, res, next) {
     let users = JSON.parse(req.body.users);
     let user_id = req.body.user_id;
-    let ranking= new Ranking();
+    let ranking = new Ranking();
     let results = ranking.getRecommendations(users, user_id, 'sim_pearson');
     res.setHeader('Content-Type', 'application/json');
-    // res.send(JSON.stringify(results));
     res.send(JSON.stringify(results));
 });
+
+/* update like rate stars */
+router.put('/update-star', star.updateStar);
 
 module.exports = router;

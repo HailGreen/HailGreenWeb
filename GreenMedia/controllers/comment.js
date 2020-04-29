@@ -1,7 +1,7 @@
 let Comment = require('../models/comment');
 
 
-exports.insert = function (req, res) {
+exports.insertComment = function (req, res) {
     let user_id = req.body.user_id;
     let story_id = req.body.story_id;
     let user_name = req.body.user_name;

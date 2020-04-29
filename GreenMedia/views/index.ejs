@@ -7,47 +7,34 @@
     <title>GreenMedia</title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
-
-
-    <!-- TODO add manifest here -->
     <link rel="manifest" href="/manifest.json">
-    <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="GreenMedia">
-    <!--<link rel="apple-touch-icon" href="images/icons/icon-152x152.png">-->
-    <!--<meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">-->
-    <!--<meta name="msapplication-TileColor" content="#2F3BA2">-->
-
     <script src="/scripts/jquery.min.js"></script>
-    <!-- Latest compiled JavaScript -->
     <script src="/scripts/bootstrap.min.js"></script>
     <script src="/scripts/idb.js"></script>
     <script src="/scripts/idb-function.js"></script>
     <script src="/scripts/socket.io.2.2.0.js"></script>
     <script src="/scripts/init-service-worker.js"></script>
-
 </head>
 <body onload="getStories()">
 <div>
-
+    <!-- user -->
     <div class="panel panel-default">
         <div class="panel-body" style="margin-right: 30px">
-
             <img src="/images/icons/user.svg" alt="user" height="32" width="32" class="float-right">
             <div class="dropdown" style="display: inline;float: right;margin-right: 30px">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="true">
-
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="name-list" >
-                </ul>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="name-list"></ul>
             </div>
-
         </div>
     </div>
 
+    <!-- release button-->
     <div style="height:30px;margin-bottom: 10px;margin-right: 15px">
         <button type="button" class="btn btn-primary btn-sm float-right " data-toggle="modal"
                 data-target="#releaseModal">
@@ -55,8 +42,7 @@
         </button>
     </div>
 
-
-    <!--modal-->
+    <!-- release modal dialog -->
     <div class="modal fade" id="releaseModal" tabindex="-1" role="dialog" aria-labelledby="releaseModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -68,22 +54,19 @@
                 <div class="modal-body">
                     <form id="uploadData" onsubmit="return false;" enctype="multipart/form-data">
                         <textarea class="submit-textarea" name="mention" id="mention"></textarea>
-
                         <div class="row" id="add-pics">
-
                             <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" id="upload-pics">
                                 <button class="add-pic-default-button">
-                                    <div class="center-position"><span
-                                                class="glyphicon glyphicon-plus" aria-hidden="true"></span>upload
-                                        pics，</br>
-                                        insist jpg/png<input type="file" name="file" accept="image/*" id="upload"
-                                                             class="hidden-upload" multiple onchange="changePic(this)">
+                                    <div class="center-position">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        upload pics，</br>
+                                        insist jpg/png
+                                        <input type="file" name="file" accept="image/*" id="upload"
+                                               class="hidden-upload" multiple onchange="changePic(this)">
                                     </div>
                                 </button>
                             </div>
-
                         </div>
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             <input type="submit" class="btn btn-primary" value="Submit" onclick="submitData()">
@@ -92,14 +75,13 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 
+    <!-- sort method button -->
     <div style="height:30px;margin-bottom: 10px">
         <div class="dropdown" style="display: inline; margin-left: 10px">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true">
                 Sort By : timeline<span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2" id="name-list">
@@ -107,29 +89,19 @@
                 <li><a onclick="sortBy(this.name)" name="recommend">recommend</a></li>
             </ul>
         </div>
-
         <button type="button" class="btn float-right" onclick="getStories()">
             New Stories <span class="badge badge-light" id="unread-stories">0</span>
         </button>
-        <!--<button onclick="getStories()" type="button" class="btn btn-primary btn-sm float-right">-->
-        <!--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> initStorie-->
-        <!--</button>-->
     </div>
+
+    <!-- main body-->
     <div class="panel panel-default">
         <div class="panel-body">
-            <div id="results">
-            </div>
-
+            <div id="results"></div>
         </div>
     </div>
-
 </div>
 <script src="/scripts/app.js"></script>
 </body>
 </html>
-
-
-<script type="text/javascript">
-
-
-</script>
+<script type="text/javascript"></script>

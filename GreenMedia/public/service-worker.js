@@ -52,25 +52,27 @@ self.addEventListener('activate', function (e) {
 
 self.addEventListener('fetch', function (e) {
     console.log('[Service Worker] Fetch', e.request.url);
-    let isDataUrl=false;
+    let isDataUrl = false;
     var dataUrl = ['/get-comments',
-        '/get_user',
-        '/release-moments',
+        '/get-user',
+        '/get-user-list',
+        '/release-story',
         '/show-story',
-        '/add-comment',
+        '/insert-comment',
         '/get-star',
+        '/get-stars',
         '/update-star',
         '/get-recommendations'];
     //if the request is '/', post to the server - do nit try to cache it
-    dataUrl.forEach(item=>{
-        if (e.request.url.includes(item)){
-            isDataUrl=true;
+    dataUrl.forEach(item => {
+        console.log(e.request.url)
+        if (e.request.url.includes(item)) {
+            isDataUrl = true;
         }
     });
-    if(e.request.url.includes("socket")){
-        isDataUrl=true;
+    if (e.request.url.includes("socket")) {
+        isDataUrl = true;
     }
-    // isDataUrl=true;
     if (isDataUrl) {
 
         return fetch(e.request).then(function (response) {

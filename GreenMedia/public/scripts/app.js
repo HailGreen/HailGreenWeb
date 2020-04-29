@@ -446,8 +446,12 @@ function sendAjaxQuery(url, user, sortBy) {
     });
 }
 
+
+/**
+ * format the time zone
+ * @param time
+ */
 function formatTime(time) {
-    console.log(time);
     return time.replace("T", " ").slice(0, -8);
 }
 

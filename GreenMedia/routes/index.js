@@ -18,7 +18,7 @@ router.post('/get-comments', comment.getComments);
 
 /* post function */
 /* get the user */
-router.post('/get_user', index.getUser);
+router.post('/get-user', index.getUser);
 
 /* get user list */
 router.get('/get-user-list', index.getUserList);

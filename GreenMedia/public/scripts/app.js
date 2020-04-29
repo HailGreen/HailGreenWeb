@@ -170,17 +170,13 @@ function removeComment() {
 }
 
 function insertComment(story_id) {
-    var comment = {};
+    let comment = {};
     comment["user_id"] = localStorage.getItem("user_id");
     comment["story_id"] = story_id;
     comment["user_name"] = localStorage.getItem("user_name");
     comment["text"] = $("#text1").val();
-    sendAjaxInsertComment('/add-comment', comment);
-}
-
-function sendAjaxInsertComment(url, comment) {
     $.ajax({
-        url: url,
+        url: '/insert-comment',
         data: comment,
         dataType: 'json',
         type: 'POST',
@@ -195,11 +191,12 @@ function sendAjaxInsertComment(url, comment) {
     });
 }
 
+
 /**
  * send star ajax
  * @param obj
  */
-function starAjax(obj) {
+function updateStar(obj) {
     starValue = obj.getAttribute('value');
     storyId = obj.getAttribute('story-id');
     changeStarShow(starValue, storyId)
@@ -213,8 +210,7 @@ function starAjax(obj) {
         data: star,
         dataType: 'JSON',
         type: 'PUT',
-        success: function (dataR) {
-            console.log(dataR)
+        success: function () {
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -454,15 +450,15 @@ function showStoriesList(result) {
             `                       <a onclick="addComment('${item._id}')" class="word-button"><span class="glyphicon glyphicon-comment"\n` +
             `                                                                            aria-hidden="true"></span> comment</a> &nbsp \n` +
             '                       <a class="word-button"> \n' +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
             `                                  value="1" story-id="${item._id}"></span>\n` +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
             `                                  value="2" story-id="${item._id}"></span>\n` +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
             `                                  value="3" story-id="${item._id}"></span>\n` +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
             `                                  value="4" story-id="${item._id}"></span>\n` +
-            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="starAjax(this)"\n' +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
             `                                  value="5" story-id="${item._id}"></span>\n` +
             '                       </a>\n' +
             '                     </div>\n' +

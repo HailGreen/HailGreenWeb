@@ -29,8 +29,8 @@ router.post('/release-story', upload.array('files', 3), story.insertStory);
 /* get stories */
 router.post('/show-story', story.getStories);
 
-/* add comment */
-router.post('/add-comment', comment.insert);
+/* insert comment */
+router.post('/insert-comment', comment.insertComment);
 
 /* get like rate */
 router.post('/get-star', star.getStar);

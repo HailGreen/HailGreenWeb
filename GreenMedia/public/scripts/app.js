@@ -1,18 +1,4 @@
 /**
- * these are the global variables and function
- */
-
-var uploadFiles = [];
-var socket = io.connect('https://localhost:3000');
-
-$("#add-pics").on("change", function () {
-    if (uploadFiles.length === 3) {
-        $("#upload-pics").hide();
-    }
-});
-
-
-/**
  * send ajax to the database and save the information of user
  */
 $(function () {
@@ -21,6 +7,53 @@ $(function () {
     getUserList();
     // await addNameList();
 });
+
+
+/**
+ * these are the global variables and function
+ */
+var uploadFiles = [];
+$("#add-pics").on("change", function () {
+    if (uploadFiles.length === 3) {
+        $("#upload-pics").hide();
+    }
+});
+
+
+/**
+ * When the client gets off-line, it hides release button
+ */
+window.addEventListener('offline', function (e) {
+    // Queue up events for server.
+    showOffline();
+}, false);
+
+/**
+ * When the client gets online, it show release button
+ */
+window.addEventListener('online', function (e) {
+    // Resync data with server.
+    hideOffline();
+    getStories();
+}, false);
+
+
+/**
+ * the function to hide release button
+ */
+function showOffline() {
+    localStorage.setItem("isOnline", "false");
+    $("#release").css('display', 'none');
+}
+
+
+/**
+ * the function to display release button
+ */
+function hideOffline() {
+    localStorage.setItem("isOnline", "true");
+    $("#release").css('display', 'block');
+}
 
 
 /**
@@ -39,7 +72,10 @@ function getUserList() {
             addNameList()
         },
         error: function (xhr, status, error) {
-            alert('Error: ' + error.message);
+            if (localStorage.getItem("isOnline") === "true") {
+                alert('Error: ' + error.message);
+            }
+
         }
     });
 }
@@ -439,9 +475,15 @@ function sendAjaxQuery(url, user, sortBy) {
             }
         },
         error: function (xhr, status, error) {
-            alert('Error: ' + error.message);
+            if (localStorage.getItem("isOnline") === "true") {
+                alert('Error: ' + error.message);
+                $("#release").css('display', 'block');
+            } else {
+                $("#release").css('display', 'none');
+            }
             // get indexedDB cache
-            getStoriesInIndexedDB()
+            getStoriesInIndexedDB();
+
         }
     });
 }
@@ -647,3 +689,6 @@ socket.on('story-updated', function (count) {
     $("#unread-stories").html(count)
 })
 socket.emit('connected');
+
+
+

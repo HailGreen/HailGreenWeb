@@ -74,15 +74,15 @@ self.addEventListener('fetch', function (e) {
         isDataUrl = true;
     }
     if (isDataUrl) {
-
-        return fetch(e.request).then(function (response) {
-            // note: it the network is down, response will contain the error
-            // that will be passed to Ajax
-
-            return response;
-        }).catch(function (e) {
-            console.log("service worker error 1: " + e.message);
-        })
+        // if the url is request for remote data, do nothing
+        // return fetch(e.request).then(function (response) {
+        //     // note: it the network is down, response will contain the error
+        //     // that will be passed to Ajax
+        //
+        //     return response;
+        // }).catch(function (e) {
+        //     console.log("service worker error 1: " + e.message);
+        // })
     } else {
         e.respondWith(async function () {
             const cache = await caches.open(cacheName);

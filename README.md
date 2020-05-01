@@ -19,7 +19,7 @@ This project is called GreenMedia. It is the assignment of the Intelligent Web o
 ### Node.js
 
   1. Download [node.js](https://nodejs.org/en/) from the official website.<br>
-  2. Install node.js.  In terminal, run  `npm -v ` and `node -v` .
+  2. Install node.js.  In terminal, run `npm -v ` and `node -v` .
       If it shows version number. Install success.
 
 ### Dependencies
@@ -38,7 +38,16 @@ This project is called GreenMedia. It is the assignment of the Intelligent Web o
     
   3. Init database
 
-     Execute the script file in root path`initDatabase` in database tool
+     Execute the script file in root path `initDatabase` in database tool
+
+
+### Chrome Setting
+
+  1. open chrome form terminal
+
+     ```shell
+     /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --user-data-dir=/tmp/foo --ignore-certificate-errors --unsafely-treat-insecure-origin-as-secure=https://localhost:3000
+     ```
 
      
 
@@ -47,4 +56,4 @@ Open Node.js project path `/GreenMedia` in **webstorm**
 
 Run file `/bin/www`
 
-Open URL in browser: https://localhost:3000/
+Open URL in browser opened above: https://localhost:3000/

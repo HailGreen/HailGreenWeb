@@ -5,18 +5,18 @@ exports.insertStory = function (req, res) {
     let mention = req.body.mention;
     let pics = req.files;
     let id = req.body.id;
-    let username=req.body.username;
+    let username = req.body.username;
 
     try {
-        let release = new Story({
+        let story = new Story({
             user_id: id,
-            username:username,
+            username: username,
             mention: mention,
             pics: pics,
-            time:new Date(),
+            time: new Date(),
         });
 
-        release.save(function (err) {
+        story.save(function (err) {
 
             if (err)
                 res.status(500).send('Invalid data!');
@@ -42,6 +42,6 @@ exports.getStories = function (req, res) {
                 res.send(JSON.stringify(stories));
             });
     } catch (e) {
-        res.status(500).send('error '+ e);
+        res.status(500).send('error ' + e);
     }
 }

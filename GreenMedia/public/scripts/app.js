@@ -13,11 +13,17 @@ $(function () {
  * these are the global variables and function
  */
 var uploadFiles = [];
+var mediaStreamTrack = null; // the object of camera stream
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
         $("#upload-pics").hide();
+        $("#camera").hide();
     }
 });
+$('#cameraModal').on('hide.bs.modal', function (e) {
+    closeMedia();
+});
+
 
 
 /**
@@ -121,17 +127,23 @@ function changeUser(username) {
 function changePic(obj) {
     if (uploadFiles.length < 3 && uploadFiles.length + obj.files.length <= 3) {
         Array.from(obj.files).forEach((value, index) => {
-            uploadFiles.push({value: value, name: value.name});
-            var newsrc = getObjectURL(obj.files[index]);
-            $("#add-pics").prepend(' <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 pic" id="' + value.name.split(".")[0] + '-div">\n' +
-                '\n' +
-                '<img src="' + newsrc + '" alt="pics" height="100px" width="100%">\n' +
-                '<span class="glyphicon glyphicon-remove remove-button-pics" aria-hidden="true" id="' + value.name.split(".")[0] + '" onclick="removePics(this.id)" style="position:absolute"></span>\n' +
-                '</div>')
+            addPics(value);
         });
     } else {
         alert("You can only add 3 pics");
     }
+
+}
+
+
+function addPics(value) {
+    uploadFiles.push({value: value, name: value.name});
+    var newsrc = getObjectURL(value);
+    $("#add-pics").prepend(' <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 pic" id="' + value.name.split(".")[0] + '-div">\n' +
+        '\n' +
+        '<img src="' + newsrc + '" alt="pics" height="100px" width="100%">\n' +
+        '<span class="glyphicon glyphicon-remove remove-button-pics" aria-hidden="true" id="' + value.name.split(".")[0] + '" onclick="removePics(this.id)" style="position:absolute"></span>\n' +
+        '</div>')
 
 }
 
@@ -144,6 +156,7 @@ function removePics(id) {
     $("#" + name + "").remove();
     uploadFiles = uploadFiles.filter(obj => obj.name.indexOf(id) === -1);
     $("#upload-pics").show();
+    $("#camera").show();
 }
 
 
@@ -677,6 +690,92 @@ function getStarsInIndexedDB() {
             }
         }
     }
+}
+
+/**
+ * open the camera
+ */
+function openMedia() {
+    let constraints = {
+        video: {},
+        audio: false
+    };
+    //获得video摄像头
+    let video = document.getElementById('video');
+    let promise = navigator.mediaDevices.getUserMedia(constraints);
+    promise.then((mediaStream) => {
+        mediaStreamTrack = typeof mediaStream.stop === 'function' ? mediaStream : mediaStream.getTracks()[0];
+        video.srcObject = mediaStream;
+        video.play();
+    });
+}
+
+/**
+ * take photos
+ */
+function takePhoto() {
+    //获得Canvas对象
+    let video = document.getElementById('video');
+    let canvas = document.getElementById('canvas');
+    let width = $('#video').width();
+    let ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, width, 200);
+}
+
+/**
+ * close the camera
+ */
+function closeMedia() {
+    if (uploadFiles.length === 3) {
+        $("#upload-pics").hide();
+        $("#camera").hide();
+    }
+    ;
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    mediaStreamTrack.stop();
+
+}
+
+/**
+ * save photos to the dialog
+ */
+function savePhoto() {
+    if (!isCanvasBlank(document.getElementById('canvas'))) {
+        let img = document.getElementById('canvas').toDataURL();
+        let blob = changeDataUrlToBlob(img);
+        let file = new File([blob], Math.random().toString(36).slice(-8) + '.jpeg', {type: "image/jpeg"})
+        addPics(file);
+        $('#cameraModal').modal('hide');
+    } else {
+        alert("Please take a photo")
+    }
+
+}
+
+/**
+ * change base64 to blob
+ */
+function changeDataUrlToBlob(cutAvater) {
+    let arr = cutAvater.split(',')
+    let data = window.atob(arr[1])
+    let mime = arr[0].match(/:(.*?);/)[1]
+    let ia = new Uint8Array(data.length)
+    for (let i = 0; i < data.length; i++) {
+        ia[i] = data.charCodeAt(i)
+    }
+    return new Blob([ia], {type: mime})
+}
+
+/**
+ * check if the user take photos
+ */
+function isCanvasBlank(canvas) {
+    var blank = document.createElement('canvas');
+    blank.width = canvas.width;
+    blank.height = canvas.height;
+    return canvas.toDataURL() == blank.toDataURL();
 }
 
 

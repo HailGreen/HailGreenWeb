@@ -36,6 +36,7 @@
 
     <!-- release button-->
     <div style="height:30px;margin-bottom: 10px;margin-right: 15px">
+
         <button type="button" class="btn btn-primary btn-sm float-right " data-toggle="modal"
                 data-target="#releaseModal" id="release">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> release
@@ -49,11 +50,22 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="releaseModalLabel">Release Moments</h4>
+                    <h4 class="modal-title" id="releaseModalLabel">Release Story</h4>
                 </div>
                 <div class="modal-body">
                     <form id="uploadData" onsubmit="return false;" enctype="multipart/form-data">
                         <textarea class="submit-textarea" name="mention" id="mention"></textarea>
+
+
+                        <div class="row comment-button">
+                            <button type="button" class="btn btn-primary btn-sm margin-right-15 float-right "
+                                    data-toggle="modal"
+                                    data-target="#cameraModal" id="camera" onclick="openMedia()">
+                                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> take photo
+                            </button>
+                        </div>
+
+
                         <div class="row" id="add-pics">
                             <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" id="upload-pics">
                                 <button class="add-pic-default-button">
@@ -72,6 +84,38 @@
                             <input type="submit" class="btn btn-primary" value="Submit" onclick="submitData()">
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--take photo modal-->
+    <div class="modal fade " id="cameraModal" tabindex="-2" role="dialog" aria-labelledby="cameraModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="cameraModalLabel">Take Photo</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="height: 250px">
+
+                        <video id="video" class="col-xs-6 col-md-6 col-sm-6 col-lg-6" autoplay="autoplay"
+                               height="200px"></video>
+
+                        <canvas id="canvas" class="col-xs-6 col-md-6 col-sm-6 col-lg-6" height="200px"></canvas>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="takePhoto()"><span
+                                class="glyphicon glyphicon-camera" aria-hidden="true"></span></button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="savePhoto()">Save photos</button>
                 </div>
             </div>
         </div>
@@ -104,4 +148,12 @@
 <script src="/scripts/app.js"></script>
 </body>
 </html>
-<script type="text/javascript"></script>
+<script type="text/javascript">
+
+
+
+
+
+
+
+</script>

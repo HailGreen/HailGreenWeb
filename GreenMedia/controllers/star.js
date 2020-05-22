@@ -59,6 +59,21 @@ exports.getStar = function (req, res) {
     }
 }
 
+exports.getStoryStars = function (req, res) {
+    let story_id = req.body.story_id;
+    try {
+        Star.find({story_id: story_id},
+            function (err, stars) {
+                if (err)
+                    res.status(500).send('Invalid data!');
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(stars));
+            });
+    } catch (e) {
+        res.status(500).send('error '+ e);
+    }
+}
+
 exports.getStars = function (req, res) {
     try {
         Star.find(

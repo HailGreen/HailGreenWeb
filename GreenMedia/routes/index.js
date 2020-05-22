@@ -20,6 +20,8 @@ router.post('/get-comments', comment.getComments);
 /* get the user */
 router.post('/get-user', index.getUser);
 
+router.post('/get-user-id', index.getUserById);
+
 /* get user list */
 router.get('/get-user-list', index.getUserList);
 
@@ -37,6 +39,9 @@ router.post('/insert-comment', comment.insertComment);
 
 /* get like rate */
 router.post('/get-star', star.getStar);
+
+/* get one story's starts */
+router.post('/get-story-stars', star.getStoryStars);
 
 /* get all stars dic for recommendation */
 router.post('/get-stars', star.getStars);

@@ -418,6 +418,39 @@ function getStar(story_id) {
     });
 }
 
+function getStoryStars(story_id) {
+    let story = {};
+    let user_likes = {};
+    story['story_id'] = story_id;
+    $.ajax({
+        url: '/get-story-stars',
+        data: story,
+        dataType: 'JSON',
+        type: 'POST',
+        success: function (dataR) {
+            dataR.forEach((star) => {
+                let user = {};
+                user['user_id'] = star.user_id;
+                $.ajax({
+                    url: '/get-user-id',
+                    data: user,
+                    dataType: 'JSON',
+                    type: 'POST',
+                    success: function (user) {
+                        user_likes[user[0].username] = star.rate;
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error: ' + error.message);
+                    }
+                });
+            })
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+}
+
 /**
  * get all stars and display by recommend
  * @param stories
@@ -483,7 +516,6 @@ function getRecommendations(users, stories) {
             })
 
             result = result.concat(ratedResult)
-            console.log('sorted', result)
 
             // display
             showStoriesList(result.reverse())

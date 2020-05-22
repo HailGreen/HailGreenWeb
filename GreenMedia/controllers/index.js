@@ -24,6 +24,20 @@ exports.getUser = function (req, res) {
     }
 }
 
+exports.getUserById = function (req, res) {
+    let user_id = req.body.user_id;
+    try {
+        Index.find({user_id: user_id},
+            function (err, user) {
+                if (err)
+                    res.status(500).send('Invalid data!');
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(user));
+            });
+    } catch (e) {
+        res.status(500).send('error ' + e);
+    }
+}
 
 exports.getUserList = function (req, res) {
     try {

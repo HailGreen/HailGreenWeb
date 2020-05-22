@@ -75,10 +75,9 @@ function login() {
         type: 'post',
         success: function (dataR) {
 
-            // todo login success callback
             localStorage.setItem('users', JSON.stringify(dataR));
-            localStorage.setItem('user_id', dataR[0].user_id);
-            localStorage.setItem('user_name', dataR[0].user_name);
+            localStorage.setItem('user_id', dataR.user_id);
+            localStorage.setItem('user_name', dataR.user_name);
             // addNameList()
         },
         error: function (xhr, status, error) {

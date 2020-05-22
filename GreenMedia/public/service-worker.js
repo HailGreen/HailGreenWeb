@@ -55,7 +55,10 @@ self.addEventListener('fetch', function (e) {
     let isDataUrl = false;
     var dataUrl = ['/get-comments',
         '/get-user',
+        '/get-user-id',
         '/get-user-list',
+        '/get-story-stars',
+        '/show-personal-wall',
         '/release-story',
         '/show-story',
         '/insert-comment',

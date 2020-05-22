@@ -79,6 +79,8 @@ function login() {
             localStorage.setItem('users', JSON.stringify(dataR));
             localStorage.setItem('user_id', dataR.user_id);
             localStorage.setItem('user_name', dataR.user_name);
+            $('#loginModel').css('display', 'none')
+            $('#dropdownMenu1').text(dataR.user_name)
             // addNameList()
         },
         error: function (xhr, status, error) {
@@ -86,40 +88,6 @@ function login() {
         }
     });
 }
-
-
-// /**
-//  * get the name of the user list and add to the web
-//  */
-// function addNameList() {
-//     $("#name-list").empty();
-//     $("#dropdownMenu1").text(localStorage.getItem("user_name"));
-//     let nameList = JSON.parse(localStorage.getItem("users"));
-//     nameList.forEach(item => {
-//         if (item.user_name !== localStorage.getItem("user_name")) {
-//             $("#name-list").append(`<li><a onclick=changeUser(this.name) name=${item.user_name}>${item.user_name}</a></li>`)
-//         }
-//
-//     })
-// }
-
-
-// /**
-//  * in dropdown menu add click function to change the user
-//  */
-// function changeUser(username) {
-//     $("#dropdownMenu1").text(username);
-//     let userList = JSON.parse(localStorage.getItem("users"));
-//     userList.forEach(item => {
-//         if (username === item.user_name) {
-//             localStorage.setItem('user_id', item.user_id);
-//             localStorage.setItem('user_name', item.user_name);
-//         }
-//
-//     });
-//     addNameList();
-//     getStories();
-// }
 
 
 /**
@@ -360,9 +328,13 @@ function updateStar(obj) {
     });
 }
 
-function getUserStories() {
+/**
+ * get stories posted by certain user
+ * @param user_id
+ */
+function getUserStories(user_id) {
     var user = {};
-    user['user_id'] = localStorage.getItem('user_id');
+    user['user_id'] = user_id
     $.ajax({
         url: '/show-personal-wall',
         data: user,
@@ -370,6 +342,45 @@ function getUserStories() {
         type: 'POST',
         success: function (dataR) {
             console.log(dataR);
+            $("#sortDiv").css('display', 'none')
+            $("#release").css('display', 'none')
+
+            $("#results").html('')
+
+            dataR.forEach((item) => {
+
+                var imgsTempStr = ``
+                item.pics.forEach((i) => {
+                    var tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+                        `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>` +
+                        '</div>'
+                    imgsTempStr += tempStr
+                })
+
+                let time = formatTime(item.time);
+
+                $("#results").prepend(`<div class="media" story-id="${item._id}" >\n` +
+                    `                       <div class="media-body" story-id="${item._id}">\n` +
+                    '                         <p class="media-heading">\n' +
+                    `                         <p class="time">${time}</p></p>\n` +
+                    `                         <p id="text">${item.mention}</p>\n` +
+                    '                     <div class="row">\n' +
+                    imgsTempStr +
+                    '                       </div>\n' +
+                    '                     <div>\n' +
+                    `                       <ul class="list-group" id="ul1" story-id="${item._id}">\n` +
+                    '                       </ul>\n' +
+                    '                     </div>\n' +
+                    '                   </div>\n' +
+                    '                     </div>')
+
+                getStoryStars(item._id)
+            });
+
+
+            $("#results").prepend('<button onclick="getStories()">back</button>')
+            $("#results").prepend(`<h3 style="text-align:center;">${dataR[0].username}\'s Personal Wall</h3>`)
+
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -418,6 +429,10 @@ function getStar(story_id) {
     });
 }
 
+/**
+ * get rate value by story id
+ * @param story_id
+ */
 function getStoryStars(story_id) {
     let story = {};
     let user_likes = {};
@@ -438,6 +453,32 @@ function getStoryStars(story_id) {
                     type: 'POST',
                     success: function (user) {
                         user_likes[user[0].username] = star.rate;
+
+                        let tempstr = `<span></span>` +
+                            '                   <div class="height-30">\n' +
+                            '                     <div class="float-right">\n' +
+                            '                       <a class="word-button"> \n' +
+                            `${user[0].username} : ` +
+                            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n' +
+                            `                                  value="1" story-id="${story_id}" user-name="${user[0].username}"></span>\n` +
+                            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n' +
+                            `                                  value="2" story-id="${story_id}" user-name="${user[0].username}"></span>\n` +
+                            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n' +
+                            `                                  value="3" story-id="${story_id}" user-name="${user[0].username}"></span>\n` +
+                            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n' +
+                            `                                  value="4" story-id="${story_id}" user-name="${user[0].username}"></span>\n` +
+                            '                       </a>\n' +
+                            '                     </div>\n' +
+                            '                     </div>\n'
+
+                        $(`.media-body[story-id=${story_id}]`).append(tempstr)
+                        for (var index = 0; index < 5; index++) {
+                            if (index <= star.rate) {
+                                $(`span[value=${index}][story-id=${story_id}][user-name=${user[0].username}]`).attr('class', 'glyphicon glyphicon-star')
+                            } else {
+                                $(`span[value=${index}][story-id=${story_id}][user-name=${user[0].username}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
+                            }
+                        }
                     },
                     error: function (xhr, status, error) {
                         alert('Error: ' + error.message);
@@ -619,6 +660,7 @@ function showStoriesList(result) {
     result.forEach((item) => {
         // store stories to indexedDB
         storeCachedData('_id', item, STORE_STORIES)
+        console.log(item)
 
         var imgsTempStr = ``
         item.pics.forEach((i) => {
@@ -630,7 +672,7 @@ function showStoriesList(result) {
 
         let time = formatTime(item.time);
 
-        $("#results").prepend(`<div class="media" story-id="${item._id}">\n` +
+        $("#results").prepend(`<div class="media" story-id="${item._id}" >\n` +
             '                       <div class="media-left">\n' +
             '                         <a href="#">\n' +
             '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
@@ -638,7 +680,7 @@ function showStoriesList(result) {
             '                   </div>\n' +
             `                       <div class="media-body" story-id="${item._id}">\n` +
             '                         <p class="media-heading">\n' +
-            `                         <p class="user-name">${item.username}</p>\n` +
+            `                         <a href="#" class="user-name" user-id="${item.user_id}" onclick="getUserStories(${item.user_id})">${item.username}</a>\n` +
             `                         <p class="time">${time}</p></p>\n` +
             `                         <p id="text">${item.mention}</p>\n` +
             '                     <div class="row">\n' +

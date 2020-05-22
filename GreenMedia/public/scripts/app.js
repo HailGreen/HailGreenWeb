@@ -75,13 +75,15 @@ function login() {
         dataType: 'JSON',
         type: 'post',
         success: function (dataR) {
-
-            localStorage.setItem('users', JSON.stringify(dataR));
-            localStorage.setItem('user_id', dataR.user_id);
-            localStorage.setItem('user_name', dataR.user_name);
-            $('#loginModel').css('display', 'none')
-            $('#dropdownMenu1').text(dataR.user_name)
-            // addNameList()
+            if (!dataR) {
+                alert("this user does not exist")
+            } else {
+                localStorage.setItem('users', JSON.stringify(dataR));
+                localStorage.setItem('user_id', dataR.user_id);
+                localStorage.setItem('user_name', dataR.user_name);
+                $('#loginModel').css('display', 'none')
+                $('#dropdownMenu1').text(dataR.user_name)
+            }
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

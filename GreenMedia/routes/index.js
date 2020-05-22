@@ -29,6 +29,9 @@ router.post('/release-story', upload.array('files', 3), story.insertStory);
 /* get stories */
 router.post('/show-story', story.getStories);
 
+/* personal wall */
+router.post('/show-personal-wall', story.getUserStories);
+
 /* insert comment */
 router.post('/insert-comment', comment.insertComment);
 

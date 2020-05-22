@@ -181,7 +181,7 @@ function getObjectURL(file) {
  */
 function submitData() {
     // var form = document.getElementById('uploadData');
-    let online = localStorage.getItem('isOnline')
+    let online = localStorage.getItem('isOnline');
     if (online){
         sendAjaxInsert('/release-story', onSubmit());
     } else {
@@ -306,6 +306,23 @@ function updateStar(obj) {
         dataType: 'JSON',
         type: 'PUT',
         success: function () {
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+}
+
+function getUserStories() {
+    var user = {};
+    user['user_id'] = localStorage.getItem('user_id');
+    $.ajax({
+        url: '/show-personal-wall',
+        data: user,
+        dataType: 'JSON',
+        type: 'POST',
+        success: function (dataR) {
+            console.log(dataR);
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

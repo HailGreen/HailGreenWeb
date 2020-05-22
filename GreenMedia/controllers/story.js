@@ -30,6 +30,20 @@ exports.insertStory = function (req, res) {
     }
 }
 
+exports.getUserStories = function (req, res) {
+    let user_id = req.body.user_id;
+    try {
+        Story.find({user_id: user_id},
+            function (err, stories) {
+                if (err)
+                    res.status(500).send('Invalid data!');
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(stories));
+            });
+    } catch (e) {
+        res.status(500).send('error ' + e);
+    }
+}
 
 exports.getStories = function (req, res) {
     try {

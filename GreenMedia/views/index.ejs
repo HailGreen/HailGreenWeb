@@ -19,7 +19,16 @@
     <script src="/scripts/init-service-worker.js"></script>
 </head>
 <body onload="getStories()">
+
+
 <div>
+    <!-- login model dialog-->
+    <div id="loginModel">
+        <p>Username:</p>
+        <input type="text" id="login-username">
+        <button onclick="login()">login</button>
+    </div>
+
     <!-- user -->
     <div class="panel panel-default">
         <div class="panel-body" style="margin-right: 30px">
@@ -149,11 +158,6 @@
 </body>
 </html>
 <script type="text/javascript">
-
-
-
-
-
 
 
 </script>

@@ -2,10 +2,13 @@
  * send ajax to the database and save the information of user
  */
 $(function () {
-    let url = '/get-user';
-    let data = {userName: 'sysadmin'};
-    getUserList();
-    // await addNameList();
+    let userName = localStorage.getItem('user_name')
+    if (userName && userName.length > 0) {
+        $('#loginModel').css('display', 'none')
+        $("#dropdownMenu1").text(localStorage.getItem("user_name"));
+    } else {
+        $('#loginModel').css('display', 'block')
+    }
 });
 
 
@@ -23,7 +26,6 @@ $("#add-pics").on("change", function () {
 $('#cameraModal').on('hide.bs.modal', function (e) {
     closeMedia();
 });
-
 
 
 /**
@@ -63,62 +65,61 @@ function hideOffline() {
 
 
 /**
- * send ajax to the database and get all user list & information
+ * send login ajax
  */
-function getUserList() {
+function login() {
     $.ajax({
-        url: '/get-user-list',
-        data: null,
+        url: '/get-user',
+        data: {username: $('#login-username').val()},
         dataType: 'JSON',
-        type: 'get',
+        type: 'post',
         success: function (dataR) {
+
+            // todo login success callback
             localStorage.setItem('users', JSON.stringify(dataR));
             localStorage.setItem('user_id', dataR[0].user_id);
             localStorage.setItem('user_name', dataR[0].user_name);
-            addNameList()
+            // addNameList()
         },
         error: function (xhr, status, error) {
-            if (localStorage.getItem("isOnline") === "true") {
-                alert('Error: ' + error.message);
-            }
-
+            alert('Error: ' + error.message);
         }
     });
 }
 
 
-/**
- * get the name of the user list and add to the web
- */
-function addNameList() {
-    $("#name-list").empty();
-    $("#dropdownMenu1").text(localStorage.getItem("user_name"));
-    let nameList = JSON.parse(localStorage.getItem("users"));
-    nameList.forEach(item => {
-        if (item.user_name !== localStorage.getItem("user_name")) {
-            $("#name-list").append(`<li><a onclick=changeUser(this.name) name=${item.user_name}>${item.user_name}</a></li>`)
-        }
+// /**
+//  * get the name of the user list and add to the web
+//  */
+// function addNameList() {
+//     $("#name-list").empty();
+//     $("#dropdownMenu1").text(localStorage.getItem("user_name"));
+//     let nameList = JSON.parse(localStorage.getItem("users"));
+//     nameList.forEach(item => {
+//         if (item.user_name !== localStorage.getItem("user_name")) {
+//             $("#name-list").append(`<li><a onclick=changeUser(this.name) name=${item.user_name}>${item.user_name}</a></li>`)
+//         }
+//
+//     })
+// }
 
-    })
-}
 
-
-/**
- * in dropdown menu add click function to change the user
- */
-function changeUser(username) {
-    $("#dropdownMenu1").text(username);
-    let userList = JSON.parse(localStorage.getItem("users"));
-    userList.forEach(item => {
-        if (username === item.user_name) {
-            localStorage.setItem('user_id', item.user_id);
-            localStorage.setItem('user_name', item.user_name);
-        }
-
-    });
-    addNameList();
-    getStories();
-}
+// /**
+//  * in dropdown menu add click function to change the user
+//  */
+// function changeUser(username) {
+//     $("#dropdownMenu1").text(username);
+//     let userList = JSON.parse(localStorage.getItem("users"));
+//     userList.forEach(item => {
+//         if (username === item.user_name) {
+//             localStorage.setItem('user_id', item.user_id);
+//             localStorage.setItem('user_name', item.user_name);
+//         }
+//
+//     });
+//     addNameList();
+//     getStories();
+// }
 
 
 /**
@@ -181,7 +182,15 @@ function getObjectURL(file) {
  */
 function submitData() {
     // var form = document.getElementById('uploadData');
-    sendAjaxInsert('/release-story', onSubmit());
+    let online = localStorage.getItem('isOnline')
+    if (online){
+        sendAjaxInsert('/release-story', onSubmit());
+    } else {
+        // todo check online
+        // save stories to IndexedDB
+        // when online,
+    }
+
 };
 
 
@@ -279,7 +288,6 @@ function insertComment(story_id) {
     });
 }
 
-
 /**
  * send star ajax
  * @param obj
@@ -320,7 +328,6 @@ function getStories() {
         sendAjaxQuery(url, user, 'timeline');
     }
 }
-
 
 /**
  * get star by story id
@@ -500,7 +507,6 @@ function sendAjaxQuery(url, user, sortBy) {
         }
     });
 }
-
 
 /**
  * format the time zone
@@ -786,6 +792,3 @@ socket.on('story-updated', function (count) {
     $("#unread-stories").html(count)
 })
 socket.emit('connected');
-
-
-

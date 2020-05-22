@@ -4,6 +4,7 @@ var DB_NAME = "db-green-media";
 var STORE_STORIES = "store-stories";
 var STORE_COMMENTS = "store-comments";
 var STORE_STARS = "store-stars"
+var STORIES_TO_SYNC = "stories-to-sync"
 
 
 /**
@@ -15,6 +16,7 @@ function initDB() {
             initStoriesDB(upgradeDB)
             initCommentDB(upgradeDB)
             initStarsDB(upgradeDB)
+            initStories2SyncDB(upgradeDB)
         }
     })
 }
@@ -26,6 +28,17 @@ function initDB() {
 function initStoriesDB(upgradeDB) {
     var blogDB = upgradeDB.createObjectStore(STORE_STORIES, {keyPath: "_id"});
     blogDB.createIndex("_id", "_id", {unique: true});
+    blogDB.createIndex("pics", "pics", {unique: false, multiEntry: true});
+    blogDB.createIndex("user_id", "user_id", {unique: false, multiEntry: true});
+    blogDB.createIndex("mention", "mention", {unique: false, multiEntry: true});
+}
+
+/**
+ * init stories storage
+ * @param upgradeDB
+ */
+function initStories2SyncDB(upgradeDB) {
+    var blogDB = upgradeDB.createObjectStore(STORIES_TO_SYNC, {keyPath: "_id",autoIncrement:true});
     blogDB.createIndex("pics", "pics", {unique: false, multiEntry: true});
     blogDB.createIndex("user_id", "user_id", {unique: false, multiEntry: true});
     blogDB.createIndex("mention", "mention", {unique: false, multiEntry: true});

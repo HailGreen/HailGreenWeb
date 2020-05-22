@@ -6,6 +6,7 @@ $(function () {
     if (userName && userName.length > 0) {
         $('#loginModel').css('display', 'none')
         $("#dropdownMenu1").text(localStorage.getItem("user_name"));
+        syncIndexedDB2Remote()
     } else {
         $('#loginModel').css('display', 'block')
     }
@@ -181,16 +182,62 @@ function getObjectURL(file) {
  */
 function submitData() {
     // var form = document.getElementById('uploadData');
-    let online = localStorage.getItem('isOnline');
-    if (online){
+    let online = localStorage.getItem('isOnline')
+    if (online && online === 'true') {
         sendAjaxInsert('/release-story', onSubmit());
     } else {
-        // todo check online
         // save stories to IndexedDB
-        // when online,
+        let item = {}
+        item['mention'] = $('#mention').val()
+        item['user_id'] = localStorage.getItem("user_id")
+        item['user_name'] = localStorage.getItem("user_name")
+        item['pics'] = new Array()
+        uploadFiles.forEach(val => {
+            item['pics'].push(val);
+        })
+        storeCachedData('_id', item, STORIES_TO_SYNC)
+        $('#releaseModal').modal('hide');
     }
-
 };
+
+/**
+ * sync the data cached in indexedDB to remote when online
+ * listen online: upload files in indexed to remote and
+ * then clear the cached data
+ */
+function syncIndexedDB2Remote() {
+    var req = window.indexedDB.open(DB_NAME, 1);
+
+    req.onsuccess = function (ev) {
+        console.log("indexed db connect success");
+        var db = ev.target.result;
+        var tx = db.transaction([STORIES_TO_SYNC], 'readwrite');
+        var store = tx.objectStore(STORIES_TO_SYNC);
+        var r = store.openCursor();
+        var res = [];
+        r.onsuccess = function (ev1) {
+            var cursor = ev1.target.result;
+            if (cursor) {
+                res.push(cursor.value);
+                cursor.continue()
+            } else {
+                console.log("res of posts", res);
+
+                res.forEach(item => {
+                    let formData = new FormData()
+                    formData.append('mention', item.mention)
+                    formData.append("id", item.user_id);
+                    formData.append("username", localStorage.getItem("user_name"));
+                    item.pics.forEach(val => {
+                        formData.append('files', val.value, val.name);
+                    })
+                    sendAjaxInsert('/release-story', formData);
+                })
+            }
+        }
+        store.clear()
+    }
+}
 
 
 /**

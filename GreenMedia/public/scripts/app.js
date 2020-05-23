@@ -91,6 +91,11 @@ function login() {
     });
 }
 
+function logout() {
+    localStorage.clear()
+    $('#loginModel').css('display', 'block')
+}
+
 
 /**
  * import release button and model part of the HTML

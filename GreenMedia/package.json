@@ -12,6 +12,7 @@
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "fs": "0.0.1-security",
     "fs-extra": "~5.0.0",
     "http-errors": "~1.6.3",
     "lodash": "^4.17.15",

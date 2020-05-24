@@ -17,6 +17,7 @@ $(function () {
  * these are the global variables and function
  */
 var uploadFiles = [];
+var initData = {name:null,value:null};
 var mediaStreamTrack = null; // the object of camera stream
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
@@ -27,6 +28,7 @@ $("#add-pics").on("change", function () {
 $('#cameraModal').on('hide.bs.modal', function (e) {
     closeMedia();
 });
+
 
 
 /**
@@ -220,7 +222,7 @@ function syncIndexedDB2Remote() {
  */
 function onSubmit() {
     var formArray = $("form").serializeArray();
-    var formData = new FormData();
+    let formData = new FormData();
     formArray.forEach(val => {
         formData.append(val.name, val.value);
     });
@@ -924,6 +926,54 @@ function isCanvasBlank(canvas) {
     blank.width = canvas.width;
     blank.height = canvas.height;
     return canvas.toDataURL() == blank.toDataURL();
+}
+
+
+function importData(obj) {
+    console.log(initData);
+    if (initData.name === null) {
+        Array.from(obj.files).forEach((value, index) => {
+            initData.value = value;
+            initData.name = value.name;
+            $('#initFile').text(value.name);
+            $("#removeInitFileButton").css('display','block')
+        })
+
+    }else{
+        alert("You have upload init data")
+    }
+
+
+}
+
+function submitImportData() {
+    let formData = new FormData();
+    formData.append('initFile', initData.value, initData.name);
+
+
+    $.ajax({
+        url: '/init-data',
+        data: formData,
+        dataType: 'JSON',
+        contentType: false,
+        processData: false,
+        type: 'post',
+        success: function (dataR) {
+           console.log(dataR)
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+}
+
+
+
+function removeInitFile() {
+    initData.value=null;
+    initData.name=null;
+    $('#initFile').text("null");
+    $("#removeInitFileButton").css('display','none')
 }
 
 

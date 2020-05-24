@@ -120,4 +120,14 @@ body {
     box-sizing: border-box;
 }
 
+.margin-top-15{
+    margin-top: 15px;
+}
+.init-upload{
+    opacity: 0;
+    position: absolute;
+    top:0;
+    width:90%;
+    height:100%
+}
 

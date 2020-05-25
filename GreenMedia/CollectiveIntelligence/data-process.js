@@ -1,4 +1,6 @@
 var fs = require('fs');  //fs是读取文件的模板工具
+let Star = require('../models/star');
+let Story = require('../models/story');
 
 let ratings_flatten = []
 let stories_flatten = []
@@ -22,28 +24,25 @@ module.exports = class initData{
                         user_id: item.userId,
                         story_id: rating.storyId,
                         rate: rating.rating
-                    }
+                    };
                     ratings_flatten.push(flatten_data)
                 })
-            })
+            });
 
             stories.forEach(item => {
                 flatten_data = {
-                    user_id: item.userId,
                     _id: item.storyId,
+                    pics: [],
+                    user_id: item.userId,
+                    username: item.userId,
                     mention: item.text,
-                    user_name: '',
                     time: '',
-                    pics: []
-                }
+                };
                 stories_flatten.push(flatten_data)
-            })
+            });
 
-
-            console.log(ratings_flatten)
-            console.log(stories_flatten)
-
+            Star.insertMany(ratings_flatten);
+            Story.insertMany(stories_flatten);
         });
     }
 }
-

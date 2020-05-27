@@ -49,14 +49,20 @@ exports.getUserStories = function (req, res) {
 exports.getStories = function (req, res) {
     let story_number = req.body.story_number;
     try {
-        let query = Story.find().skip(Number (story_number)).limit(10);
-        query.exec(function(err,stories){
-            if(err){
-                res.send(err);
-            }else{
-                //计算数据总数
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(stories));
+        Story.countDocuments(function (err, count) {
+            if (!err) {
+                let total_story = count;
+                let query = Story.find().skip(total_story - Number (story_number) - 10).limit(10);
+                query.exec(function(err,stories){
+                    if(err){
+                        res.send(err);
+                    }else{
+                        //计算数据总数
+                        stories.reverse();
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify(stories));
+                    }
+                });
             }
         });
     } catch (e) {

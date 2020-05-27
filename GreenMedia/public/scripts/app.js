@@ -796,8 +796,6 @@ function removeInitFile() {
 
 
 function lazyLoad() {
-    if ($("#main").height() < window.innerHeight + scrollTop + 50) {
-        getStories()
     if ($("#main").height() < window.innerHeight + scrollTop+50) {
         let currentStoryNumbers=$(".media").length
         getStories(currentStoryNumbers)
@@ -815,7 +813,7 @@ socket.on('story-updated', function (count) {
     console.log("story-updated")
     $("#unread-stories").html(count)
 })
-socket.emit('connected');
+socket.emit('connected')
 
 
 

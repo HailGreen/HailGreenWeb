@@ -7,6 +7,7 @@ $(function () {
         $('#loginModel').css('display', 'none')
         $("#dropdownMenu1").text(localStorage.getItem("user_name"));
         syncIndexedDB2Remote()
+        getStories()
     } else {
         $('#loginModel').css('display', 'block')
     }
@@ -85,6 +86,7 @@ function login() {
                 localStorage.setItem('user_name', dataR.user_name);
                 $('#loginModel').css('display', 'none')
                 $('#dropdownMenu1').text(dataR.user_name)
+                getStories()
             }
         },
         error: function (xhr, status, error) {

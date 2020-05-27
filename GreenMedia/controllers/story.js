@@ -46,15 +46,18 @@ exports.getUserStories = function (req, res) {
 }
 
 exports.getStories = function (req, res) {
+    let story_number = req.body.story_number;
     try {
-        Story.find(
-            function (err, stories) {
-                if (err)
-                    res.status(500).send('Invalid data!');
-
+        let query = Story.find().skip(story_number).limit(10);
+        query.exec(function(err,stories){
+            if(err){
+                res.send(err);
+            }else{
+                //计算数据总数
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(stories));
-            });
+            }
+        });
     } catch (e) {
         res.status(500).send('error ' + e);
     }

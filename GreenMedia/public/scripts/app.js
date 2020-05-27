@@ -289,7 +289,7 @@ function getUserStories(user_id) {
         success: function (dataR) {
             console.log(dataR);
             $("#sortDiv").css('display', 'none')
-            $("#release").css('display', 'none')
+            // $("#release").css('display', 'none')
 
             $("#results").html('')
 
@@ -578,9 +578,9 @@ function sendAjaxQuery(url, user, sortBy) {
         error: function (xhr, status, error) {
             if (localStorage.getItem("isOnline") === "true") {
                 alert('Error: ' + error.message);
-                $("#release").css('display', 'block');
+                // $("#release").css('display', 'block');
             } else {
-                $("#release").css('display', 'none');
+                // $("#release").css('display', 'none');
             }
             // get indexedDB cache
             getStoriesInIndexedDB();

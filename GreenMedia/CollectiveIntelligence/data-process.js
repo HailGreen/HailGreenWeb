@@ -4,9 +4,10 @@ let Story = require('../models/story');
 
 let ratings_flatten = []
 let stories_flatten = []
+let users_flatten = []
 
-module.exports = class initData{
-    readFiles(url){
+module.exports = class initData {
+    readFiles(url) {
         fs.readFile(url, function (err, data) {//读取同目录下的book.json文件
             if (err) {
                 throw err;
@@ -27,6 +28,12 @@ module.exports = class initData{
                     };
                     ratings_flatten.push(flatten_data)
                 })
+
+                users_flatten.push({
+                    user_id: item.userId,
+                    username: tem.userId,
+                })
+
             });
 
             stories.forEach(item => {

@@ -16,6 +16,10 @@ var filesToCache = [
     '/scripts/app.js',
     '/scripts/idb.js',
     '/scripts/idb-function.js',
+    '/scripts/utils.js',
+    '/scripts/render.js',
+    '/scripts/event.js',
+    '/scripts/login.js',
     '/scripts/socket.io.2.2.0.js',
 ];
 

@@ -38,7 +38,7 @@ function initStoriesDB(upgradeDB) {
  * @param upgradeDB
  */
 function initStories2SyncDB(upgradeDB) {
-    var blogDB = upgradeDB.createObjectStore(STORIES_TO_SYNC, {keyPath: "_id",autoIncrement:true});
+    var blogDB = upgradeDB.createObjectStore(STORIES_TO_SYNC, {keyPath: "_id", autoIncrement: true});
     blogDB.createIndex("pics", "pics", {unique: false, multiEntry: true});
     blogDB.createIndex("user_id", "user_id", {unique: false, multiEntry: true});
     blogDB.createIndex("mention", "mention", {unique: false, multiEntry: true});
@@ -122,4 +122,87 @@ if ("indexedDB" in window) {
     initDB()
 } else {
     console.log("IndexedDB is not supported by this browser!")
+}
+
+
+/**
+ * get stories from indexedDB -> display -> get comments & stars
+ */
+function getStoriesInIndexedDB() {
+    var req = window.indexedDB.open(DB_NAME, 1);
+    req.onsuccess = function (ev) {
+        console.log("indexed db connect success");
+        var db = ev.target.result;
+        var tx = db.transaction([STORE_STORIES], "readonly");
+        var store = tx.objectStore(STORE_STORIES);
+        var r = store.openCursor();
+        var res = [];
+        r.onsuccess = function (ev1) {
+            var cursor = ev1.target.result;
+            if (cursor) {
+                res.push(cursor.value);
+                cursor.continue()
+            } else {
+                console.log("res of posts", res);
+                showStoriesList(res)
+                getCommentInIndexedDB()
+                getStarsInIndexedDB()
+            }
+        }
+    }
+}
+
+/**
+ * get comments from indexedDB -> amount to story
+ */
+function getCommentInIndexedDB() {
+    var req = window.indexedDB.open(DB_NAME, 1);
+    req.onsuccess = function (ev) {
+        console.log("indexed db connect success");
+        var db = ev.target.result;
+        var tx = db.transaction([STORE_COMMENTS], "readonly");
+        var store = tx.objectStore(STORE_COMMENTS);
+        var r = store.openCursor();
+        var res = [];
+        r.onsuccess = function (ev1) {
+            var cursor = ev1.target.result;
+            if (cursor) {
+                res.push(cursor.value);
+                cursor.continue()
+            } else {
+                console.log("res of posts", res);
+                // showStoriesList(res)
+                res.forEach(item => {
+                    changeCommentShow(item.text, item.user_name, item.story_id)
+                })
+            }
+        }
+    }
+}
+
+/**
+ * get stars from indexedDB -> amount to story
+ */
+function getStarsInIndexedDB() {
+    var req = window.indexedDB.open(DB_NAME, 1);
+    req.onsuccess = function (ev) {
+        console.log("indexed db connect success");
+        var db = ev.target.result;
+        var tx = db.transaction([STORE_STARS], "readonly");
+        var store = tx.objectStore(STORE_STARS);
+        var r = store.openCursor();
+        var res = [];
+        r.onsuccess = function (ev1) {
+            var cursor = ev1.target.result;
+            if (cursor) {
+                res.push(cursor.value);
+                cursor.continue()
+            } else {
+                console.log("res of posts", res);
+                res.forEach((item) => {
+                    changeStarShow(item.rate, item.story_id)
+                })
+            }
+        }
+    }
 }

@@ -19,10 +19,10 @@ $(function () {
  * these are the global variables and function
  */
 var uploadFiles = [];
-var initData = {name:null,value:null};
+var initData = {name: null, value: null};
 var mediaStreamTrack = null; // the object of camera stream
 var scrollTop = window.scrollY;
-var isCanRun =true;
+var isCanRun = true;
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
         $("#upload-pics").hide();
@@ -34,89 +34,20 @@ $('#cameraModal').on('hide.bs.modal', function (e) {
 });
 
 
-
-/**
- * When the client gets off-line, it hides release button
- */
-window.addEventListener('offline', function (e) {
-    // Queue up events for server.
-    showOffline();
-}, false);
-
-/**
- * When the client gets online, it show release button
- */
-window.addEventListener('online', function (e) {
-    // Resync data with server.
-    hideOffline();
-    getStories();
-}, false);
-
-
 /**
  * judge lazy load
  */
 window.onscroll = () => {
-    if(!isCanRun){
+    if (!isCanRun) {
         return
     }
     isCanRun = false;
-    setTimeout(()=>{
+    setTimeout(() => {
         scrollTop = window.scrollY;
         lazyLoad();
         isCanRun = true;
-    },1000)
+    }, 1000)
 
-}
-
-/**
- * the function to hide release button
- */
-function showOffline() {
-    localStorage.setItem("isOnline", "false");
-    $("#release").css('display', 'none');
-}
-
-
-/**
- * the function to display release button
- */
-function hideOffline() {
-    localStorage.setItem("isOnline", "true");
-    $("#release").css('display', 'block');
-}
-
-
-/**
- * send login ajax
- */
-function login() {
-    $.ajax({
-        url: '/get-user',
-        data: {username: $('#login-username').val()},
-        dataType: 'JSON',
-        type: 'post',
-        success: function (dataR) {
-            if (!dataR) {
-                alert("this user does not exist")
-            } else {
-                localStorage.setItem('users', JSON.stringify(dataR));
-                localStorage.setItem('user_id', dataR.user_id);
-                localStorage.setItem('user_name', dataR.user_name);
-                $('#loginModel').css('display', 'none')
-                $('#dropdownMenu1').text(dataR.user_name)
-                getStories()
-            }
-        },
-        error: function (xhr, status, error) {
-            alert('Error: ' + error.message);
-        }
-    });
-}
-
-function logout() {
-    localStorage.clear()
-    $('#loginModel').css('display', 'block')
 }
 
 
@@ -156,22 +87,6 @@ function removePics(id) {
     uploadFiles = uploadFiles.filter(obj => obj.name.indexOf(id) === -1);
     $("#upload-pics").show();
     $("#camera").show();
-}
-
-
-/**
- * use the uploaded file and find the current browser to get the url
- */
-function getObjectURL(file) {
-    var url = null;
-    if (window.createObjectURL !== undefined) { // basic
-        url = window.createObjectURL(file);
-    } else if (window.URL !== undefined) { // mozilla(firefox)
-        url = window.URL.createObjectURL(file);
-    } else if (window.webkitURL !== undefined) { // webkit or chrome
-        url = window.webkitURL.createObjectURL(file);
-    }
-    return url;
 }
 
 
@@ -419,7 +334,7 @@ function getUserStories(user_id) {
 }
 
 /**
- * init method: get stories form remote
+ * init method: get stories form remote, sort by different labels
  */
 function getStories() {
     var url = '/show-story';
@@ -431,6 +346,16 @@ function getStories() {
     } else {
         sendAjaxQuery(url, user, 'timeline');
     }
+}
+
+/**
+ * toggle order of stories
+ * @param sortMethod
+ */
+function sortBy(sortMethod) {
+    $("#dropdownMenu2").text('Sort by: ' + sortMethod);
+    $("#results").html('')
+    getStories()
 }
 
 /**
@@ -569,9 +494,9 @@ function getRecommendations(users, stories) {
         success: function (dataR) {
 
             //  compare and then display
-            var recommendIdArray = new Array()
-            var result = new Array()
-            var ratedResult = new Array()
+            var recommendIdArray = []
+            var result = []
+            var ratedResult = []
 
             dataR.forEach((item, index) => {
                 recommendIdArray[index] = item.story
@@ -597,18 +522,6 @@ function getRecommendations(users, stories) {
             alert('Error: ' + error.message);
         }
     });
-}
-
-/**
- * display stories by selected method
- * @param sortMethod
- */
-function sortBy(sortMethod) {
-    $("#dropdownMenu2").text('Sort by: ' + sortMethod);
-    var url = '/show-story';
-    var user = {};
-    user['user_id'] = localStorage.getItem('user_id');
-    sendAjaxQuery(url, user, sortMethod)
 }
 
 /**
@@ -672,14 +585,6 @@ function sendAjaxQuery(url, user, sortBy) {
 
         }
     });
-}
-
-/**
- * format the time zone
- * @param time
- */
-function formatTime(time) {
-    return time.replace("T", " ").slice(0, -8);
 }
 
 /**
@@ -753,114 +658,6 @@ function showCommentAndLikeAccordingToStoryId(result) {
         getStar(item._id)
     })
     $("#unread-stories").html(0)
-}
-
-/**
- * change how many star empty, show rate
- * @param starValue
- * @param storyId
- */
-function changeStarShow(starValue, storyId) {
-    for (var index = 0; index < 5; index++) {
-        if (index <= starValue) {
-            $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star')
-        } else {
-            $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
-        }
-    }
-}
-
-/**
- * change / amount the comment to stories
- * @param text
- * @param user_name
- * @param story_id
- */
-function changeCommentShow(text, user_name, story_id) {
-    $(`.list-group[story-id=${story_id}]`).append(
-        `<li style="list-style-type:none">${user_name} : ${text}</li>`)
-}
-
-/**
- * get stories from indexedDB -> display -> get comments & stars
- */
-function getStoriesInIndexedDB() {
-    var req = window.indexedDB.open(DB_NAME, 1);
-    req.onsuccess = function (ev) {
-        console.log("indexed db connect success");
-        var db = ev.target.result;
-        var tx = db.transaction([STORE_STORIES], "readonly");
-        var store = tx.objectStore(STORE_STORIES);
-        var r = store.openCursor();
-        var res = [];
-        r.onsuccess = function (ev1) {
-            var cursor = ev1.target.result;
-            if (cursor) {
-                res.push(cursor.value);
-                cursor.continue()
-            } else {
-                console.log("res of posts", res);
-                showStoriesList(res)
-                getCommentInIndexedDB()
-                getStarsInIndexedDB()
-            }
-        }
-    }
-}
-
-/**
- * get comments from indexedDB -> amount to story
- */
-function getCommentInIndexedDB() {
-    var req = window.indexedDB.open(DB_NAME, 1);
-    req.onsuccess = function (ev) {
-        console.log("indexed db connect success");
-        var db = ev.target.result;
-        var tx = db.transaction([STORE_COMMENTS], "readonly");
-        var store = tx.objectStore(STORE_COMMENTS);
-        var r = store.openCursor();
-        var res = [];
-        r.onsuccess = function (ev1) {
-            var cursor = ev1.target.result;
-            if (cursor) {
-                res.push(cursor.value);
-                cursor.continue()
-            } else {
-                console.log("res of posts", res);
-                // showStoriesList(res)
-                res.forEach(item => {
-                    changeCommentShow(item.text, item.user_name, item.story_id)
-                })
-            }
-        }
-    }
-}
-
-/**
- * get stars from indexedDB -> amount to story
- */
-function getStarsInIndexedDB() {
-    var req = window.indexedDB.open(DB_NAME, 1);
-    req.onsuccess = function (ev) {
-        console.log("indexed db connect success");
-        var db = ev.target.result;
-        var tx = db.transaction([STORE_STARS], "readonly");
-        var store = tx.objectStore(STORE_STARS);
-        var r = store.openCursor();
-        var res = [];
-        r.onsuccess = function (ev1) {
-            var cursor = ev1.target.result;
-            if (cursor) {
-                res.push(cursor.value);
-                cursor.continue()
-            } else {
-                console.log("res of posts", res);
-                res.forEach((item) => {
-                    changeStarShow(item.rate, item.story_id)
-                })
-            }
-        }
-    }
 }
 
 /**
@@ -957,10 +754,10 @@ function importData(obj) {
             initData.value = value;
             initData.name = value.name;
             $('#initFile').text(value.name);
-            $("#removeInitFileButton").css('display','block')
+            $("#removeInitFileButton").css('display', 'block')
         })
 
-    }else{
+    } else {
         alert("You have upload init data")
     }
 
@@ -979,7 +776,7 @@ function submitImportData() {
         processData: false,
         type: 'post',
         success: function (dataR) {
-           alert("Load successfully!");
+            alert("Load successfully!");
             $("#initModal").css('display', 'none');
         },
         error: function (xhr, status, error) {
@@ -989,22 +786,20 @@ function submitImportData() {
 }
 
 
-
 function removeInitFile() {
-    initData.value=null;
-    initData.name=null;
+    initData.value = null;
+    initData.name = null;
     $('#initFile').text("null");
-    $("#removeInitFileButton").css('display','none')
+    $("#removeInitFileButton").css('display', 'none')
 }
 
 
 function lazyLoad() {
-    if ($("#main").height() < window.innerHeight + scrollTop+50) {
+    if ($("#main").height() < window.innerHeight + scrollTop + 50) {
         getStories()
     }
 
 }
-
 
 
 /**

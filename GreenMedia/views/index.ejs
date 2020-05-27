@@ -16,6 +16,8 @@
     <script src="/scripts/idb.js"></script>
     <script src="/scripts/idb-function.js"></script>
     <script src="/scripts/socket.io.2.2.0.js"></script>
+    <script src="/scripts/utils.js"></script>
+    <script src="/scripts/render.js"></script>
     <script src="/scripts/init-service-worker.js"></script>
 </head>
 <body>
@@ -23,8 +25,9 @@
 
 <div id="main">
     <!-- login model dialog-->
-    <div id="loginModel" style="background-image: linear-gradient(to bottom , #7A88FF, #7AFFAF);font-size: 16px">
-        <label for="login-username">Username:  </label>
+    <div id="loginModel"
+         style="background-image: linear-gradient(to bottom , #7A88FF, #7AFFAF);font-size: 16px;display: none">
+        <label for="login-username">Username: </label>
         <input type="text" id="login-username">
         <button onclick="login()" class="btn-primary">login</button>
         <br>
@@ -55,7 +58,8 @@
                     </button>
                     <span>Current file: <span id="initFile">null</span> <span
                                 class="glyphicon glyphicon-remove remove-button-pics word-button" aria-hidden="true"
-                                onclick="removeInitFile()" id="removeInitFileButton" style="display: none"></span></span>
+                                onclick="removeInitFile()" id="removeInitFileButton"
+                                style="display: none"></span></span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -194,6 +198,7 @@
     </div>
 </div>
 <script src="/scripts/app.js"></script>
+<script src="/scripts/login.js"></script>
 </body>
 </html>
 <script type="text/javascript">

@@ -49,7 +49,7 @@ exports.getUserStories = function (req, res) {
 exports.getStories = function (req, res) {
     let story_number = req.body.story_number;
     try {
-        let query = Story.find().skip(story_number).limit(10);
+        let query = Story.find().skip(Number (story_number)).limit(10);
         query.exec(function(err,stories){
             if(err){
                 res.send(err);

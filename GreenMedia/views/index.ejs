@@ -23,10 +23,10 @@
 
 <div>
     <!-- login model dialog-->
-    <div id="loginModel">
-        <p>Username:</p>
+    <div id="loginModel" style="background-image: linear-gradient(to bottom , #7A88FF, #7AFFAF);font-size: 16px">
+        <label for="login-username">Username:  </label>
         <input type="text" id="login-username">
-        <button onclick="login()">login</button>
+        <button onclick="login()" class="btn-primary">login</button>
         <br>
         <button type="button" class="btn btn-primary btn-sm margin-top-15" data-toggle="modal"
                 data-target="#initModal" id="init">

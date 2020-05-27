@@ -11,6 +11,7 @@ $(function () {
     } else {
         $('#loginModel').css('display', 'block')
     }
+
 });
 
 
@@ -20,6 +21,8 @@ $(function () {
 var uploadFiles = [];
 var initData = {name:null,value:null};
 var mediaStreamTrack = null; // the object of camera stream
+var scrollTop = window.scrollY;
+var isCanRun =true;
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
         $("#upload-pics").hide();
@@ -49,6 +52,22 @@ window.addEventListener('online', function (e) {
     getStories();
 }, false);
 
+
+/**
+ * judge lazy load
+ */
+window.onscroll = () => {
+    if(!isCanRun){
+        return
+    }
+    isCanRun = false;
+    setTimeout(()=>{
+        scrollTop = window.scrollY;
+        lazyLoad();
+        isCanRun = true;
+    },1000)
+
+}
 
 /**
  * the function to hide release button
@@ -632,7 +651,7 @@ function sendAjaxQuery(url, user, sortBy) {
         success: function (dataR) {
             const result = Object.values({...dataR})
             // catch response data to indexedDB & show response to the main page
-            $("#results").html('')
+            //$("#results").html('')
             // display method
             if (sortBy === 'recommend') {
                 getStars(result)
@@ -683,7 +702,7 @@ function showStoriesList(result) {
 
         let time = formatTime(item.time);
 
-        $("#results").prepend(`<div class="media" story-id="${item._id}" >\n` +
+        $("#results").append(`<div class="media" story-id="${item._id}" >\n` +
             '                       <div class="media-left">\n' +
             '                         <a href="#">\n' +
             '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
@@ -979,6 +998,15 @@ function removeInitFile() {
 }
 
 
+function lazyLoad() {
+    if ($("#main").height() < window.innerHeight + scrollTop+50) {
+        getStories()
+    }
+
+}
+
+
+
 /**
  * socket io
  */
@@ -988,3 +1016,8 @@ socket.on('story-updated', function (count) {
     $("#unread-stories").html(count)
 })
 socket.emit('connected');
+
+
+
+
+

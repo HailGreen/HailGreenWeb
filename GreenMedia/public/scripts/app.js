@@ -167,6 +167,7 @@ function onSubmit() {
     })
     formData.append("id", localStorage.getItem("user_id"));
     formData.append("username", localStorage.getItem("user_name"));
+    formData.append("story_id", new Date().getTime());
     return formData;
 };
 

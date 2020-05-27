@@ -19,10 +19,10 @@ $(function () {
  * these are the global variables and function
  */
 var uploadFiles = [];
-var initData = {name: null, value: null};
+var initData = {name:null,value:null};
 var mediaStreamTrack = null; // the object of camera stream
 var scrollTop = window.scrollY;
-var isCanRun = true;
+var isCanRun =true;
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
         $("#upload-pics").hide();
@@ -336,10 +336,11 @@ function getUserStories(user_id) {
 /**
  * init method: get stories form remote, sort by different labels
  */
-function getStories() {
+function getStories(storyNumbers=0) {
     var url = '/show-story';
     var user = {};
     user['user_id'] = localStorage.getItem('user_id');
+    user['story_number']=storyNumbers
     var sortMethod = $('#dropdownMenu2').text()
     if (sortMethod.indexOf('recommend') > -1) {
         sendAjaxQuery(url, user, 'recommend');
@@ -797,9 +798,13 @@ function removeInitFile() {
 function lazyLoad() {
     if ($("#main").height() < window.innerHeight + scrollTop + 50) {
         getStories()
+    if ($("#main").height() < window.innerHeight + scrollTop+50) {
+        let currentStoryNumbers=$(".media").length
+        getStories(currentStoryNumbers)
     }
 
 }
+
 
 
 /**

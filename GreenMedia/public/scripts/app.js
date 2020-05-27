@@ -323,9 +323,8 @@ function getUserStories(user_id) {
                 getStoryStars(item._id)
             });
 
-
-            $("#results").prepend('<button onclick="getStories()">back</button>')
             $("#results").prepend(`<h3 style="text-align:center;">${dataR[0].username}\'s Personal Wall</h3>`)
+            $("#results").prepend('<button class="btn" onclick="backToIndex()"> &lt;back</button>')
 
         },
         error: function (xhr, status, error) {
@@ -348,6 +347,12 @@ function getStories(storyNumbers=0) {
     } else {
         sendAjaxQuery(url, user, 'timeline');
     }
+}
+
+function backToIndex() {
+    $("#results").html('')
+    $("#sortDiv").css('display','block')
+    getStories()
 }
 
 /**

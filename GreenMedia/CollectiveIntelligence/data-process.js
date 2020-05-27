@@ -38,7 +38,7 @@ module.exports = class initData {
 
             stories.forEach(item => {
                 flatten_data = {
-                    _id: item.storyId,
+                    story_id: item.storyId,
                     pics: [],
                     user_id: item.userId,
                     username: item.userId,

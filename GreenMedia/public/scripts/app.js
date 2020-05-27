@@ -341,8 +341,8 @@ function getStories(storyNumbers=0) {
     var url = '/show-story';
     var user = {};
     user['user_id'] = localStorage.getItem('user_id');
-    user['story_number']=storyNumbers
-    var sortMethod = $('#dropdownMenu2').text()
+    user['story_number']=storyNumbers;
+    var sortMethod = $('#dropdownMenu2').text();
     if (sortMethod.indexOf('recommend') > -1) {
         sendAjaxQuery(url, user, 'recommend');
     } else {
@@ -798,8 +798,8 @@ function removeInitFile() {
 
 function lazyLoad() {
     if ($("#main").height() < window.innerHeight + scrollTop+50) {
-        let currentStoryNumbers=$(".media").length
-        getStories(currentStoryNumbers)
+        let currentStoryNumbers=$(".media").length;
+        getStories(currentStoryNumbers);
     }
 
 }

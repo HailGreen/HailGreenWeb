@@ -6,9 +6,10 @@ exports.insertStory = function (req, res) {
     let pics = req.files;
     let id = req.body.id;
     let username = req.body.username;
-
+    let story_id = req.body.story_id;
     try {
         let story = new Story({
+            story_id: story_id,
             user_id: id,
             username: username,
             mention: mention,

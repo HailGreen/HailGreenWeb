@@ -36,7 +36,7 @@ module.exports = class initData{
                     user_id: item.userId,
                     username: item.userId,
                     mention: item.text,
-                    time: '',
+                    time: new Date(),
                 };
                 stories_flatten.push(flatten_data)
             });

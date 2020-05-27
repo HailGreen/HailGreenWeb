@@ -22,7 +22,7 @@ window.addEventListener('online', function (e) {
  */
 function showOffline() {
     localStorage.setItem("isOnline", "false");
-    $("#release").css('display', 'none');
+    // $("#release").css('display', 'none');
 }
 
 
@@ -31,5 +31,5 @@ function showOffline() {
  */
 function hideOffline() {
     localStorage.setItem("isOnline", "true");
-    $("#release").css('display', 'block');
+    // $("#release").css('display', 'block');
 }

@@ -14,10 +14,6 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
-
-
-
-
 /* get comments */
 router.post('/get-comments', comment.getComments);
 
@@ -68,9 +64,9 @@ router.put('/update-star', star.updateStar);
 router.post('/init-data',upload.single('initFile'),function (req,res,next) {
     let file=req.file;
     let initMethod = new InitData();
-    console.log(file);
+    // console.log(file);
     let results= initMethod.readFiles(file.path);
-    res.send("ok");
+    res.send(JSON.stringify("ok"));
 });
 
 module.exports = router;

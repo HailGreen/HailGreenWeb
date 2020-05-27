@@ -950,7 +950,6 @@ function submitImportData() {
     let formData = new FormData();
     formData.append('initFile', initData.value, initData.name);
 
-
     $.ajax({
         url: '/init-data',
         data: formData,
@@ -959,7 +958,8 @@ function submitImportData() {
         processData: false,
         type: 'post',
         success: function (dataR) {
-           console.log(dataR)
+           alert("Load successfully!");
+            $("#initModal").css('display', 'none');
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

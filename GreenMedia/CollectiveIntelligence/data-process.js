@@ -1,5 +1,6 @@
 var fs = require('fs');  //fs是读取文件的模板工具
 let Star = require('../models/star');
+let Index = require('../models/index');
 let Story = require('../models/story');
 
 let ratings_flatten = []
@@ -31,7 +32,7 @@ module.exports = class initData {
 
                 users_flatten.push({
                     user_id: item.userId,
-                    username: tem.userId,
+                    username: item.userId,
                 })
 
             });
@@ -49,6 +50,7 @@ module.exports = class initData {
             });
 
             Star.insertMany(ratings_flatten);
+            Index.insertMany(users_flatten);
             Story.insertMany(stories_flatten);
         });
     }

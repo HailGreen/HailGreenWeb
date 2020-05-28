@@ -27,12 +27,20 @@ var initData = {name: null, value: null};
 var mediaStreamTrack = null; // the object of camera stream
 var scrollTop = window.scrollY;
 var isCanRun = true;
+
+/**
+ * listen on pic changes
+ */
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
         $("#upload-pics").hide();
         $("#camera").hide();
     }
 });
+
+/**
+ * listen on camera event
+ */
 $('#cameraModal').on('hide.bs.modal', function (e) {
     closeMedia();
 });
@@ -55,87 +63,11 @@ window.onscroll = () => {
     }
 }
 
-
 /**
- * get stories posted by certain user
- * @param user_id
+ * refresh index page
  */
-function getUserStories(user_id) {
-    var user = {};
-    user['user_id'] = user_id
-    $.ajax({
-        url: '/show-personal-wall',
-        data: user,
-        dataType: 'JSON',
-        type: 'POST',
-        success: function (dataR) {
-            console.log(dataR);
-            $("#sortDiv").css('display', 'none')
-            // $("#release").css('display', 'none')
-
-            $("#results").html('')
-
-            dataR.forEach((item) => {
-
-                var imgsTempStr = ``
-                item.pics.forEach((i) => {
-                    var tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
-                        `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>` +
-                        '</div>'
-                    imgsTempStr += tempStr
-                })
-
-                let time = formatTime(item.time);
-
-                $("#results").prepend(`<div class="media" story-id="${item._id}" >\n` +
-                    `                       <div class="media-body" story-id="${item._id}">\n` +
-                    '                         <p class="media-heading">\n' +
-                    `                         <p class="time">${time}</p></p>\n` +
-                    `                         <p id="text">${item.mention}</p>\n` +
-                    '                     <div class="row">\n' +
-                    imgsTempStr +
-                    '                       </div>\n' +
-                    '                     <div>\n' +
-                    `                       <ul class="list-group" id="ul1" story-id="${item._id}">\n` +
-                    '                       </ul>\n' +
-                    '                     </div>\n' +
-                    '                   </div>\n' +
-                    '                     </div>')
-
-                getStoryStars(item._id)
-            });
-
-            $("#results").prepend(`<h3 style="text-align:center;">${dataR[0].username}\'s Personal Wall</h3>`)
-            $("#results").prepend('<button class="btn" onclick="backToIndex()"> &lt;back</button>')
-
-        },
-        error: function (xhr, status, error) {
-            alert('Error: ' + error.message);
-        }
-    });
-}
-
-/**
- * init method: get stories form remote, sort by different labels
- */
-function getStories(storyNumbers = 0) {
-    let url = '/show-story';
-    let storyType = {};
-    storyType['user_id'] = localStorage.getItem('user_id');
-    storyType['story_number'] = storyNumbers;
-    storyType['sort_method'] = $('#dropdownMenu2').text();
-    sendAjaxQuery(url, storyType);
-}
-
-function backToIndex() {
-    $("#results").html('');
-    $("#sortDiv").css('display', 'block');
-    getStories()
-}
-
-
 function refreshIndex() {
-    if (localStorage.getItem('isOnline') === 'true'){
+    if (localStorage.getItem('isOnline') === 'true') {
         $("#results").html('');
         $("#sortDiv").css('display', 'block');
         getStories()
@@ -152,6 +84,17 @@ function sortBy(sortMethod) {
     getStories()
 }
 
+/**
+ * init method: get stories form remote, sort by different labels
+ */
+function getStories(storyNumbers = 0) {
+    let url = '/show-story';
+    let storyType = {};
+    storyType['user_id'] = localStorage.getItem('user_id');
+    storyType['story_number'] = storyNumbers;
+    storyType['sort_method'] = $('#dropdownMenu2').text();
+    sendAjaxQuery(url, storyType);
+}
 
 /**
  * get stories list from remote
@@ -172,9 +115,7 @@ function sendAjaxQuery(url, storyType) {
         error: function (xhr, status, error) {
             if (localStorage.getItem("isOnline") === "true") {
                 alert('Error: ' + error.message);
-                // $("#release").css('display', 'block');
             } else {
-                // $("#release").css('display', 'none');
             }
         }
     });
@@ -187,18 +128,18 @@ function sendAjaxQuery(url, storyType) {
 function showStoriesList(result) {
     result.forEach((item) => {
         // store stories to indexedDB
-         ('_id', item, STORE_STORIES)
-        console.log(item)
+        storeCachedData('_id', item, STORE_STORIES)
 
-        var imgsTempStr = ``
+        // display stories
+        let time = formatTime(item.time);
+        let imgsTempStr = ``
         item.pics.forEach((i) => {
-            var tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+            let tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
                 `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>` +
                 '</div>'
             imgsTempStr += tempStr
         })
 
-        let time = formatTime(item.time);
 
         $("#results").append(`<div class="media" story-id="${item.story_id}" >\n` +
             '                       <div class="media-left">\n' +
@@ -236,9 +177,7 @@ function showStoriesList(result) {
             '                     </div>\n' +
             '                   </div>\n' +
             '                     </div>')
-
     });
-
 }
 
 /**
@@ -253,11 +192,81 @@ function showCommentAndLikeAccordingToStoryId(result) {
     $("#unread-stories").html(0)
 }
 
-
+/**
+ * lazy load function
+ */
 function lazyLoad() {
     if ($("#main").height() < window.innerHeight + scrollTop + 50) {
         let currentStoryNumbers = $(".media").length;
         getStories(currentStoryNumbers);
     }
+}
 
+/**
+ * get stories posted by certain user,
+ * show someone's personal wall
+ * @param user_id
+ */
+function getUserStories(user_id) {
+    if (localStorage.getItem('isOnline') === 'false') {
+        alert('You are OFFLINE now')
+    } else {
+        var user = {};
+        user['user_id'] = user_id
+        $.ajax({
+            url: '/show-personal-wall',
+            data: user,
+            dataType: 'JSON',
+            type: 'POST',
+            success: function (dataR) {
+                $("#sortDiv").css('display', 'none')
+                $("#results").html('')
+
+                dataR.forEach((item) => {
+                    let time = formatTime(item.time);
+                    let imgsTempStr = ``
+                    item.pics.forEach((i) => {
+                        let tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+                            `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>` +
+                            '</div>'
+                        imgsTempStr += tempStr
+                    })
+
+
+                    $("#results").prepend(`<div class="media" story-id="${item._id}" >\n` +
+                        `                       <div class="media-body" story-id="${item._id}">\n` +
+                        '                         <p class="media-heading">\n' +
+                        `                         <p class="time">${time}</p></p>\n` +
+                        `                         <p id="text">${item.mention}</p>\n` +
+                        '                     <div class="row">\n' +
+                        imgsTempStr +
+                        '                       </div>\n' +
+                        '                     <div>\n' +
+                        `                       <ul class="list-group" id="ul1" story-id="${item._id}">\n` +
+                        '                       </ul>\n' +
+                        '                     </div>\n' +
+                        '                   </div>\n' +
+                        '                     </div>')
+
+                    getStoryStars(item._id)
+                });
+
+                $("#results").prepend(`<h3 style="text-align:center;">${dataR[0].username}\'s Personal Wall</h3>`)
+                $("#results").prepend('<button class="btn" onclick="backToIndex()"> &lt;back</button>')
+
+            },
+            error: function (xhr, status, error) {
+                alert('Error: ' + error.message);
+            }
+        });
+    }
+}
+
+/**
+ * go back to index page and refresh
+ */
+function backToIndex() {
+    $("#results").html('');
+    $("#sortDiv").css('display', 'block');
+    getStories()
 }

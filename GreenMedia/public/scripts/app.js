@@ -133,6 +133,15 @@ function backToIndex() {
     getStories()
 }
 
+
+function refreshIndex() {
+    if (localStorage.getItem('isOnline') === 'true'){
+        $("#results").html('');
+        $("#sortDiv").css('display', 'block');
+        getStories()
+    }
+}
+
 /**
  * toggle order of stories
  * @param sortMethod
@@ -178,7 +187,7 @@ function sendAjaxQuery(url, storyType) {
 function showStoriesList(result) {
     result.forEach((item) => {
         // store stories to indexedDB
-        storeCachedData('_id', item, STORE_STORIES)
+         ('_id', item, STORE_STORIES)
         console.log(item)
 
         var imgsTempStr = ``

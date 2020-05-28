@@ -20,6 +20,7 @@ var filesToCache = [
     '/scripts/render.js',
     '/scripts/event.js',
     '/scripts/login.js',
+    '/scripts/release.js',
     '/scripts/socket.io.2.2.0.js',
 ];
 

@@ -14,6 +14,7 @@ var filesToCache = [
     '/scripts/bootstrap.min.js',
     '/scripts/jquery.min.js',
     '/scripts/app.js',
+    '/scripts/init-socket.io.js',
     '/scripts/idb.js',
     '/scripts/idb-function.js',
     '/scripts/utils.js',

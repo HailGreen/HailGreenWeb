@@ -769,6 +769,7 @@ function isCanvasBlank(canvas) {
 function importData(obj) {
     console.log(initData);
     if (initData.name === null) {
+        console.log(obj.files);
         Array.from(obj.files).forEach((value, index) => {
             initData.value = value;
             initData.name = value.name;
@@ -796,7 +797,7 @@ function submitImportData() {
         type: 'post',
         success: function (dataR) {
             alert("Load successfully!");
-            $("#initModal").css('display', 'none');
+            $('#initModal').modal('hide');
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);
@@ -809,6 +810,7 @@ function removeInitFile() {
     initData.value = null;
     initData.name = null;
     $('#initFile').text("null");
+    $('#initUpload').val(null);
     $("#removeInitFileButton").css('display', 'none')
 }
 

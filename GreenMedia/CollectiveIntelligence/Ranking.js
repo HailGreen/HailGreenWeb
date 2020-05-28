@@ -63,5 +63,3 @@ module.exports = class Rank {
 
     }
 }
-// console.log(topMatches(critics, 'Toby', 3));
-// console.log(getRecommendations(critics, 'Toby'));

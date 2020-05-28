@@ -338,15 +338,24 @@ function getUserStories(user_id) {
  */
 function getStories(storyNumbers=0) {
     var url = '/show-story';
-    var user = {};
-    user['user_id'] = localStorage.getItem('user_id');
-    user['story_number']=storyNumbers;
-    var sortMethod = $('#dropdownMenu2').text();
-    if (sortMethod.indexOf('recommend') > -1) {
-        sendAjaxQuery(url, user, 'recommend');
+    // var user = {};
+    // user['user_id'] = localStorage.getItem('user_id');
+    // user['story_number']=storyNumbers;
+    // var sortMethod = $('#dropdownMenu2').text();
+    // if (sortMethod.indexOf('recommend') > -1) {
+    //     sendAjaxQuery(url, user, 'recommend');
+    // } else {
+    //     sendAjaxQuery(url, user, 'timeline');
+    // }
+    let storyType = {};
+    storyType['user_id'] = localStorage.getItem('user_id');
+    storyType['story_number']=storyNumbers;
+    if ($('#dropdownMenu2').text().indexOf('recommend') > -1) {
+        storyType['sort_method'] = 'recommend';
     } else {
-        sendAjaxQuery(url, user, 'timeline');
+        storyType['sort_method'] = 'timeline';
     }
+    sendAjaxQuery(url, storyType);
 }
 
 function backToIndex() {
@@ -492,7 +501,7 @@ function getRecommendations(users, stories) {
     // users = {users: users};
     users = JSON.stringify(users);
     let user_id = localStorage.getItem("user_id");
-    let input = {users: users, user_id: user_id}
+    let input = {users: users, user_id: user_id};
     $.ajax({
         url: '/get-recommendations',
         data: input,
@@ -561,24 +570,27 @@ function getComments(story_id) {
  * get stories list from remote
  * @param url
  * @param user
+ * @param sortBy
  */
-function sendAjaxQuery(url, user, sortBy) {
+function sendAjaxQuery(url, storyType) {
     $.ajax({
         url: url,
-        data: user,
+        data: storyType,
         dataType: 'json',
         type: 'POST',
         success: function (dataR) {
-            const result = Object.values({...dataR})
+            const result = Object.values({...dataR});
             // catch response data to indexedDB & show response to the main page
             //$("#results").html('')
             // display method
-            if (sortBy === 'recommend') {
-                getStars(result)
-            } else {
-                showStoriesList(result)
-                showCommentAndLikeAccordingToStoryId(result)
-            }
+            // if (sortBy === 'recommend') {
+            //     getStars(result);
+            // } else {
+            //     showStoriesList(result);
+            //     showCommentAndLikeAccordingToStoryId(result);
+            // }
+            showStoriesList(result);
+            showCommentAndLikeAccordingToStoryId(result);
         },
         error: function (xhr, status, error) {
             if (localStorage.getItem("isOnline") === "true") {

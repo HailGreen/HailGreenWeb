@@ -399,60 +399,60 @@
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="634" y="361" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1920.1057@0.23.1920.1057" timestamp="1584666608207" />
-    <state x="146" y="72" width="1340" height="795" key="CommitChangelistDialog2" timestamp="1590189668019">
+    <state x="146" y="72" width="1340" height="795" key="CommitChangelistDialog2" timestamp="1590623311813">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state x="305" y="72" key="CommitChangelistDialog2/0.23.1440.877@0.23.1440.877" timestamp="1587952793314" />
     <state x="461" y="154" width="1340" height="795" key="CommitChangelistDialog2/0.23.1920.1057@0.23.1920.1057" timestamp="1584591732634" />
-    <state x="146" y="72" key="CommitChangelistDialog2/50.23.1390.877@50.23.1390.877" timestamp="1590189668019" />
-    <state x="208" y="199" width="1112" height="701" key="DiffContextDialog" timestamp="1590185965227">
+    <state x="146" y="72" key="CommitChangelistDialog2/50.23.1390.877@50.23.1390.877" timestamp="1590623311813" />
+    <state x="208" y="199" width="1112" height="701" key="DiffContextDialog" timestamp="1590623283307">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state x="164" y="199" width="1152" height="701" key="DiffContextDialog/0.23.1440.877@0.23.1440.877" timestamp="1587950993530" />
-    <state x="208" y="199" width="1112" height="701" key="DiffContextDialog/50.23.1390.877@50.23.1390.877" timestamp="1590185965227" />
-    <state width="1348" height="324" key="GridCell.Tab.0.bottom" timestamp="1590189646510">
+    <state x="208" y="199" width="1112" height="701" key="DiffContextDialog/50.23.1390.877@50.23.1390.877" timestamp="1590623283307" />
+    <state width="1348" height="323" key="GridCell.Tab.0.bottom" timestamp="1590625368893">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state width="1206" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877/1440.23.1920.1057@0.23.1440.877" timestamp="1586206529955" />
     <state width="1398" height="201" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1587952685247" />
     <state width="1878" height="290" key="GridCell.Tab.0.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1584667973463" />
-    <state width="1348" height="324" key="GridCell.Tab.0.bottom/50.23.1390.877@50.23.1390.877" timestamp="1590189646510" />
-    <state width="1348" height="324" key="GridCell.Tab.0.center" timestamp="1590189646508">
+    <state width="1348" height="323" key="GridCell.Tab.0.bottom/50.23.1390.877@50.23.1390.877" timestamp="1590625368893" />
+    <state width="1348" height="323" key="GridCell.Tab.0.center" timestamp="1590625368892">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state width="1206" height="230" key="GridCell.Tab.0.center/0.23.1440.877/1440.23.1920.1057@0.23.1440.877" timestamp="1586206529955" />
     <state width="1398" height="201" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1587952685246" />
     <state width="1878" height="290" key="GridCell.Tab.0.center/0.23.1920.1057@0.23.1920.1057" timestamp="1584667973462" />
-    <state width="1348" height="324" key="GridCell.Tab.0.center/50.23.1390.877@50.23.1390.877" timestamp="1590189646508" />
-    <state width="1348" height="324" key="GridCell.Tab.0.left" timestamp="1590189646507">
+    <state width="1348" height="323" key="GridCell.Tab.0.center/50.23.1390.877@50.23.1390.877" timestamp="1590625368892" />
+    <state width="1348" height="323" key="GridCell.Tab.0.left" timestamp="1590625368891">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state width="1206" height="230" key="GridCell.Tab.0.left/0.23.1440.877/1440.23.1920.1057@0.23.1440.877" timestamp="1586206529954" />
     <state width="1398" height="201" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1587952685245" />
     <state width="1878" height="290" key="GridCell.Tab.0.left/0.23.1920.1057@0.23.1920.1057" timestamp="1584667973462" />
-    <state width="1348" height="324" key="GridCell.Tab.0.left/50.23.1390.877@50.23.1390.877" timestamp="1590189646507" />
-    <state width="1348" height="324" key="GridCell.Tab.0.right" timestamp="1590189646509">
+    <state width="1348" height="323" key="GridCell.Tab.0.left/50.23.1390.877@50.23.1390.877" timestamp="1590625368891" />
+    <state width="1348" height="323" key="GridCell.Tab.0.right" timestamp="1590625368892">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state width="1206" height="230" key="GridCell.Tab.0.right/0.23.1440.877/1440.23.1920.1057@0.23.1440.877" timestamp="1586206529955" />
     <state width="1398" height="201" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1587952685246" />
     <state width="1878" height="290" key="GridCell.Tab.0.right/0.23.1920.1057@0.23.1920.1057" timestamp="1584667973463" />
-    <state width="1348" height="324" key="GridCell.Tab.0.right/50.23.1390.877@50.23.1390.877" timestamp="1590189646509" />
-    <state x="190" y="100" key="MergeDialog" timestamp="1590180747975">
+    <state width="1348" height="323" key="GridCell.Tab.0.right/50.23.1390.877@50.23.1390.877" timestamp="1590625368892" />
+    <state x="190" y="100" key="MergeDialog" timestamp="1590615904968">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state x="145" y="100" key="MergeDialog/0.23.1440.877@0.23.1440.877" timestamp="1587950728135" />
-    <state x="190" y="100" key="MergeDialog/50.23.1390.877@50.23.1390.877" timestamp="1590180747975" />
-    <state x="467" y="184" key="MultipleFileMergeDialog" timestamp="1590180748016">
+    <state x="190" y="100" key="MergeDialog/50.23.1390.877@50.23.1390.877" timestamp="1590615904968" />
+    <state x="452" y="23" key="MultipleFileMergeDialog" timestamp="1590615905005">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state x="432" y="184" key="MultipleFileMergeDialog/0.23.1440.877@0.23.1440.877" timestamp="1587950730240" />
-    <state x="467" y="184" key="MultipleFileMergeDialog/50.23.1390.877@50.23.1390.877" timestamp="1590180748016" />
-    <state x="407" y="190" key="RollbackChangesDialog" timestamp="1590168060893">
+    <state x="452" y="23" key="MultipleFileMergeDialog/50.23.1390.877@50.23.1390.877" timestamp="1590615905005" />
+    <state x="407" y="190" key="RollbackChangesDialog" timestamp="1590619361202">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state x="370" y="190" key="RollbackChangesDialog/0.23.1440.877@0.23.1440.877" timestamp="1587555286973" />
-    <state x="407" y="190" key="RollbackChangesDialog/50.23.1390.877@50.23.1390.877" timestamp="1590168060893" />
+    <state x="407" y="190" key="RollbackChangesDialog/50.23.1390.877@50.23.1390.877" timestamp="1590619361202" />
     <state x="183" y="86" key="SettingsEditor" timestamp="1586203548895">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
@@ -465,12 +465,12 @@
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state x="595" y="384" key="VCS.ChangelistChooser/50.23.1390.877@50.23.1390.877" timestamp="1590168074176" />
-    <state x="455" y="245" key="Vcs.Push.Dialog.v2" timestamp="1590189671212">
+    <state x="455" y="245" key="Vcs.Push.Dialog.v2" timestamp="1590623314313">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state x="420" y="245" key="Vcs.Push.Dialog.v2/0.23.1440.877@0.23.1440.877" timestamp="1587952796418" />
     <state x="560" y="291" key="Vcs.Push.Dialog.v2/0.23.1920.1057@0.23.1920.1057" timestamp="1584591736810" />
-    <state x="455" y="245" key="Vcs.Push.Dialog.v2/50.23.1390.877@50.23.1390.877" timestamp="1590189671212" />
+    <state x="455" y="245" key="Vcs.Push.Dialog.v2/50.23.1390.877@50.23.1390.877" timestamp="1590623314313" />
     <state x="101" y="123" width="1240" height="677" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1587950865343">
       <screen x="0" y="23" width="1440" height="877" />
     </state>

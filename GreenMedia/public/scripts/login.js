@@ -34,3 +34,62 @@ function logout() {
     localStorage.clear()
     $('#loginModel').css('display', 'block')
 }
+
+/**
+ * import init json
+ */
+function importData(obj) {
+    console.log(initData);
+    if (initData.name === null) {
+        console.log(obj.files);
+        Array.from(obj.files).forEach((value, index) => {
+            initData.value = value;
+            initData.name = value.name;
+            $('#initFile').text(value.name);
+            $("#removeInitFileButton").css('display', 'block')
+        })
+
+    } else {
+        alert("You have upload init data")
+    }
+
+
+}
+
+
+
+/**
+ * submit init json
+ */
+function submitImportData() {
+    let formData = new FormData();
+    formData.append('initFile', initData.value, initData.name);
+
+    $.ajax({
+        url: '/init-data',
+        data: formData,
+        dataType: 'JSON',
+        contentType: false,
+        processData: false,
+        type: 'post',
+        success: function (dataR) {
+            alert("Load successfully!");
+            $('#initModal').modal('hide');
+        },
+        error: function (xhr, status, error) {
+            alert('Error: ' + error.message);
+        }
+    });
+}
+
+
+/**
+ * remove init json
+ */
+function removeInitFile() {
+    initData.value = null;
+    initData.name = null;
+    $('#initFile').text("null");
+    $('#initUpload').val(null);
+    $("#removeInitFileButton").css('display', 'none')
+}

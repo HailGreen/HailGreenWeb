@@ -337,16 +337,7 @@ function getUserStories(user_id) {
  * init method: get stories form remote, sort by different labels
  */
 function getStories(storyNumbers=0) {
-    var url = '/show-story';
-    // var user = {};
-    // user['user_id'] = localStorage.getItem('user_id');
-    // user['story_number']=storyNumbers;
-    // var sortMethod = $('#dropdownMenu2').text();
-    // if (sortMethod.indexOf('recommend') > -1) {
-    //     sendAjaxQuery(url, user, 'recommend');
-    // } else {
-    //     sendAjaxQuery(url, user, 'timeline');
-    // }
+    let url = '/show-story';
     let storyType = {};
     storyType['user_id'] = localStorage.getItem('user_id');
     storyType['story_number']=storyNumbers;
@@ -359,8 +350,8 @@ function getStories(storyNumbers=0) {
 }
 
 function backToIndex() {
-    $("#results").html('')
-    $("#sortDiv").css('display','block')
+    $("#results").html('');
+    $("#sortDiv").css('display','block');
     getStories()
 }
 
@@ -389,9 +380,9 @@ function getStar(story_id) {
         type: 'POST',
         success: function (dataR) {
             dataR.forEach((item) => {
-                changeStarShow(item.rate, item.story_id)
+                changeStarShow(item.rate, item.story_id);
                 // store like rate stars to indexedDB
-                storeCachedData('_id', item, STORE_STARS)
+                storeCachedData('story_id', item, STORE_STARS);
             })
         },
         error: function (xhr, status, error) {
@@ -463,82 +454,82 @@ function getStoryStars(story_id) {
     });
 }
 
-/**
- * get all stars and display by recommend
- * @param stories
- */
-function getStars(stories) {
-    $.ajax({
-        url: '/get-stars',
-        dataType: 'JSON',
-        type: 'POST',
-        success: function (dataR) {
-            let users = {};
-            dataR.forEach(item => {
-                if (!users[item.user_id]) {
-                    users[item.user_id] = [];
-                }
-                let story = item.story_id;
-                let rate = item.rate;
-                let object = {};
-                object[story] = rate;
-                users[item.user_id].push(object);
-            })
-            getRecommendations(users, stories);
-        },
-        error: function (xhr, status, error) {
-            alert('Error: ' + error.message);
-        }
-    });
-}
-
-/**
- * get recommend from remote
- * @param users
- * @param stories
- */
-function getRecommendations(users, stories) {
-    // users = {users: users};
-    users = JSON.stringify(users);
-    let user_id = localStorage.getItem("user_id");
-    let input = {users: users, user_id: user_id};
-    $.ajax({
-        url: '/get-recommendations',
-        data: input,
-        dataType: 'JSON',
-        type: 'POST',
-        success: function (dataR) {
-
-            //  compare and then display
-            var recommendIdArray = []
-            var result = []
-            var ratedResult = []
-
-            dataR.forEach((item, index) => {
-                recommendIdArray[index] = item.story
-            })
-
-            stories.forEach((item, index) => {
-                let rank_index = recommendIdArray.indexOf(item._id)
-                if (rank_index > -1) {
-                    result[rank_index] = item
-                } else {
-                    ratedResult.push(item)
-                }
-            })
-
-            result = result.concat(ratedResult)
-
-            // display
-            showStoriesList(result.reverse())
-            showCommentAndLikeAccordingToStoryId(result.reverse())
-
-        },
-        error: function (xhr, status, error) {
-            alert('Error: ' + error.message);
-        }
-    });
-}
+// /**
+//  * get all stars and display by recommend
+//  * @param stories
+//  */
+// function getStars(stories) {
+//     $.ajax({
+//         url: '/get-stars',
+//         dataType: 'JSON',
+//         type: 'POST',
+//         success: function (dataR) {
+//             let users = {};
+//             dataR.forEach(item => {
+//                 if (!users[item.user_id]) {
+//                     users[item.user_id] = [];
+//                 }
+//                 let story = item.story_id;
+//                 let rate = item.rate;
+//                 let object = {};
+//                 object[story] = rate;
+//                 users[item.user_id].push(object);
+//             })
+//             getRecommendations(users, stories);
+//         },
+//         error: function (xhr, status, error) {
+//             alert('Error: ' + error.message);
+//         }
+//     });
+// }
+//
+// /**
+//  * get recommend from remote
+//  * @param users
+//  * @param stories
+//  */
+// function getRecommendations(users, stories) {
+//     // users = {users: users};
+//     users = JSON.stringify(users);
+//     let user_id = localStorage.getItem("user_id");
+//     let input = {users: users, user_id: user_id};
+//     $.ajax({
+//         url: '/get-recommendations',
+//         data: input,
+//         dataType: 'JSON',
+//         type: 'POST',
+//         success: function (dataR) {
+//
+//             //  compare and then display
+//             var recommendIdArray = []
+//             var result = []
+//             var ratedResult = []
+//
+//             dataR.forEach((item, index) => {
+//                 recommendIdArray[index] = item.story
+//             })
+//
+//             stories.forEach((item, index) => {
+//                 let rank_index = recommendIdArray.indexOf(item._id)
+//                 if (rank_index > -1) {
+//                     result[rank_index] = item
+//                 } else {
+//                     ratedResult.push(item)
+//                 }
+//             })
+//
+//             result = result.concat(ratedResult)
+//
+//             // display
+//             showStoriesList(result.reverse())
+//             showCommentAndLikeAccordingToStoryId(result.reverse())
+//
+//         },
+//         error: function (xhr, status, error) {
+//             alert('Error: ' + error.message);
+//         }
+//     });
+// }
 
 /**
  * get comments by story id, success: save
@@ -569,8 +560,7 @@ function getComments(story_id) {
 /**
  * get stories list from remote
  * @param url
- * @param user
- * @param sortBy
+ * @param storyType
  */
 function sendAjaxQuery(url, storyType) {
     $.ajax({
@@ -580,15 +570,6 @@ function sendAjaxQuery(url, storyType) {
         type: 'POST',
         success: function (dataR) {
             const result = Object.values({...dataR});
-            // catch response data to indexedDB & show response to the main page
-            //$("#results").html('')
-            // display method
-            // if (sortBy === 'recommend') {
-            //     getStars(result);
-            // } else {
-            //     showStoriesList(result);
-            //     showCommentAndLikeAccordingToStoryId(result);
-            // }
             showStoriesList(result);
             showCommentAndLikeAccordingToStoryId(result);
         },
@@ -626,13 +607,13 @@ function showStoriesList(result) {
 
         let time = formatTime(item.time);
 
-        $("#results").append(`<div class="media" story-id="${item._id}" >\n` +
+        $("#results").append(`<div class="media" story-id="${item.story_id}" >\n` +
             '                       <div class="media-left">\n' +
             '                         <a href="#">\n' +
             '                           <img class="media-object" src="/images/icons/user.svg" alt="user">\n' +
             '                     </a>\n' +
             '                   </div>\n' +
-            `                       <div class="media-body" story-id="${item._id}">\n` +
+            `                       <div class="media-body" story-id="${item.story_id}">\n` +
             '                         <p class="media-heading">\n' +
             `                         <a href="#" class="user-name" user-id="${item.user_id}" onclick="getUserStories(${item.user_id})">${item.username}</a>\n` +
             `                         <p class="time">${time}</p></p>\n` +
@@ -642,22 +623,22 @@ function showStoriesList(result) {
             '                       </div>\n' +
             '                   <div class="height-30">\n' +
             '                     <div class="float-right">\n' +
-            `                       <a onclick="addComment('${item._id}')" class="word-button"><span class="glyphicon glyphicon-comment"\n` +
+            `                       <a onclick="addComment('${item.story_id}')" class="word-button"><span class="glyphicon glyphicon-comment"\n` +
             `                                                                            aria-hidden="true"></span> comment</a> &nbsp \n` +
             '                       <a class="word-button"> \n' +
             '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
-            `                                  value="1" story-id="${item._id}"></span>\n` +
+            `                                  value="1" story-id="${item.story_id}"></span>\n` +
             '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
-            `                                  value="2" story-id="${item._id}"></span>\n` +
+            `                                  value="2" story-id="${item.story_id}"></span>\n` +
             '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
-            `                                  value="3" story-id="${item._id}"></span>\n` +
+            `                                  value="3" story-id="${item.story_id}"></span>\n` +
             '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
-            `                                  value="4" story-id="${item._id}"></span>\n` +
+            `                                  value="4" story-id="${item.story_id}"></span>\n` +
             '                       </a>\n' +
             '                     </div>\n' +
             '                     </div>\n' +
             '                     <div>\n' +
-            `                       <ul class="list-group" id="ul1" story-id="${item._id}">\n` +
+            `                       <ul class="list-group" id="ul1" story-id="${item.story_id}">\n` +
             '                       </ul>\n' +
             '                     </div>\n' +
             '                   </div>\n' +

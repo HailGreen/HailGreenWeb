@@ -51,11 +51,12 @@ exports.getStories = function (req, res) {
     let user_id = req.body.user_id;
     let story_number = req.body.story_number;
     let sort_method = req.body.sort_method;
-    console.log(sort_method);
     try {
         if (String(sort_method) === 'recommend') {
             Story.find(function (err, stories) {
                 Star.find(function (err, stars) {
+                    // Obtain the values of users.
+                    // The structure of users is: {["user_id"]:[{"story_id": rate}]}
                     let users = {};
                     stars.forEach(item => {
                         if (!users[item.user_id]) {
@@ -67,29 +68,27 @@ exports.getStories = function (req, res) {
                         object[story] = rate;
                         users[item.user_id].push(object);
                     });
-                    users = JSON.stringify(users);
+                    // Get the recommendations according to the user_id and users through sim_pearson
                     let ranking = new Ranking();
                     let results = ranking.getRecommendations(users, user_id, 'sim_pearson');
-                    //  compare and then display
                     let recommendIdArray = [];
                     let result = [];
                     let ratedResult = [];
-
                     results.forEach((item, index) => {
-                        recommendIdArray[index] = item.story
+                        recommendIdArray[index] = item.story;
                     });
-
+                    let times = 0;
                     stories.forEach((item, index) => {
-                        let rank_index = recommendIdArray.indexOf(item._id)
+                        let rank_index = recommendIdArray.indexOf(item.story_id);
+                        times += 1;
                         if (rank_index > -1) {
                             result[rank_index] = item
                         } else {
                             ratedResult.push(item)
                         }
                     });
-
                     result = result.concat(ratedResult);
-
+                    result = result.slice(Number (story_number), Number (story_number) + 10);
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify(result));
                 })
@@ -102,7 +101,6 @@ exports.getStories = function (req, res) {
                         if(err){
                             res.send(err);
                         }else{
-                            //计算数据总数
                             stories.reverse();
                             res.setHeader('Content-Type', 'application/json');
                             res.send(JSON.stringify(stories));

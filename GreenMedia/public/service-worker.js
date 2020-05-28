@@ -68,7 +68,6 @@ self.addEventListener('fetch', function (e) {
         '/show-story',
         '/insert-comment',
         '/get-star',
-        '/get-stars',
         '/update-star',
         '/get-recommendations'];
     //if the request is '/', post to the server - do nit try to cache it

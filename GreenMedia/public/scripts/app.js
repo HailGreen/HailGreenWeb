@@ -7,7 +7,11 @@ $(function () {
         $('#loginModel').css('display', 'none')
         $("#dropdownMenu1").text(localStorage.getItem("user_name"));
         syncIndexedDB2Remote()
-        getStories()
+        if (localStorage.getItem('isOnline') === 'false') {
+            getStoriesInIndexedDB();
+        } else {
+            getStories()
+        }
     } else {
         $('#loginModel').css('display', 'block')
     }
@@ -19,10 +23,10 @@ $(function () {
  * these are the global variables and function
  */
 var uploadFiles = [];
-var initData = {name:null,value:null};
+var initData = {name: null, value: null};
 var mediaStreamTrack = null; // the object of camera stream
 var scrollTop = window.scrollY;
-var isCanRun =true;
+var isCanRun = true;
 $("#add-pics").on("change", function () {
     if (uploadFiles.length === 3) {
         $("#upload-pics").hide();
@@ -38,16 +42,17 @@ $('#cameraModal').on('hide.bs.modal', function (e) {
  * judge lazy load
  */
 window.onscroll = () => {
-    if (!isCanRun) {
-        return
+    if (localStorage.getItem('isOnline') === 'true') {
+        if (!isCanRun) {
+            return
+        }
+        isCanRun = false;
+        setTimeout(() => {
+            scrollTop = window.scrollY;
+            lazyLoad();
+            isCanRun = true;
+        }, 1000)
     }
-    isCanRun = false;
-    setTimeout(() => {
-        scrollTop = window.scrollY;
-        lazyLoad();
-        isCanRun = true;
-    }, 1000)
-
 }
 
 
@@ -113,18 +118,18 @@ function getUserStories(user_id) {
 /**
  * init method: get stories form remote, sort by different labels
  */
-function getStories(storyNumbers=0) {
+function getStories(storyNumbers = 0) {
     let url = '/show-story';
     let storyType = {};
     storyType['user_id'] = localStorage.getItem('user_id');
-    storyType['story_number']=storyNumbers;
+    storyType['story_number'] = storyNumbers;
     storyType['sort_method'] = $('#dropdownMenu2').text();
     sendAjaxQuery(url, storyType);
 }
 
 function backToIndex() {
     $("#results").html('');
-    $("#sortDiv").css('display','block');
+    $("#sortDiv").css('display', 'block');
     getStories()
 }
 
@@ -162,9 +167,6 @@ function sendAjaxQuery(url, storyType) {
             } else {
                 // $("#release").css('display', 'none');
             }
-            // get indexedDB cache
-            getStoriesInIndexedDB();
-
         }
     });
 }
@@ -243,13 +245,9 @@ function showCommentAndLikeAccordingToStoryId(result) {
 }
 
 
-
-
-
-
 function lazyLoad() {
-    if ($("#main").height() < window.innerHeight + scrollTop+50) {
-        let currentStoryNumbers=$(".media").length;
+    if ($("#main").height() < window.innerHeight + scrollTop + 50) {
+        let currentStoryNumbers = $(".media").length;
         getStories(currentStoryNumbers);
     }
 

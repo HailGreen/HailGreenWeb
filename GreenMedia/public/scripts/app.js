@@ -615,7 +615,7 @@ function showStoriesList(result) {
             '                   </div>\n' +
             `                       <div class="media-body" story-id="${item.story_id}">\n` +
             '                         <p class="media-heading">\n' +
-            `                         <a href="#" class="user-name" user-id="${item.user_id}" onclick="getUserStories(${item.user_id})">${item.username}</a>\n` +
+            `                         <a href="#" class="user-name" user-id="${item.user_id}" onclick="getUserStories('${item.user_id}')">${item.username}</a>\n` +
             `                         <p class="time">${time}</p></p>\n` +
             `                         <p id="text">${item.mention}</p>\n` +
             '                     <div class="row">\n' +

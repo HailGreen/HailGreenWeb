@@ -24,6 +24,7 @@ var filesToCache = [
     '/scripts/release.js',
     '/scripts/comment.js',
     '/scripts/star.js',
+    '/scripts/personal-wall.js',
     '/scripts/socket.io.2.2.0.js',
 ];
 

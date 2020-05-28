@@ -118,12 +118,7 @@ function getStories(storyNumbers=0) {
     let storyType = {};
     storyType['user_id'] = localStorage.getItem('user_id');
     storyType['story_number']=storyNumbers;
-    // if ($('#dropdownMenu2').text().indexOf('recommend') > -1) {
-    //     storyType['sort_method'] = 'recommend';
-    // } else {
-    //     storyType['sort_method'] = 'timeline';
-    // }
-    storyType['sort_method'] = $('#dropdownMenu2').text()
+    storyType['sort_method'] = $('#dropdownMenu2').text();
     sendAjaxQuery(url, storyType);
 }
 

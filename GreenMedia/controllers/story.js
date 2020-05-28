@@ -51,8 +51,30 @@ exports.getStories = function (req, res) {
     let user_id = req.body.user_id;
     let story_number = req.body.story_number;
     let sort_method = req.body.sort_method;
+    if (sort_method.indexOf('Pearson') > -1){
+        sort_method = 'sim_pearson';
+    } else if (sort_method.indexOf('Euclidean') > -1){
+        sort_method = 'sim_euclidean'
+    } else {
+        sort_method = 'timeline';
+    }
     try {
-        if (String(sort_method) === 'recommend') {
+        if (sort_method === 'timeline') {
+            Story.countDocuments(function (err, count) {
+                if (!err) {
+                    let query = Story.find().skip(count - Number (story_number) - 10).limit(10);
+                    query.exec(function(err,stories){
+                        if(err){
+                            res.send(err);
+                        }else{
+                            stories.reverse();
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify(stories));
+                        }
+                    });
+                }
+            });
+        } else {
             Story.find(function (err, stories) {
                 Star.find(function (err, stars) {
                     // Obtain the values of users.
@@ -70,7 +92,7 @@ exports.getStories = function (req, res) {
                     });
                     // Get the recommendations according to the user_id and users through sim_pearson
                     let ranking = new Ranking();
-                    let results = ranking.getRecommendations(users, user_id, 'sim_pearson');
+                    let results = ranking.getRecommendations(users, user_id, sort_method);
                     let recommendIdArray = [];
                     let result = [];
                     let ratedResult = [];
@@ -93,21 +115,6 @@ exports.getStories = function (req, res) {
                     res.send(JSON.stringify(result));
                 })
             })
-        } else {
-            Story.countDocuments(function (err, count) {
-                if (!err) {
-                    let query = Story.find().skip(count - Number (story_number) - 10).limit(10);
-                    query.exec(function(err,stories){
-                        if(err){
-                            res.send(err);
-                        }else{
-                            stories.reverse();
-                            res.setHeader('Content-Type', 'application/json');
-                            res.send(JSON.stringify(stories));
-                        }
-                    });
-                }
-            });
         }
     } catch (e) {
         res.status(500).send('error ' + e);

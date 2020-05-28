@@ -16,13 +16,11 @@ window.addEventListener('online', function (e) {
 }, false);
 
 
-
 /**
  * the function to hide release button
  */
 function showOffline() {
     localStorage.setItem("isOnline", "false");
-    // $("#release").css('display', 'none');
 }
 
 
@@ -31,5 +29,4 @@ function showOffline() {
  */
 function hideOffline() {
     localStorage.setItem("isOnline", "true");
-    // $("#release").css('display', 'block');
 }

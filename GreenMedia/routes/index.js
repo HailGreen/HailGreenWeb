@@ -7,7 +7,7 @@ var index = require('../controllers/index');
 var comment = require('../controllers/comment');
 var star = require('../controllers/star');
 var Ranking = require('../CollectiveIntelligence/Ranking');
-var InitData=require('../CollectiveIntelligence/data-process')
+var InitData = require('../CollectiveIntelligence/data-process')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -60,13 +60,18 @@ router.post('/get-recommendations', function (req, res, next) {
 /* update like rate stars */
 router.put('/update-star', star.updateStar);
 
-/*init database*/
-router.post('/init-data',upload.single('initFile'),function (req,res,next) {
-    let file=req.file;
+/* init database*/
+router.post('/init-data', upload.single('initFile'), function (req, res, next) {
+    let file = req.file;
     let initMethod = new InitData();
     // console.log(file);
-    let results= initMethod.readFiles(file.path);
+    let results = initMethod.readFiles(file.path);
     res.send(JSON.stringify("ok"));
+});
+
+/* personalwall route*/
+router.get('/personalwall', function (req, res, next) {
+    res.render('personalwall', {title: 'Express'});
 });
 
 module.exports = router;

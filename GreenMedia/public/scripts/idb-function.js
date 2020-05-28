@@ -144,7 +144,8 @@ function getStoriesInIndexedDB() {
                 cursor.continue()
             } else {
                 console.log("res of posts", res);
-                showStoriesList(res)
+
+                showStoriesList(res.reverse())
                 getCommentInIndexedDB()
                 getStarsInIndexedDB()
             }

@@ -1,6 +1,10 @@
 let Star = require('../models/star');
 
-
+/**
+ * Rate the story set by the user
+ * @param req
+ * @param res
+ */
 exports.insert = function (req, res) {
     let user_id = req.body.user_id;
     let story_id = req.body.story_id;
@@ -25,11 +29,15 @@ exports.insert = function (req, res) {
     }
 }
 
+/**
+ * Update the star.
+ * @param req
+ * @param res
+ */
 exports.updateStar = function (req, res) {
     let user_id = req.body.user_id;
     let story_id = req.body.story_id;
     let rate = req.body.rate;
-    console.log(req.body);
     try {
         Star.update({user_id: user_id, story_id: story_id}, {rate: rate}, {upsert: true},
             function (err, star) {
@@ -43,6 +51,11 @@ exports.updateStar = function (req, res) {
     }
 }
 
+/**
+ * Get the star according to the user_id and the story_id;
+ * @param req
+ * @param res
+ */
 exports.getStar = function (req, res) {
     let user_id = req.body.user_id;
     let story_id = req.body.story_id;
@@ -59,6 +72,11 @@ exports.getStar = function (req, res) {
     }
 }
 
+/**
+ * Get stars of one story;
+ * @param req
+ * @param res
+ */
 exports.getStoryStars = function (req, res) {
     let story_id = req.body.story_id;
     try {
@@ -73,6 +91,7 @@ exports.getStoryStars = function (req, res) {
         res.status(500).send('error '+ e);
     }
 }
+
 
 exports.getStars = function (req, res) {
     try {

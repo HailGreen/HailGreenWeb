@@ -2,9 +2,17 @@ let Story = require('../models/story');
 let Star = require('../models/star');
 let Ranking = require('../CollectiveIntelligence/Ranking');
 
+/**
+ * Insert one story;
+ * @param req
+ * @param res
+ */
 exports.insertStory = function (req, res) {
+    // story text;
     let mention = req.body.mention;
+    // story pictures;
     let pics = req.files;
+    // userId
     let id = req.body.id;
     let username = req.body.username;
     let story_id = req.body.story_id;
@@ -99,10 +107,8 @@ exports.getStories = function (req, res) {
                     results.forEach((item, index) => {
                         recommendIdArray[index] = item.story;
                     });
-                    let times = 0;
                     stories.forEach((item, index) => {
                         let rank_index = recommendIdArray.indexOf(item.story_id);
-                        times += 1;
                         if (rank_index > -1) {
                             result[rank_index] = item
                         } else {

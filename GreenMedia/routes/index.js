@@ -9,7 +9,7 @@ var star = require('../controllers/star');
 var Ranking = require('../CollectiveIntelligence/Ranking');
 var InitData = require('../CollectiveIntelligence/data-process')
 
-/* GET home page. */
+/* get home page. */
 router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
@@ -17,14 +17,13 @@ router.get('/', function (req, res, next) {
 /* get comments */
 router.post('/get-comments', comment.getComments);
 
-/* post function */
 /* get the user */
 router.post('/get-user', index.getUser);
 
 router.post('/get-user-id', index.getUserById);
 
 /* get user list */
-router.get('/get-user-list', index.getUserList);
+// router.get('/get-user-list', index.getUserList);
 
 /* send words & pics */
 router.post('/release-story', upload.array('files', 3), story.insertStory);

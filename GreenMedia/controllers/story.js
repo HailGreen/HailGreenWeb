@@ -97,8 +97,7 @@ exports.getStories = function (req, res) {
         } else {
             Story.countDocuments(function (err, count) {
                 if (!err) {
-                    let total_story = count;
-                    let query = Story.find().skip(total_story - Number (story_number) - 10).limit(10);
+                    let query = Story.find().skip(count - Number (story_number) - 10).limit(10);
                     query.exec(function(err,stories){
                         if(err){
                             res.send(err);

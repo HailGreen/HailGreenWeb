@@ -673,8 +673,8 @@ function showStoriesList(result) {
  */
 function showCommentAndLikeAccordingToStoryId(result) {
     result.forEach((item) => {
-        getComments(item._id)
-        getStar(item._id)
+        getComments(item.story_id);
+        getStar(item.story_id);
     })
     $("#unread-stories").html(0)
 }

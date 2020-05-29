@@ -81,13 +81,17 @@ exports.getStar = function (req, res) {
 exports.getStoryStars = function (req, res) {
     // story_id
     let story_id = req.body.story_id;
+    let countUsersInRate={1:0,2:0,3:0,4:0,5:0};
     try {
         Star.find({story_id: story_id},
             function (err, stars) {
                 if (err)
                     res.status(500).send('Cannot get stars of this story!');
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(stars));
+                stars.forEach((item,index)=>{
+                    countUsersInRate[item.rate]+=1;
+                })
+                res.send(JSON.stringify(countUsersInRate));
             });
     } catch (e) {
         res.status(500).send('error '+ e);

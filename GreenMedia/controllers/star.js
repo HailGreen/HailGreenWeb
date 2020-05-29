@@ -74,38 +74,33 @@ exports.getStar = function (req, res) {
 };
 
 /**
- * Get stars of one story;
+ * Get stars of stories which are from one user;
  * @param req
  * @param res
  */
 exports.getStoryStars = function (req, res) {
-    // story_id
     let story_id = JSON.parse(req.body.story_id);
-    let storiesStar = {}
     try {
-
-       story_id.forEach((story, index) => {
-            let countUsersInRate = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
-            Star.find({story_id: story},
-                function (err, stars) {
-                    if (err)
-                        res.status(500).send('Cannot get stars of this story!');
-                    stars.forEach((item, index) => {
-                        countUsersInRate[item.rate] += 1;
-                    })
-                    global.storiesStar[story]=countUsersInRate
+        let story_rate_count = {};
+        // Initialize the story rate.
+        story_id.forEach((item) => {
+            story_rate_count[item] = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+        });
+        Star.find({story_id},
+            function (err, stars) {
+                if (err)
+                    res.status(500).send('Cannot get stars of this story!');
+                // Count the story rate
+                stars.forEach((item) => {
+                    story_rate_count[item.story_id][item.rate] ++;
                 });
-
-        })
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(storiesStar));
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(story_rate_count));
+            });
     } catch (e) {
         res.status(500).send('error ' + e);
     }
-
-
 };
-
 
 /**
  * Get all the stars

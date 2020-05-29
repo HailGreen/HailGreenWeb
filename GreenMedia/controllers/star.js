@@ -45,7 +45,7 @@ exports.updateStar = function (req, res) {
                     res.status(500).send('Cannot update the rate of this story!');
                 res.setHeader('Content-Type', 'application/json');
                 res.send({"code": 0, "msg": "success"});
-        })
+            })
     } catch (e) {
         res.status(500).send('error ' + e);
     }
@@ -69,7 +69,7 @@ exports.getStar = function (req, res) {
                 res.send(JSON.stringify(star));
             });
     } catch (e) {
-        res.status(500).send('error '+ e);
+        res.status(500).send('error ' + e);
     }
 };
 
@@ -80,22 +80,30 @@ exports.getStar = function (req, res) {
  */
 exports.getStoryStars = function (req, res) {
     // story_id
-    let story_id = req.body.story_id;
-    let countUsersInRate={1:0,2:0,3:0,4:0,5:0};
+    let story_id = JSON.parse(req.body.story_id);
+    let storiesStar = {}
     try {
-        Star.find({story_id: story_id},
-            function (err, stars) {
-                if (err)
-                    res.status(500).send('Cannot get stars of this story!');
-                res.setHeader('Content-Type', 'application/json');
-                stars.forEach((item,index)=>{
-                    countUsersInRate[item.rate]+=1;
-                })
-                res.send(JSON.stringify(countUsersInRate));
-            });
+
+       story_id.forEach((story, index) => {
+            let countUsersInRate = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+            Star.find({story_id: story},
+                function (err, stars) {
+                    if (err)
+                        res.status(500).send('Cannot get stars of this story!');
+                    stars.forEach((item, index) => {
+                        countUsersInRate[item.rate] += 1;
+                    })
+                    global.storiesStar[story]=countUsersInRate
+                });
+
+        })
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(storiesStar));
     } catch (e) {
-        res.status(500).send('error '+ e);
+        res.status(500).send('error ' + e);
     }
+
+
 };
 
 
@@ -114,6 +122,6 @@ exports.getStars = function (req, res) {
                 res.send(JSON.stringify(stars));
             });
     } catch (e) {
-        res.status(500).send('error '+ e);
+        res.status(500).send('error ' + e);
     }
 };

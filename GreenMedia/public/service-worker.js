@@ -66,6 +66,7 @@ self.addEventListener('fetch', function (e) {
         '/get-user',
         '/get-user-id',
         '/get-user-list',
+        '/init-data',
         '/get-story-stars',
         '/show-personal-wall',
         '/release-story',

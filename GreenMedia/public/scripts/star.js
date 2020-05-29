@@ -58,7 +58,7 @@ function getStar(story_id) {
 function getStoryStars(story_ids) {
     let story = {};
     // let user_likes = {};
-    story['story_id'] = story_ids;
+    story['story_id'] = JSON.stringify(story_ids);
     $.ajax({
         url: '/get-story-stars',
         data: story,

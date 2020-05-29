@@ -51,8 +51,8 @@ function getUserStories(user_id) {
                     })
 
 
-                    $("#results").prepend(`<div class="media" story-id="${item._id}" >\n` +
-                        `                       <div class="media-body" story-id="${item._id}">\n` +
+                    $("#results").prepend(`<div class="media" story-id="${item.story_id}" >\n` +
+                        `                       <div class="media-body" story-id="${item.story_id}">\n` +
                         '                         <p class="media-heading">\n' +
                         `                         <p class="time">${time}</p></p>\n` +
                         `                         <p id="text">${item.mention}</p>\n` +
@@ -60,13 +60,13 @@ function getUserStories(user_id) {
                         imgsTempStr +
                         '                       </div>\n' +
                         '                     <div>\n' +
-                        `                       <ul class="list-group" id="ul1" story-id="${item._id}">\n` +
+                        `                       <ul class="list-group" id="ul1" story-id="${item.story_id}">\n` +
                         '                       </ul>\n' +
                         '                     </div>\n' +
                         '                   </div>\n' +
                         '                     </div>')
 
-                    getStoryStars(item._id)
+                    getStoryStars(item.story_id)
                 });
             },
             error: function (xhr, status, error) {

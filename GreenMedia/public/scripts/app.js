@@ -82,7 +82,11 @@ function refreshIndex() {
 function sortBy(sortMethod) {
     $("#dropdownMenu2").text('Sort by: ' + sortMethod);
     $("#results").html('')
-    getStories()
+    if (localStorage.getItem('isOnline') === 'false') {
+        getStoriesInIndexedDB();
+    } else {
+        getStories()
+    }
 }
 
 /**

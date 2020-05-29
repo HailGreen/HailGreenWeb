@@ -9,7 +9,7 @@
  * @param storyId
  */
 function changeStarShow(starValue, storyId) {
-    for (var index = 0; index < 5; index++) {
+    for (var index = 0; index <= 5; index++) {
         if (index <= starValue) {
             $(`span[value=${index}][story-id=${storyId}]`).attr('class', 'glyphicon glyphicon-star')
         } else {

@@ -176,6 +176,8 @@ function showStoriesList(result) {
             `                                  value="3" story-id="${item.story_id}"></span>\n` +
             '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
             `                                  value="4" story-id="${item.story_id}"></span>\n` +
+            '                         <span class="glyphicon glyphicon-star glyphicon-star-empty" onclick="updateStar(this)"\n' +
+            `                                  value="5" story-id="${item.story_id}"></span>\n` +
             '                       </a>\n' +
             '                     </div>\n' +
             '                     </div>\n' +

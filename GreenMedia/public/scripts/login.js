@@ -18,6 +18,7 @@ function login() {
                 $('#dropdownMenu1').text(dataR.user_name)
                 localStorage.setItem("isOnline", "true");
                 localStorage.setItem("sort_by", "timeline");
+                $('#results').html('')
                 getStories()
             }
         },

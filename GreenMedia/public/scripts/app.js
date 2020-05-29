@@ -72,6 +72,8 @@ function refreshIndex() {
         $("#results").html('');
         $("#sortDiv").css('display', 'block');
         getStories()
+    } else {
+        alert('You are OFFLINE')
     }
 }
 

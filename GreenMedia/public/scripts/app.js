@@ -80,11 +80,12 @@ function refreshIndex() {
  * @param sortMethod
  */
 function sortBy(sortMethod) {
-    $("#dropdownMenu2").text('Sort by: ' + sortMethod);
-    $("#results").html('')
     if (localStorage.getItem('isOnline') === 'false') {
+        alert('You are OFFLINE')
         getStoriesInIndexedDB();
     } else {
+        $("#dropdownMenu2").text('Sort by: ' + sortMethod);
+        $("#results").html('')
         getStories()
     }
 }

@@ -126,6 +126,14 @@ io.sockets.on('connection', function (socket) {
     socket.emit('story-updated',socket.newStoryCount)
     socket.broadcast.emit('story-updated',socket.newStoryCount)
   })
+
+  //listen refresh event,  badge = 0
+  socket.on('refresh-story', function () {
+    socket.newStoryCount = 0
+    socket.emit('story-updated',socket.newStoryCount)
+    socket.broadcast.emit('story-updated',socket.newStoryCount)
+  })
+
 })
 
 

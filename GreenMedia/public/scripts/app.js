@@ -71,6 +71,7 @@ function refreshIndex() {
     if (localStorage.getItem('isOnline') === 'true') {
         $("#results").html('');
         $("#sortDiv").css('display', 'block');
+        socket.emit('refresh-story');
         getStories()
     } else {
         alert('You are OFFLINE')
@@ -213,7 +214,7 @@ function lazyLoad() {
 }
 
 /**
- * jump to personal wall 
+ * jump to personal wall
  * @param userId
  * @param userName
  */

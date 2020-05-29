@@ -75,3 +75,18 @@ function getUserStories(user_id) {
         });
     }
 }
+
+
+/**
+ * When the client gets off-line
+ */
+window.addEventListener('offline', function (e) {
+    localStorage.setItem("isOnline", "false");
+}, false);
+
+/**
+ * When the client gets online
+ */
+window.addEventListener('online', function (e) {
+    localStorage.setItem("isOnline", "true");
+}, false);

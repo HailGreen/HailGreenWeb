@@ -65,36 +65,120 @@ function getStoryStars(story_ids) {
         dataType: 'JSON',
         type: 'POST',
         success: function (dataR) {
-            // dataR.forEach((star) => {
-            //     let user_id = star.user_id;
-            //     let rate = star.rate
-            //
-            //     let tempstr = `<span></span>` +
-            //         '                   <div class="height-30">\n' +
-            //         '                     <div class="float-right">\n' +
-            //         '                       <a class="word-button"> \n' +
-            //         `${user_id} : ` +
-            //         '                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n' +
-            //         `                                  value="1" story-id="${story_id}" user-name="${user_id}"></span>\n` +
-            //         '                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n' +
-            //         `                                  value="2" story-id="${story_id}" user-name="${user_id}"></span>\n` +
-            //         '                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n' +
-            //         `                                  value="3" story-id="${story_id}" user-name="${user_id}"></span>\n` +
-            //         '                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n' +
-            //         `                                  value="4" story-id="${story_id}" user-name="${user_id}"></span>\n` +
-            //         '                       </a>\n' +
-            //         '                     </div>\n' +
-            //         '                     </div>\n'
-            //     $(`.media-body[story-id=${story_id}]`).append(tempstr)
-            //
-            //     // for (var index = 0; index < 5; index++) {
-            //     //     if (index <= star.rate) {
-            //     //         $(`span[value=${index}][story-id=${story_id}][user-name=${user_id}]`).attr('class', 'glyphicon glyphicon-star')
-            //     //     } else {
-            //     //         $(`span[value=${index}][story-id=${story_id}][user-name=${user_id}]`).attr('class', 'glyphicon glyphicon-star glyphicon-star-empty')
-            //     //     }
-            //     // }
-            // })
+            // console.log(dataR)
+            for (let item in dataR) {
+                console.log(dataR[item])
+                for (let index in dataR[item]) {
+                    let rate = dataR[item][index]
+                    let tempstr = ''
+
+                    switch (Number(index)) {
+
+                        case 1:
+                            console.log(Number(index))
+                            tempstr = '          <div class="height-30">\n' +
+                                '                     <div class="float-right">\n' +
+                                '                       <a class="word-button"> \n' +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="1" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="2" story-id="${item} " ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="3" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="4" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="5" story-id="${item}" ></span>\n` +
+                                `                         <span>: ${rate}</span>\n` +
+                                '                       </a>\n' +
+                                '                     </div>\n' +
+                                '                     </div>\n'
+                            $(`.media-body[story-id=${item}]`).append(tempstr)
+                            break;
+                        case 2:
+                            tempstr = '          <div class="height-30">\n' +
+                                '                     <div class="float-right">\n' +
+                                '                       <a class="word-button"> \n' +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="1" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="2" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="3" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="4" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="5" story-id="${item}" ></span>\n` +
+                                `                         <span>: ${rate}</span>\n` +
+                                '                       </a>\n' +
+                                '                     </div>\n' +
+                                '                     </div>\n'
+                            $(`.media-body[story-id=${item}]`).append(tempstr)
+                            break;
+                        case 3:
+                            tempstr = '          <div class="height-30">\n' +
+                                '                     <div class="float-right">\n' +
+                                '                       <a class="word-button"> \n' +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="1" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="2" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="3" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="4" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="5" story-id="${item}" ></span>\n` +
+                                `                         <span>: ${rate}</span>\n` +
+                                '                       </a>\n' +
+                                '                     </div>\n' +
+                                '                     </div>\n'
+                            $(`.media-body[story-id=${item}]`).append(tempstr)
+                            break;
+                        case 4:
+                            tempstr = '          <div class="height-30">\n' +
+                                '                     <div class="float-right">\n' +
+                                '                       <a class="word-button"> \n' +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="1" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="2" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="3" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="4" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star glyphicon-star-empty"\n` +
+                                `                                  value="5" story-id="${item}" ></span>\n` +
+                                `                         <span>: ${rate}</span>\n` +
+                                '                       </a>\n' +
+                                '                     </div>\n' +
+                                '                     </div>\n'
+                            $(`.media-body[story-id=${item}]`).append(tempstr)
+                            break;
+                        case 5:
+                            tempstr = '          <div class="height-30">\n' +
+                                '                     <div class="float-right">\n' +
+                                '                       <a class="word-button"> \n' +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="1" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="2" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="3" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="4" story-id="${item}" ></span>\n` +
+                                `                         <span class="glyphicon glyphicon-star"\n` +
+                                `                                  value="5" story-id="${item}" ></span>\n` +
+                                `                         <span>: ${rate}</span>\n` +
+                                '                       </a>\n' +
+                                '                     </div>\n' +
+                                '                     </div>\n'
+                            $(`.media-body[story-id=${item}]`).append(tempstr)
+                            break;
+                    }
+
+                }
+            }
         },
         error: function (xhr, status, error) {
             alert('Error: ' + error.message);

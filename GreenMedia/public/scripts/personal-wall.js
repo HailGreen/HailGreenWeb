@@ -40,43 +40,38 @@ function getUserStories(user_id) {
             success: function (dataR) {
                 $("#results").html('')
                 let storyIds = []
-                dataR.forEach(item=>{
+
+                dataR.forEach((item) => {
                     storyIds.push(item.story_id)
-                })
+
+                    let time = formatTime(item.time);
+                    let imgsTempStr = ``
+
+                    item.pics.forEach((i) => {
+                        let tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
+                            `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>` +
+                            '</div>'
+                        imgsTempStr += tempStr
+                    })
+
+                    $("#results").prepend(`<div class="media" story-id="${item.story_id}" >\n` +
+                        `                       <div class="media-body" story-id="${item.story_id}">\n` +
+                        '                         <p class="media-heading">\n' +
+                        `                         <p class="time">${time}</p></p>\n` +
+                        `                         <p id="text">${item.mention}</p>\n` +
+                        '                     <div class="row">\n' +
+                        imgsTempStr +
+                        '                       </div>\n' +
+                        '                     <div>\n' +
+                        `                       <ul class="list-group" id="ul1" story-id="${item.story_id}">\n` +
+                        '                       </ul>\n' +
+                        '                     </div>\n' +
+                        '                   </div>\n' +
+                        '                     </div>')
+                });
 
                 getStoryStars(storyIds)
 
-
-
-
-                // dataR.forEach((item) => {
-                //     let time = formatTime(item.time);
-                //     let imgsTempStr = ``
-                //     item.pics.forEach((i) => {
-                //         let tempStr = '<div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">\n' +
-                //             `<a href="#" class="thumbnail"><img src="/images/uploads/${i.filename}" alt="pics"></a>` +
-                //             '</div>'
-                //         imgsTempStr += tempStr
-                //     })
-                //
-                //
-                //     $("#results").prepend(`<div class="media" story-id="${item.story_id}" >\n` +
-                //         `                       <div class="media-body" story-id="${item.story_id}">\n` +
-                //         '                         <p class="media-heading">\n' +
-                //         `                         <p class="time">${time}</p></p>\n` +
-                //         `                         <p id="text">${item.mention}</p>\n` +
-                //         '                     <div class="row">\n' +
-                //         imgsTempStr +
-                //         '                       </div>\n' +
-                //         '                     <div>\n' +
-                //         `                       <ul class="list-group" id="ul1" story-id="${item.story_id}">\n` +
-                //         '                       </ul>\n' +
-                //         '                     </div>\n' +
-                //         '                   </div>\n' +
-                //         '                     </div>')
-                //
-                //     getStoryStars(item.story_id)
-                // });
             },
             error: function (xhr, status, error) {
                 alert('Error: ' + error.message);

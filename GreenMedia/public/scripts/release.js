@@ -137,7 +137,8 @@ function sendAjaxInsert(url, submitData) {
             $("#mention").val("");
             uploadFiles = [];
             $('.pic').remove();
-
+            $("#upload-pics").show();
+            $("#camera").show();
             // socket io emit event
             socket.emit('new-story');
         },

@@ -67,15 +67,12 @@ function getStoryStars(story_ids) {
         success: function (dataR) {
             // console.log(dataR)
             for (let item in dataR) {
-                console.log(dataR[item])
                 for (let index in dataR[item]) {
                     let rate = dataR[item][index]
                     let tempstr = ''
 
                     switch (Number(index)) {
-
                         case 1:
-                            console.log(Number(index))
                             tempstr = '          <div class="height-30">\n' +
                                 '                     <div class="float-right">\n' +
                                 '                       <a class="word-button"> \n' +
@@ -176,7 +173,6 @@ function getStoryStars(story_ids) {
                             $(`.media-body[story-id=${item}]`).append(tempstr)
                             break;
                     }
-
                 }
             }
         },

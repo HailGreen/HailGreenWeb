@@ -150,7 +150,7 @@ function showStoriesList(result) {
             '                   </div>\n' +
             `                       <div class="media-body" story-id="${item.story_id}">\n` +
             '                         <p class="media-heading">\n' +
-            `                         <a href="/personalwall?user_id=${item.user_id}&user_name=${item.username}" class="user-name" user-id="${item.user_id}" onclick="getUserStories('${item.user_id}')">${item.username}</a>\n` +
+            `                         <a href="#" class="user-name" user-id="${item.user_id}" onclick="jumpToPersonalWall('${item.user_id}','${item.username}')">${item.username}</a>\n` +
             `                         <p class="time">${time}</p></p>\n` +
             `                         <p id="text">${item.mention}</p>\n` +
             '                     <div class="row">\n' +
@@ -200,5 +200,18 @@ function lazyLoad() {
     if ($("#main").height() < window.innerHeight + scrollTop + 50) {
         let currentStoryNumbers = $(".media").length;
         getStories(currentStoryNumbers);
+    }
+}
+
+/**
+ * jump to personal wall 
+ * @param userId
+ * @param userName
+ */
+function jumpToPersonalWall(userId, userName) {
+    if (localStorage.getItem('isOnline') === 'false') {
+        alert('You are OFFLINE now')
+    } else {
+        window.location.href = `/personalwall?user_id=${userId}&user_name=${userName}`
     }
 }
